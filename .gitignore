@@ -1,0 +1,12 @@
+#bin
+appcompat/bin/
+Nobank/bin/
+Reference/bin/
+#gen
+appcompat/gen/
+Nobank/gen/
+Reference/gen/
+#.project
+appcompat/.project
+Nobank/.project
+Reference/.project
