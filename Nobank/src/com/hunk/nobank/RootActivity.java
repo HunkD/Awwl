@@ -1,15 +1,15 @@
 package com.hunk.nobank;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.Menu;
 
-public class RootActivity extends Activity {
+import com.hunk.nobank.activity.BaseActivity;
+
+public class RootActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_root);
 	}
 
 	@Override
