@@ -22,4 +22,8 @@ public class NoBankApplication extends Application {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public boolean isRememberMe() {
+		return true;
+	}
 }

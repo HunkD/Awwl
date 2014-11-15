@@ -10,4 +10,9 @@
     <string name="capture_image_preview">Captured Image</string>    
     <string name="front_upper">FRONT</string>
     <string name="back_upper">BACK</string>
+   	<!-- login text -->
+   	<string name="txt_login_title">Login</string>
+    <string name="txt_login_name">Login Name</string>
+    <string name="txt_login_password">Login Password</string>
+    <string name="txt_remember_me">Remember Me</string>
 </resources>
