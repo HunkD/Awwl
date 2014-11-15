@@ -29,7 +29,7 @@
         </activity>
         <activity 
             android:name="com.hunk.nobank.activity.WelcomePageActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.hunk.reference.action.goto.welcome"/>
@@ -38,7 +38,7 @@
         </activity>
         <activity 
             android:name="com.hunk.nobank.activity.LoginPageActivity"
-            android:screenOrientation="portrait"
+            android:screenOrientation="sensorPortrait"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.hunk.reference.action.goto.signin"/>
