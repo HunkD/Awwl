@@ -7,10 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 
 public class BaseActivity extends Activity {
+	
+	protected NoBankApplication application;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		NoBankApplication application = (NoBankApplication)getApplication();
+		application = (NoBankApplication)getApplication();
 	}
 
 	public void unrollActivity() {
@@ -20,5 +23,5 @@ public class BaseActivity extends Activity {
 		unroll.setAction(packageName + ".action.goto.root");
 		unroll.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		this.startActivity(unroll);
-	}	
+	}
 }

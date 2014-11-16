@@ -1,26 +1,30 @@
 package com.hunk.nobank.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
+import com.hunk.nobank.appconfig.ApplicationPreference;
 import com.hunk.nobank.util.StringUtils;
 
-public class LoginPageActivity extends Activity {
+public class LoginPageActivity extends BaseActivity {
 	
 	private EditText mInputLoginName;
 	private EditText mInputLoginPsd;
+	private CheckBox mRememberMe;
 	private Button mBtnLogin;
+	private NoBankApplication application;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_login);
-		
+		application = (NoBankApplication)getApplication();
 		setupUI();
 	}
 
@@ -28,6 +32,7 @@ public class LoginPageActivity extends Activity {
 		// ---findViews---
 		mInputLoginName = (EditText) findViewById(R.id.login_page_input_login_name);
 		mInputLoginPsd = (EditText) findViewById(R.id.login_page_input_password);		
+		mRememberMe = (CheckBox) findViewById(R.id.login_page_remember_me);
 		mBtnLogin = (Button) findViewById(R.id.login_page_login_btn);
 		
 		// ---setListeners---
@@ -60,4 +65,30 @@ public class LoginPageActivity extends Activity {
 		});
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		// set dynamic information
+		ApplicationPreference pref = application.getAppPreference();
+		if (pref.isRememberMe()) {
+			mRememberMe.setChecked(true);
+			mInputLoginName.setText(pref.getRememberMeUserName());			
+		} else {
+			// should not reset this in onResume(), do this after restart this application.
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		// save Remember Me Status
+		ApplicationPreference pref = application.getAppPreference();
+		if (mRememberMe.isChecked()) {
+			pref.setRememberMe(true, mInputLoginName.getText().toString());
+		} else {
+			pref.setRememberMe(false, null);
+		}
+	}
+	
+	
 }
