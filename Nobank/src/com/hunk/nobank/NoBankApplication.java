@@ -1,17 +1,18 @@
 package com.hunk.nobank;
 
+import com.hunk.nobank.appconfig.ApplicationPreference;
 import com.hunk.nobank.controller.RoutingController;
 
 import android.app.Application;
 
 public class NoBankApplication extends Application {
 	RoutingController rc;
-	
+	ApplicationPreference mAppPreference;
 	@Override
-	public void onCreate() {
-		// TODO Auto-generated method stub
-		rc = new RoutingController();		
+	public void onCreate() {			
 		super.onCreate();
+		rc = new RoutingController();	
+		mAppPreference = new ApplicationPreference(this);
 	}
 
 	public RoutingController getRoutingController() {
@@ -23,7 +24,8 @@ public class NoBankApplication extends Application {
 		return false;
 	}
 	
-	public boolean isRememberMe() {
-		return true;
+	public ApplicationPreference getAppPreference() {
+		return mAppPreference;
 	}
+	
 }

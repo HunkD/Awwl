@@ -23,6 +23,12 @@ public class WelcomePageActivity extends BaseActivity {
 		controller = application.getRoutingController();
 		
 		setupUI();
+		
+		if (application.getAppPreference().isRememberMe()){
+			Intent intent = new Intent();
+			intent.setAction(getPackageName() + ".action.goto.signin");
+			this.startActivity(intent);
+		}
 	}
 
 	private void setupUI() {
@@ -45,6 +51,11 @@ public class WelcomePageActivity extends BaseActivity {
 				startActivity(new Intent(getPackageName()+ ".action.goto.signin"));
 			}
 		});
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();		
 	}
 
 	@Override

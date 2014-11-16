@@ -7,11 +7,8 @@ import com.hunk.nobank.RootActivity;
 /**
  * Description :<br>
  * 
- * @author HunkDeng
- * @since 2014-11-9
  */
 public class SubRootActivity extends RootActivity {
-
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
@@ -27,10 +24,6 @@ public class SubRootActivity extends RootActivity {
 		ReferenceApplication application = (ReferenceApplication)getApplication();
 		if (application.isSignIn()) {
 			
-		} else if (application.isRememberMe()){
-			Intent intent = new Intent();
-			intent.setAction(getPackageName() + ".action.goto.signin");
-			this.startActivity(intent);
 		} else {
 			Intent intent = new Intent();
 			intent.setAction(getPackageName() + ".action.goto.welcome");
