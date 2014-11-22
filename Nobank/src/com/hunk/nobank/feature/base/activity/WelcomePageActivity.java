@@ -8,7 +8,7 @@ import com.hunk.nobank.BaseActivity;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
 
-public class WelcomePageActivity extends BaseActivity {
+public class WelcomePageActivity extends AccountBaseActivity {
 	private View btnSignIn;
 	private View btnSignUp;
 	

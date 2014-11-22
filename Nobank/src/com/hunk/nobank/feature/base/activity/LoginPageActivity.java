@@ -1,6 +1,10 @@
 package com.hunk.nobank.feature.base.activity;
 
+import java.lang.ref.WeakReference;
+
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -8,33 +12,31 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hunk.nobank.BaseActivity;
-import com.hunk.nobank.Feature;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
 import com.hunk.nobank.feature.base.manager.AccountManager;
+import com.hunk.nobank.feature.base.model.LoginReq;
+import com.hunk.nobank.feature.base.model.LoginResp;
+import com.hunk.nobank.feature.interfaces.FetchListener;
 import com.hunk.nobank.util.StringUtils;
 
-public class LoginPageActivity extends BaseActivity {
+public class LoginPageActivity extends AccountBaseActivity {
 	
 	private EditText mInputLoginName;
 	private EditText mInputLoginPsd;
 	private CheckBox mRememberMe;
 	private Button mBtnLogin;
+	
+	private MyHandler mHandler;
 	private NoBankApplication application;
-
-	private Object mAccountManager;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_login);
 		application = (NoBankApplication)getApplication();
-		findFeature();
+		mHandler = new MyHandler(this);
 		setupUI();
-	}
-
-	private void findFeature() {
-		mAccountManager = application.getFeatureManager(Feature.ACCOUNT);
 	}
 
 	private void setupUI() {
@@ -57,7 +59,32 @@ public class LoginPageActivity extends BaseActivity {
 			}
 
 			private void submit() {
-//				mAccountManager.loginPoster.fetch(new FetchListener());
+				final LoginReq req = new LoginReq();
+				req.username = mInputLoginName.getText().toString();
+				req.password = mInputLoginPsd.getText().toString();
+				
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						AccountManager.loginPoster.fetch(req, new FetchListener<LoginResp>(this) {
+
+							@Override
+							public void onSuccess(LoginResp result) {
+								Message msg = mHandler.obtainMessage(MyHandler.LOGIN_SUCCESS, result);
+								mHandler.sendMessage(msg);
+							}
+
+							@Override
+							public void onFailed() {
+								Message msg = mHandler.obtainMessage(MyHandler.LOGIN_FAILED, null);
+								mHandler.sendMessage(msg);
+							}
+							
+						});
+					}
+					
+				}).start();				
 			}
 
 			private boolean checkInput() {
@@ -96,5 +123,33 @@ public class LoginPageActivity extends BaseActivity {
 		} else {
 			pref.setRememberMe(false, null);
 		}
+	}
+	
+	private static class MyHandler extends Handler {
+
+		private final static int LOGIN_SUCCESS = 1;
+		private final static int LOGIN_FAILED = 2;
+		
+		private WeakReference<LoginPageActivity> mAct;
+		
+		public MyHandler(LoginPageActivity act) {
+			mAct = new WeakReference<LoginPageActivity>(act);
+		}
+		
+		@Override
+		public void handleMessage(Message msg) {
+			LoginPageActivity activity = mAct.get();
+			if (activity != null) {
+				switch(msg.what) {
+				case LOGIN_SUCCESS:
+					activity.gotoNextActivity(activity);
+					break;
+				case LOGIN_FAILED:
+					Toast.makeText(activity, "failed", Toast.LENGTH_SHORT).show();
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		}		
 	}
 }
