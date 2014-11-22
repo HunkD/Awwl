@@ -1,4 +1,4 @@
-package com.hunk.nobank.appconfig;
+package com.hunk.nobank.feature.base.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
  * Description :<br>
  * Provides Application Preference Object
  */
-public class ApplicationPreference {
+public class BaseFeaturePreference {
 	
 	private static final String APP_SHARED_PREFERENCES_NAME = "NobankSharedPref";
 
@@ -16,7 +16,7 @@ public class ApplicationPreference {
 		
 	private Context mCtx;
 	
-	public ApplicationPreference(Context ctx) {
+	public BaseFeaturePreference(Context ctx) {
 		this.mCtx = ctx;
 	}
 	

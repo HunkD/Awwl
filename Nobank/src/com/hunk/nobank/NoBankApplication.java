@@ -1,22 +1,15 @@
 package com.hunk.nobank;
 
-import com.hunk.nobank.appconfig.ApplicationPreference;
-import com.hunk.nobank.controller.RoutingController;
-
 import android.app.Application;
 
+import com.hunk.nobank.feature.base.activity.BaseFeaturePreference;
+
 public class NoBankApplication extends Application {
-	RoutingController rc;
-	ApplicationPreference mAppPreference;
+	BaseFeaturePreference mAppPreference;
 	@Override
 	public void onCreate() {			
 		super.onCreate();
-		rc = new RoutingController();	
-		mAppPreference = new ApplicationPreference(this);
-	}
-
-	public RoutingController getRoutingController() {
-		return rc;
+		mAppPreference = new BaseFeaturePreference(this);
 	}
 
 	public boolean isSignIn() {
@@ -24,8 +17,13 @@ public class NoBankApplication extends Application {
 		return false;
 	}
 	
-	public ApplicationPreference getAppPreference() {
+	public BaseFeaturePreference getAppPreference() {
 		return mAppPreference;
+	}
+
+	public Object getFeatureManager(String account) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

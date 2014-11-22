@@ -1,4 +1,4 @@
-package com.hunk.nobank.activity;
+package com.hunk.nobank.feature.base.activity;
 
 import android.os.Bundle;
 import android.view.View;
@@ -7,9 +7,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hunk.nobank.BaseActivity;
+import com.hunk.nobank.Feature;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
-import com.hunk.nobank.appconfig.ApplicationPreference;
+import com.hunk.nobank.feature.base.manager.AccountManager;
 import com.hunk.nobank.util.StringUtils;
 
 public class LoginPageActivity extends BaseActivity {
@@ -20,12 +22,19 @@ public class LoginPageActivity extends BaseActivity {
 	private Button mBtnLogin;
 	private NoBankApplication application;
 
+	private Object mAccountManager;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.activity_login);
 		application = (NoBankApplication)getApplication();
+		findFeature();
 		setupUI();
+	}
+
+	private void findFeature() {
+		mAccountManager = application.getFeatureManager(Feature.ACCOUNT);
 	}
 
 	private void setupUI() {
@@ -48,8 +57,7 @@ public class LoginPageActivity extends BaseActivity {
 			}
 
 			private void submit() {
-				// TODO Auto-generated method stub
-				
+//				mAccountManager.loginPoster.fetch(new FetchListener());
 			}
 
 			private boolean checkInput() {
@@ -69,7 +77,7 @@ public class LoginPageActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 		// set dynamic information
-		ApplicationPreference pref = application.getAppPreference();
+		BaseFeaturePreference pref = application.getAppPreference();
 		if (pref.isRememberMe()) {
 			mRememberMe.setChecked(true);
 			mInputLoginName.setText(pref.getRememberMeUserName());			
@@ -82,13 +90,11 @@ public class LoginPageActivity extends BaseActivity {
 	protected void onPause() {
 		super.onPause();
 		// save Remember Me Status
-		ApplicationPreference pref = application.getAppPreference();
+		BaseFeaturePreference pref = application.getAppPreference();
 		if (mRememberMe.isChecked()) {
 			pref.setRememberMe(true, mInputLoginName.getText().toString());
 		} else {
 			pref.setRememberMe(false, null);
 		}
 	}
-	
-	
 }

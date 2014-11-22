@@ -28,20 +28,20 @@
             </intent-filter>
         </activity>
         <activity 
-            android:name="com.hunk.nobank.activity.WelcomePageActivity"
+            android:name="com.hunk.nobank.feature.base.activity.WelcomePageActivity"
             android:screenOrientation="sensorPortrait"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.hunk.reference.action.goto.welcome"/>
+                <action android:name="com.hunk.reference.action.goto.base.main"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity 
-            android:name="com.hunk.nobank.activity.LoginPageActivity"
+            android:name="com.hunk.nobank.feature.base.activity.LoginPageActivity"
             android:screenOrientation="sensorPortrait"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="com.hunk.reference.action.goto.signin"/>
+                <action android:name="com.hunk.reference.action.goto.base.login"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
