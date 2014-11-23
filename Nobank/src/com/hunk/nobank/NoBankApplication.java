@@ -1,31 +1,37 @@
 package com.hunk.nobank;
 
-import com.hunk.nobank.appconfig.ApplicationPreference;
-import com.hunk.nobank.controller.RoutingController;
-
 import android.app.Application;
 
+import com.hunk.nobank.feature.base.activity.BaseFeaturePreference;
+import com.hunk.nobank.feature.interfaces.Client;
+
 public class NoBankApplication extends Application {
-	RoutingController rc;
-	ApplicationPreference mAppPreference;
+	
+	BaseFeaturePreference mAppPreference;
+	boolean mIsSignin;
+	
+	private static NoBankApplication mInstance;
 	@Override
 	public void onCreate() {			
 		super.onCreate();
-		rc = new RoutingController();	
-		mAppPreference = new ApplicationPreference(this);
-	}
-
-	public RoutingController getRoutingController() {
-		return rc;
-	}
-
-	public boolean isSignIn() {
-		// TODO Auto-generated method stub
-		return false;
+		mInstance = this;
+		mAppPreference = new BaseFeaturePreference(this);		
 	}
 	
-	public ApplicationPreference getAppPreference() {
+	public BaseFeaturePreference getAppPreference() {
 		return mAppPreference;
 	}
+
+	public static NoBankApplication getInstance() {
+		return mInstance;
+	}
+
+	public Client getClient() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
+	public boolean isSignIn() {
+		return mIsSignin;
+	}
 }

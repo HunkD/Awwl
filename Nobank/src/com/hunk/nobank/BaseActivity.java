@@ -1,12 +1,13 @@
-package com.hunk.nobank.activity;
+package com.hunk.nobank;
 
-import com.hunk.nobank.NoBankApplication;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 public class BaseActivity extends Activity {
+	
+	public final static String ACTION_GOTO_ROOT = ".action.goto.root";
 	
 	protected NoBankApplication application;
 
@@ -20,7 +21,7 @@ public class BaseActivity extends Activity {
 		String packageName = this.getApplication().getPackageName();
 		
 		Intent unroll = new Intent();
-		unroll.setAction(packageName + ".action.goto.root");
+		unroll.setAction(packageName + ACTION_GOTO_ROOT);
 		unroll.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		this.startActivity(unroll);
 	}

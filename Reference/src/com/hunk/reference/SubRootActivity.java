@@ -26,7 +26,7 @@ public class SubRootActivity extends RootActivity {
 			
 		} else {
 			Intent intent = new Intent();
-			intent.setAction(getPackageName() + ".action.goto.welcome");
+			intent.setAction(getPackageName() + ".action.goto.base.main");
 			this.startActivity(intent);
 		}
 	}

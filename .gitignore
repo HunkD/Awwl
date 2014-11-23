@@ -2,11 +2,14 @@
 appcompat/bin/
 Nobank/bin/
 Reference/bin/
+StubServer/bin
 #gen
 appcompat/gen/
 Nobank/gen/
 Reference/gen/
+StubServer/gen
 #.project
 appcompat/.project
 Nobank/.project
 Reference/.project
+StubServer/.project

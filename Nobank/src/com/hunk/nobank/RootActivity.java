@@ -3,7 +3,6 @@ package com.hunk.nobank;
 import android.os.Bundle;
 import android.view.Menu;
 
-import com.hunk.nobank.activity.BaseActivity;
 
 public class RootActivity extends BaseActivity {
 
