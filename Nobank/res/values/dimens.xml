@@ -23,4 +23,6 @@
     <dimen name="text_size_extra_large">40.0sp</dimen>
     <dimen name="text_size_extra_extra_large">50.0sp</dimen>
     <dimen name="text_size_huge">60.0sp</dimen>
+    
+    <dimen name="icon_btn_size">40dp</dimen>
 </resources>

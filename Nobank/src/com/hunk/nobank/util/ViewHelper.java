@@ -2,11 +2,17 @@ package com.hunk.nobank.util;
 
 import java.io.FileNotFoundException;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
+import android.graphics.Point;
+import android.os.Build;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 
 public class ViewHelper {
@@ -91,4 +97,41 @@ public class ViewHelper {
 		}
 		return null;
 	}
+	
+	/**
+	 * @param ctx
+	 * @param config
+	 * 			Configuration.ORIENTATION_LANDSCAPE | Configuration.ORIENTATION_PORTRAIT
+	 * @return
+	 */
+	@SuppressWarnings("deprecation")
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
+	public static Point getScreenSize(Context ctx, int config) {
+		Display display = ((WindowManager)ctx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		Point point = new Point();
+	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+	    	display.getSize(point);
+	    } else {
+	    	point.x = display.getWidth();
+	    	point.y = display.getHeight();
+	    }
+	    boolean needSwitchEachOther = false;
+	    if (config == Configuration.ORIENTATION_LANDSCAPE) {
+	    	if (point.x < point.y) {
+	    		needSwitchEachOther = true;
+	    	}
+	    } else if (config == Configuration.ORIENTATION_PORTRAIT){
+	    	if (point.x < point.y) {
+	    		needSwitchEachOther = true;
+	    	}
+	    }
+	    
+	    if (needSwitchEachOther) {
+	    	int k = point.x;
+	    	point.x = point.y;
+	    	point.y = k;
+	    }
+	    return point;
+	}
+	
 }

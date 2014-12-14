@@ -1,48 +1,69 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:baselineAligned="false">
-    <FrameLayout 
-        android:layout_width="0dip"
+    android:background="@android:color/white">
+	<FrameLayout 
+	    android:id="@+id/surface_preview_layout"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
-        <ImageView
-            android:id="@+id/preivew_id"
+        android:orientation="vertical">
+		<RelativeLayout
+		    android:layout_width="match_parent"
+		    android:layout_height="0dip"
+		    android:layout_weight="1"
+		    android:background="@color/black_tr_50">
+		    <TextView 
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/txt_front_check_title"
+		        android:textColor="@android:color/black"
+		        android:layout_centerInParent="true"/>
+		</RelativeLayout>
+		<LinearLayout 
+		    android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal">
+	        <RelativeLayout
+	            android:layout_width="0dip"
+	            android:layout_height="match_parent"
+	            android:layout_weight="1"
+	            android:background="@color/black_tr_50">
+	            <View
+	                android:id="@+id/surface_preview_left_btn"
+	                android:layout_width="@dimen/icon_btn_size"
+	                android:layout_height="@dimen/icon_btn_size"
+	                android:background="@drawable/multiplication"
+	                android:layout_centerInParent="true"/>
+	        </RelativeLayout>
+
+			<View
+			    android:id="@+id/surface_focus_area"
+			    android:layout_width="360dp"
+			    android:layout_height="150dip" />
+    
+	        <RelativeLayout
+	            android:layout_width="0dip"
+	            android:layout_height="match_parent"
+	            android:layout_weight="1"
+	            android:background="@color/black_tr_50">
+	            <View
+	                android:id="@+id/surface_preview_right_btn"
+	                android:layout_width="@dimen/icon_btn_size"
+	                android:layout_height="@dimen/icon_btn_size"
+	                android:background="@drawable/camera"
+	                android:layout_centerInParent="true"/>
+	        </RelativeLayout>
+		</LinearLayout>
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY"
-            android:contentDescription="@string/capture_image_preview"/>
-        <FrameLayout 
-            android:id="@+id/surface_preview_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </FrameLayout>
-    <RelativeLayout 
-        android:layout_width="70dip"
-        android:layout_height="match_parent">
-        <Button 
-            android:id="@+id/retake_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="retake"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentTop="true"
-            android:visibility="gone"/>
-        <Button
-            android:id="@+id/take_id" 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="take"
-            android:layout_centerInParent="true"/>
-        <Button 
-            android:id="@+id/use_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="use"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-            android:visibility="gone"/>
-    </RelativeLayout>
-</LinearLayout>
+		    android:layout_height="0dip"
+		    android:layout_weight="1"
+		    android:background="@color/black_tr_50">
+            
+        </RelativeLayout>
+    </LinearLayout>
+
+</FrameLayout>
