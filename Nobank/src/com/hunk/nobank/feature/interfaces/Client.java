@@ -1,6 +1,7 @@
 package com.hunk.nobank.feature.interfaces;
 
 
+
 public abstract class Client {
 
 	public interface Callback {
@@ -9,4 +10,5 @@ public abstract class Client {
 	}
 
 	public abstract void post(String url, String json, Callback callback);
+	public abstract String post(String url, String json);
 }

@@ -12,8 +12,7 @@ import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
 import com.hunk.nobank.feature.base.manager.AccountManager;
 import com.hunk.nobank.feature.base.model.LoginReq;
-import com.hunk.nobank.feature.base.model.LoginResp;
-import com.hunk.nobank.feature.interfaces.FetchListener;
+import com.hunk.nobank.feature.interfaces.SequenceRequest;
 import com.hunk.nobank.util.StringUtils;
 import com.hunk.nobank.util.WeakHandler;
 
@@ -64,21 +63,16 @@ public class LoginPageActivity extends AccountBaseActivity {
 
 					@Override
 					public void run() {
-						AccountManager.loginPoster.fetch(req, new FetchListener<LoginResp>(this) {
-
-							@Override
-							public void onSuccess(LoginResp result) {
-								Message msg = mHandler.obtainMessage(MyHandler.LOGIN_SUCCESS, result);
-								mHandler.sendMessage(msg);
-							}
-
-							@Override
-							public void onFailed() {
-								Message msg = mHandler.obtainMessage(MyHandler.LOGIN_FAILED, null);
-								mHandler.sendMessage(msg);
-							}
-							
-						});
+						SequenceRequest sq = new SequenceRequest();
+						sq.addRequestHandler(AccountManager.loginPoster.generate(req));
+						boolean isSuccess = sq.execute();
+						Message message = null;
+						if (isSuccess) {
+							message = mHandler.obtainMessage(MyHandler.LOGIN_SUCCESS);
+						} else {
+							message = mHandler.obtainMessage(MyHandler.LOGIN_FAILED);
+						}
+						mHandler.sendMessage(message);
 					}
 					
 				}).start();				
@@ -141,7 +135,6 @@ public class LoginPageActivity extends AccountBaseActivity {
 				Toast.makeText(activity, "failed", Toast.LENGTH_SHORT).show();
 				break;
 			}
-			super.handleMessage(msg);
 		}		
 	}
 }
