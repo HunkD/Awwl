@@ -1,9 +1,6 @@
 package com.hunk.nobank.feature.base.activity;
 
-import java.lang.ref.WeakReference;
-
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +8,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.hunk.nobank.BaseActivity;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
 import com.hunk.nobank.feature.base.manager.AccountManager;
@@ -19,6 +15,7 @@ import com.hunk.nobank.feature.base.model.LoginReq;
 import com.hunk.nobank.feature.base.model.LoginResp;
 import com.hunk.nobank.feature.interfaces.FetchListener;
 import com.hunk.nobank.util.StringUtils;
+import com.hunk.nobank.util.WeakHandler;
 
 public class LoginPageActivity extends AccountBaseActivity {
 	
@@ -125,31 +122,26 @@ public class LoginPageActivity extends AccountBaseActivity {
 		}
 	}
 	
-	private static class MyHandler extends Handler {
+	private static class MyHandler extends WeakHandler<LoginPageActivity> {
 
 		private final static int LOGIN_SUCCESS = 1;
 		private final static int LOGIN_FAILED = 2;
 		
-		private WeakReference<LoginPageActivity> mAct;
-		
 		public MyHandler(LoginPageActivity act) {
-			mAct = new WeakReference<LoginPageActivity>(act);
+			super(act);
 		}
-		
+
 		@Override
-		public void handleMessage(Message msg) {
-			LoginPageActivity activity = mAct.get();
-			if (activity != null) {
-				switch(msg.what) {
-				case LOGIN_SUCCESS:
-					activity.gotoNextActivity(activity);
-					break;
-				case LOGIN_FAILED:
-					Toast.makeText(activity, "failed", Toast.LENGTH_SHORT).show();
-					break;
-				}
-				super.handleMessage(msg);
+		public void handleMessageSafely(Message msg, LoginPageActivity activity) {
+			switch(msg.what) {
+			case LOGIN_SUCCESS:
+				activity.gotoNextActivity(activity);
+				break;
+			case LOGIN_FAILED:
+				Toast.makeText(activity, "failed", Toast.LENGTH_SHORT).show();
+				break;
 			}
+			super.handleMessage(msg);
 		}		
 	}
 }
