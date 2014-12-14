@@ -1,18 +1,21 @@
 package com.hunk.nobank.feature.interfaces;
 
+import java.util.Collection;
+
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.util.Logging;
 
-public class NBPoster<Req extends BaseRequest, Resp extends BaseResponse> implements Poster<Req, Resp> {
+public class NBPoster<Req extends BaseRequest, Resp> implements Poster<Req, Resp> {
 		
-	public NBPoster(String url, Class<Resp> resultClazz) {
+	public NBPoster(String url, TypeToken<BaseResponse<Resp>> resultClazz) {
 		super();
 		this.resultClazz = resultClazz;
 		this.url = url;
 	}
 
-	private Class<Resp> resultClazz;
+	private TypeToken<BaseResponse<Resp>> resultClazz;
 	private String url;
 	
 	@Override
@@ -23,9 +26,10 @@ public class NBPoster<Req extends BaseRequest, Resp extends BaseResponse> implem
 			@Override
 			public void onSuccess(String result) {
 				Logging.d(result);
-				Resp resp = (Resp)new Gson().fromJson(result, resultClazz);
+				@SuppressWarnings("unchecked")
+				BaseResponse<Resp> resp = (BaseResponse<Resp>)new Gson().fromJson(result, resultClazz.getType());
 				if (resp.isSuccess)
-					listener.onSuccess(resp);
+					listener.onSuccess(resp.result);
 				else
 					listener.onFailed();
 			}
@@ -37,5 +41,27 @@ public class NBPoster<Req extends BaseRequest, Resp extends BaseResponse> implem
 			
 		});
 	}
+
+	@Override
+	public void setExpireList(Collection<Expireable> getters) {
+		// TODO Auto-generated method stub
+		
+	}
 	
+	public RequestHandler generate(final Req req) {
+		return new RequestHandler() {
+			
+			@Override
+			public BaseResponse<?> sendRequest() {
+				return fetch(req);
+			}
+		};
+	}
+
+	@Override
+	public BaseResponse<Resp> fetch(Req req) {
+		Client client = NoBankApplication.getInstance().getClient();
+		String result = client.post(url, new Gson().toJson(req));
+		return new Gson().fromJson(result, resultClazz.getType());
+	}
 }
