@@ -15,4 +15,8 @@
     <string name="txt_login_name">Login Name</string>
     <string name="txt_login_password">Login Password</string>
     <string name="txt_remember_me">Remember Me</string>
+    
+    <!-- camera text -->
+    <string name="txt_front_check_title">Take front</string>
+    <string name="txt_back_check_title">Take back</string>
 </resources>

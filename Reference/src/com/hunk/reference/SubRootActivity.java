@@ -20,7 +20,7 @@ public class SubRootActivity extends RootActivity {
 
 	@Override
 	protected void onStart() {
-		super.onResume();
+		super.onStart();
 		ReferenceApplication application = (ReferenceApplication)getApplication();
 		if (application.isSignIn()) {
 			
