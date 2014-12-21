@@ -4,5 +4,6 @@ call android update project --name "Nobank" --path \Nobank --library "..\appcomp
 call android update project --name "StubServer" --path \StubServer --library "..\Nobank" --target "Google Inc.:Google APIs:17"
 call android update project --name "ReferenceBank" --path \Reference --library "..\Nobank" --target "Google Inc.:Google APIs:17"
 call android update project --name "ReferenceBank" --path \Reference --library "..\StubServer" --target "Google Inc.:Google APIs:17"
+call android update test-project --main ..\Reference --path \TestReferenceTest
 rem cd "Reference"
 rem call ant clean release > release.log
