@@ -1,0 +1,6 @@
+include ':reference'
+include ':noBank'
+include ':stubServer'
+
+project(':noBank').projectDir = new File(rootProject.projectDir, '../NoBankCore/noBank')
+project(':stubServer').projectDir = new File(rootProject.projectDir, '../NoBankCore/stubServer')
