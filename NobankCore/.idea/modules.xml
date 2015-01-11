@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/NobankCore.iml" filepath="$PROJECT_DIR$/NobankCore.iml" />
+      <module fileurl="file://$PROJECT_DIR$/noBank/noBank.iml" filepath="$PROJECT_DIR$/noBank/noBank.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stubServer/stubServer.iml" filepath="$PROJECT_DIR$/stubServer/stubServer.iml" />
+    </modules>
+  </component>
+</project>
+
