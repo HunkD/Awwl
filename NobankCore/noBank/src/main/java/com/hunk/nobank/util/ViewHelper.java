@@ -2,6 +2,7 @@ package com.hunk.nobank.util;
 
 import java.io.FileNotFoundException;
 
+import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -13,6 +14,8 @@ import android.os.Build;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
 public class ViewHelper {
@@ -133,5 +136,30 @@ public class ViewHelper {
 	    }
 	    return point;
 	}
-	
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    public static void translateX(final View mCardNumberInput, final float src, final float length,
+                                  int animationDurationMedium) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            ObjectAnimator.ofFloat(mCardNumberInput, "translationX", length)
+                    .setDuration(2000).start();
+        } else {
+            TranslateAnimation ta = new TranslateAnimation(
+                    src,
+                    length,
+                    0, 0);
+            ta.setDuration(animationDurationMedium);
+            ta.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {}
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    mCardNumberInput.setTranslationX(length);
+                }
+            });
+            mCardNumberInput.startAnimation(ta);
+        }
+    }
 }
