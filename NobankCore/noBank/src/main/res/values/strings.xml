@@ -19,4 +19,9 @@
     <!-- camera text -->
     <string name="txt_front_check_title">Take front</string>
     <string name="txt_back_check_title">Take back</string>
+
+    <string name="txt_card_number">Card Number</string>
+    <string name="txt_cvv">CVV</string>
+    <string name="txt_example_card_number">1234 5678 9101 1121</string>
+    <string name="txt_example_card_cvv">123</string>
 </resources>

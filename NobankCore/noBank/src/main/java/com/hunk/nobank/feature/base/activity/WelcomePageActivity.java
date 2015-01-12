@@ -13,7 +13,7 @@ public class WelcomePageActivity extends AccountBaseActivity {
 	private View btnSignUp;
 	
 	private final String ACTION_NEXT_LOGIN = ".action.goto.base.login";
-	private final String ACTION_NEXT_SIGNUP = ".action.goto.base.sigiup";
+	private final String ACTION_NEXT_SIGNUP = ".action.goto.registration.cardinfo";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
