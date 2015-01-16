@@ -13,11 +13,25 @@ android {
         testInstrumentationRunner "com.zutubi.android.junitreport.JUnitReportTestRunner"
     }
 
+    signingConfigs {
+        release {
+            storeFile file(getParam("keyPath", "xxx"))
+            storePassword getParam("storePassword", "123")
+            keyAlias "Reference"
+            keyPassword getParam("keyPassword", "123")
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
         }
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
@@ -26,4 +40,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:18.0.0'
     androidTestCompile files('libs/android-junit-report-1.5.8.jar')
     compile project(':stubServer')
+}
+
+def getParam(String s, String defaultValue) {
+    if (project.hasProperty(s)) {
+        return project.getProperties().get(s)
+    } else {
+        return defaultValue
+    }
 }
