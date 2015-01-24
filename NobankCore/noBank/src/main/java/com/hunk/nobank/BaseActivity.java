@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.hunk.nobank.feature.Feature;
+
 public class BaseActivity extends Activity {
 	
 	public final static String ACTION_GOTO_ROOT = ".action.goto.root";
@@ -25,4 +27,8 @@ public class BaseActivity extends Activity {
 		unroll.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		this.startActivity(unroll);
 	}
+
+    protected String generateAction(Feature feature, String realAction) {
+        return String.format("action.%s.%s", feature.toString(), realAction);
+    }
 }

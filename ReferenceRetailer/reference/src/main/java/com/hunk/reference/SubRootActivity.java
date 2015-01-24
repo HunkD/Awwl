@@ -1,34 +1,21 @@
 package com.hunk.reference;
 
-import android.content.Intent;
+import android.os.Bundle;
 
 import com.hunk.nobank.RootActivity;
+import com.hunk.nobank.core.CoreService;
+import com.hunk.nobank.feature.Feature;
+import com.hunk.nobank.feature.login.manager.LoginManager;
 
 /**
  * Description :<br>
  * 
  */
 public class SubRootActivity extends RootActivity {
-	
-	@Override
-	protected void onNewIntent(Intent intent) {
-		if (intent.getBooleanExtra("exit", false)) {
-			finish();
-		}  
-		super.onNewIntent(intent);
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		ReferenceApplication application = (ReferenceApplication)getApplication();
-		if (application.isSignIn()) {
-			
-		} else {
-			Intent intent = new Intent();
-			intent.setAction(getPackageName() + ".action.goto.base.main");
-			this.startActivity(intent);
-		}
-	}
-	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // mapping feature
+        CoreService.mRegisteredFeatureManager.put(Feature.login.toString(), new LoginManager());
+    }
 }
