@@ -13,6 +13,7 @@ import com.hunk.nobank.R;
 import com.hunk.nobank.core.CoreService;
 import com.hunk.nobank.feature.Feature;
 import com.hunk.nobank.feature.base.activity.AccountBaseActivity;
+import com.hunk.nobank.util.Logging;
 
 public class WelcomePageActivity extends AccountBaseActivity {
 	private View btnSignIn;
@@ -46,8 +47,6 @@ public class WelcomePageActivity extends AccountBaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome_page);
-		
-		NoBankApplication application = (NoBankApplication)getApplication();
 
 		setupUI();
 	}
