@@ -5,7 +5,7 @@ import android.test.ActivityUnitTestCase;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.widget.TextView;
 
-import com.hunk.nobank.feature.base.activity.LoginPageActivity;
+import com.hunk.nobank.feature.login.activity.LoginPageActivity;
 import com.hunk.reference.R;
 import com.hunk.reference.ReferenceApplication;
 

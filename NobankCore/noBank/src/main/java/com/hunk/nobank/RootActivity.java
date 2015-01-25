@@ -20,13 +20,19 @@ public class RootActivity extends BaseActivity {
             String action = resultData.getString(CoreService.RESULT_ACTION);
             String resultGson = resultData.getString(CoreService.RESULT_DATA);
 
-            if (generateAction(Feature.login, NConstants.GET_REMEMBER_ME).equals(action)) {
+            if (generateAction(Feature.login, NConstants.IS_SIGN_IN).equals(action)) {
                 if (resultGson != null && resultGson.equals(Boolean.TRUE.toString())) {
-                    // go to login screen
-                    Logging.d("go to login screen");
+
                 } else {
                     // go to Welcome Screen
-                    Logging.d("go to welcome screen");
+                    Intent gotoWelcome = new Intent();
+                    gotoWelcome.setPackage(getApplicationContext().getPackageName());
+                    gotoWelcome.setAction(generateAction(Feature.welcome, NConstants.OPEN_MAIN));
+                    if (gotoWelcome.resolveActivity(getPackageManager()) != null) {
+                        startActivity(gotoWelcome);
+                    } else {
+                        Logging.w("No welcome feature when calling in RootActivity.");
+                    }
                 }
             }
         }
@@ -45,7 +51,7 @@ public class RootActivity extends BaseActivity {
         super.onStart();
         // ask Login feature if the user already login.
         CoreService.startCoreService(this,
-                generateAction(Feature.login, NConstants.GET_REMEMBER_ME), null, mReceiver);
+                generateAction(Feature.login, NConstants.IS_SIGN_IN), null, mReceiver);
     }
 
 

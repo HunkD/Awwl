@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.hunk.nobank.feature.Feature;
+import com.hunk.nobank.util.Logging;
 
 public class BaseActivity extends Activity {
 	
@@ -30,5 +31,11 @@ public class BaseActivity extends Activity {
 
     protected String generateAction(Feature feature, String realAction) {
         return String.format("action.%s.%s", feature.toString(), realAction);
+    }
+
+    @Override
+    public void startActivity(Intent intent) {
+        Logging.d("go to screen : " + intent.getAction());
+        super.startActivity(intent);
     }
 }
