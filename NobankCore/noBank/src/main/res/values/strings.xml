@@ -7,7 +7,7 @@
 
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
-    <string name="capture_image_preview">Captured Image</string>    
+    <string name="capture_image_preview">Captured Image</string>
     <string name="front_upper">FRONT</string>
     <string name="back_upper">BACK</string>
    	<!-- login text -->
@@ -15,7 +15,7 @@
     <string name="txt_login_name">Login Name</string>
     <string name="txt_login_password">Login Password</string>
     <string name="txt_remember_me">Remember Me</string>
-    
+
     <!-- camera text -->
     <string name="txt_front_check_title">Take front</string>
     <string name="txt_back_check_title">Take back</string>
@@ -24,4 +24,6 @@
     <string name="txt_cvv">CVV</string>
     <string name="txt_example_card_number">1234 5678 9101 1121</string>
     <string name="txt_example_card_cvv">123</string>
+    <string name="loading_title">Loading</string>
+    <string name="loading_message">Fetching your data</string>
 </resources>

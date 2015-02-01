@@ -65,7 +65,7 @@ public class LoginPageActivity extends AccountBaseActivity {
 				final LoginReq req = new LoginReq();
 				req.username = mInputLoginName.getText().toString();
 				req.password = mInputLoginPsd.getText().toString();
-				
+				showLoading();
 				new Thread(new Runnable() {
 
 					@Override
@@ -133,6 +133,7 @@ public class LoginPageActivity extends AccountBaseActivity {
 
 		@Override
 		public void handleMessageSafely(Message msg, LoginPageActivity activity) {
+            activity.dismissLoading();
 			switch(msg.what) {
 			case LOGIN_SUCCESS:
 				activity.gotoNextActivity(activity);

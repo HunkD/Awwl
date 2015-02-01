@@ -3,6 +3,7 @@ package com.hunk.nobank;
 import android.app.Application;
 
 import com.hunk.nobank.feature.interfaces.Client;
+import com.hunk.nobank.util.Logging;
 
 public class NoBankApplication extends Application {
 	
@@ -10,6 +11,9 @@ public class NoBankApplication extends Application {
 	@Override
 	public void onCreate() {			
 		super.onCreate();
+        // Set Logging TAG
+        Logging.TAG = getPackageName();
+
 		mInstance = this;
 	}
 
