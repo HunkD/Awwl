@@ -1,20 +1,22 @@
 package com.hunk.nobank;
 
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 
 import com.hunk.nobank.feature.Feature;
 import com.hunk.nobank.util.Logging;
+import com.hunk.nobank.views.LoadingDialogFragment;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends ActionBarActivity {
 	
 	public final static String ACTION_GOTO_ROOT = ".action.goto.root";
-	
-	protected NoBankApplication application;
+    private static final String DIALOG_LOADING_TAG = "DIALOG_LOADING_TAG";
 
-	@Override
+    protected NoBankApplication application;
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		application = (NoBankApplication)getApplication();
@@ -37,5 +39,17 @@ public class BaseActivity extends Activity {
     public void startActivity(Intent intent) {
         Logging.d("go to screen : " + intent.getAction());
         super.startActivity(intent);
+    }
+
+    public void showLoading() {
+        LoadingDialogFragment frag = LoadingDialogFragment.newInstance();
+        FragmentManager fragMgr = getSupportFragmentManager();
+        frag.show(fragMgr.beginTransaction(), DIALOG_LOADING_TAG);
+    }
+
+    public void dismissLoading() {
+        FragmentManager fragMgr = getSupportFragmentManager();
+        LoadingDialogFragment frag = (LoadingDialogFragment)fragMgr.findFragmentByTag(DIALOG_LOADING_TAG);
+        frag.dismiss();
     }
 }

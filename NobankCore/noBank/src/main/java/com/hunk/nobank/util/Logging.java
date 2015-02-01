@@ -3,7 +3,7 @@ package com.hunk.nobank.util;
 import android.util.Log;
 
 public class Logging {
-	public static final String TAG = "com.pactera.phonegapplus";
+	public static String TAG = "HUNK";
 	
 	private static enum Level {
 		DEBUG,
