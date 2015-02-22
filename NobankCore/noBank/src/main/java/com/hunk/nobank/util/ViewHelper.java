@@ -18,6 +18,8 @@ import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
+import com.hunk.nobank.R;
+
 public class ViewHelper {
 	public static void setUninteractable(View paramView) {
 		paramView.setClickable(false);
@@ -161,5 +163,18 @@ public class ViewHelper {
             });
             mCardNumberInput.startAnimation(ta);
         }
+    }
+
+    public static float dpFromPx(final Context context, final float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    public static float pxFromDp(final Context context, final float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
+    }
+
+    public static float pxFromDp(final Context context, final int dimen) {
+        float dp = context.getResources().getDimension(dimen);
+        return pxFromDp(context, dp);
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.hunk.reference"
     android:versionCode="1"
     android:versionName="1.0" >
@@ -11,11 +12,16 @@
         android:targetSdkVersion="21" />
 
     <application
+        tools:replace="android:name"
         android:name="com.hunk.reference.ReferenceApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <activity
+            tools:node="remove"
+            android:name="com.hunk.nobank.RootActivity"/>
+
         <activity
             android:name="com.hunk.reference.SubRootActivity"
             android:label="@string/app_name"
@@ -29,62 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity 
-            android:name="com.hunk.nobank.feature.welcome.activity.WelcomePageActivity"
-            android:screenOrientation="sensorPortrait"
-            android:exported="false"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="action.welcome.open_main"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity 
-            android:name="com.hunk.nobank.feature.login.activity.LoginPageActivity"
-            android:screenOrientation="sensorPortrait"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="action.login.open_main"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity 
-            android:name="com.hunk.nobank.feature.base.activity.DashboardActivity"
-            android:screenOrientation="sensorPortrait"
-            android:exported="false"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="com.hunk.reference.action.goto.base.dashboard"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.hunk.nobank.feature.registration.activity.CardInfoActivity"
-            android:screenOrientation="sensorPortrait"
-            android:exported="false"
-            android:label="@string/app_name"
-            android:windowSoftInputMode="stateVisible|adjustPan">
-            <intent-filter>
-                <action android:name="action.registration.open_main"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <!-- Utility -->
-        <activity 
-            android:name="com.hunk.nobank.feature.base.activity.CameraCaptureActivity"
-            android:screenOrientation="landscape"
-            android:exported="false"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="com.hunk.reference.action.goto.base.capture.picture"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <service android:name="com.hunk.nobank.core.CoreService"
-            android:exported="false"/>
     </application>
 
 </manifest>
