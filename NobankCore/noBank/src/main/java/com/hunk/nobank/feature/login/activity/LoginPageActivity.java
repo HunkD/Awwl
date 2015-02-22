@@ -2,6 +2,8 @@ package com.hunk.nobank.feature.login.activity;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,6 +20,7 @@ import com.hunk.nobank.feature.base.model.LoginReq;
 import com.hunk.nobank.feature.interfaces.SequenceRequest;
 import com.hunk.nobank.feature.login.manager.LoginManager;
 import com.hunk.nobank.util.StringUtils;
+import com.hunk.nobank.util.ViewHelper;
 import com.hunk.nobank.util.WeakHandler;
 
 public class LoginPageActivity extends AccountBaseActivity {
@@ -25,7 +28,7 @@ public class LoginPageActivity extends AccountBaseActivity {
 	private EditText mInputLoginName;
 	private EditText mInputLoginPsd;
 	private CheckBox mRememberMe;
-	private Button mBtnLogin;
+	private View mBtnLogin;
 	
 	private MyHandler mHandler;
 	private NoBankApplication application;
@@ -43,11 +46,14 @@ public class LoginPageActivity extends AccountBaseActivity {
 	}
 
 	private void setupUI() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(ViewHelper.pxFromDp(this, R.dimen.title_bar_shadow_elevation));
 		// ---findViews---
 		mInputLoginName = (EditText) findViewById(R.id.login_page_input_login_name);
 		mInputLoginPsd = (EditText) findViewById(R.id.login_page_input_password);		
 		mRememberMe = (CheckBox) findViewById(R.id.login_page_remember_me);
-		mBtnLogin = (Button) findViewById(R.id.login_page_login_btn);
+		mBtnLogin = findViewById(R.id.login_page_login_btn);
 		
 		// ---setListeners---
 		mBtnLogin.setOnClickListener(new View.OnClickListener() {

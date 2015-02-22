@@ -1,63 +1,86 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/page_padding">
-    <Button 
+    android:layout_height="match_parent">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/app_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        android:background="?attr/colorPrimary"/>
+    <View
+        style="@style/pre_lolipop_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/title_bar_shadow_elevation"
+        android:background="@drawable/toolbar_dropshadow"
+        android:layout_below="@id/app_toolbar"/>
+    <Button
         android:id="@+id/login_page_login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sign_in"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/raised_button"
+        android:layout_margin="4dp"
+        android:textAllCaps="false"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_above="@id/login_page_login_btn">
-        <LinearLayout 
+        android:layout_above="@id/login_page_login_btn"
+        android:layout_below="@id/app_toolbar"
+        android:padding="10dp">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView 
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_login_title"
-                android:gravity="center_horizontal"
-               	style="@style/TextQuiteLarge"
+                android:gravity="left"
+                style="@style/TextQuiteLarge"
                 android:layout_marginBottom="@dimen/title_interval_bottom"/>
-            
-            <TextView 
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_login_name"
-                style="@style/TextMedium"
-                android:layout_marginBottom="@dimen/item_interval_bottom"/>
-            <EditText
-                android:id="@+id/login_page_input_login_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions"
-                style="@style/TextSmallMedium"
-                android:layout_marginBottom="@dimen/item_interval_bottom"/>
-            <TextView 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_login_password"
-                style="@style/TextMedium"
-                android:layout_marginBottom="@dimen/item_interval_bottom"/>
-            <EditText
-                android:id="@+id/login_page_input_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                style="@style/TextSmallMedium"
-                android:layout_marginBottom="@dimen/item_interval_bottom"/>
-            <CheckBox
-                android:id="@+id/login_page_remember_me"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_remember_me"
-                android:layout_marginBottom="@dimen/item_interval_bottom"/>
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_login_name"
+                    style="@style/TextMedium"
+                    android:layout_marginBottom="@dimen/item_interval_bottom"/>
+                <EditText
+                    android:id="@+id/login_page_input_login_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textNoSuggestions"
+                    style="@style/TextSmallMedium"
+                    android:layout_marginBottom="@dimen/item_interval_bottom"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_login_password"
+                    style="@style/TextMedium"
+                    android:layout_marginBottom="@dimen/item_interval_bottom"/>
+                <EditText
+                    android:id="@+id/login_page_input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    style="@style/TextSmallMedium"
+                    android:layout_marginBottom="@dimen/item_interval_bottom"/>
+                <CheckBox
+                    style="@style/checkboxCompat"
+                    android:id="@+id/login_page_remember_me"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_remember_me"
+                    android:layout_marginBottom="@dimen/item_interval_bottom"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
