@@ -46,9 +46,9 @@ public class LoginPageActivity extends AccountBaseActivity {
 	}
 
 	private void setupUI() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setElevation(ViewHelper.pxFromDp(this, R.dimen.title_bar_shadow_elevation));
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setElevation(ViewHelper.pxFromDp(this, R.dimen.title_bar_shadow_elevation));
 		// ---findViews---
 		mInputLoginName = (EditText) findViewById(R.id.login_page_input_login_name);
 		mInputLoginPsd = (EditText) findViewById(R.id.login_page_input_password);		
