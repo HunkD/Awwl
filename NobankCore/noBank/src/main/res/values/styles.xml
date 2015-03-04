@@ -58,4 +58,9 @@
     <style name="pre_lolipop_shadow">
         <item name="android:visibility">visible</item>
     </style>
+
+    <style name="SlideText" parent="TextMedium">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>
