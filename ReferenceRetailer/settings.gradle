@@ -3,4 +3,5 @@ include ':noBank'
 include ':stubServer'
 
 project(':noBank').projectDir = new File(rootProject.projectDir, '../NoBankCore/noBank')
+project(':noBank').buildFileName = 'build-library.gradle'
 project(':stubServer').projectDir = new File(rootProject.projectDir, '../NoBankCore/stubServer')
