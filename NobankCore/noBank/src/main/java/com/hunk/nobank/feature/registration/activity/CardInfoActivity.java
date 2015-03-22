@@ -59,7 +59,6 @@ public class CardInfoActivity extends BaseActivity {
 		mState = State.CardNumber;
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	protected void anmiateToCVV() {
 		if (mState != State.CardCVV) {
 			mState = State.CardCVV;
@@ -75,10 +74,10 @@ public class CardInfoActivity extends BaseActivity {
 		if (mState != State.CardNumber) {
 			mState = State.CardNumber;
 			
-			int length = 0 - getLength();
-			ViewHelper.translateX(mCardCVVInput, length, 0, NConstants.ANIMATION_DURATION_MEDIUM);
-			ViewHelper.translateX(mCardNumberInput, length, 0, NConstants.ANIMATION_DURATION_MEDIUM);
-			ViewHelper.translateX(mCardCVVLabel, length, 0, NConstants.ANIMATION_DURATION_MEDIUM);
+			int length = getLength();
+			ViewHelper.translateX(mCardCVVInput, 0, length, NConstants.ANIMATION_DURATION_MEDIUM);
+			ViewHelper.translateX(mCardNumberInput, 0, length, NConstants.ANIMATION_DURATION_MEDIUM);
+			ViewHelper.translateX(mCardCVVLabel, 0, length, NConstants.ANIMATION_DURATION_MEDIUM);
 		}
 	}
 	

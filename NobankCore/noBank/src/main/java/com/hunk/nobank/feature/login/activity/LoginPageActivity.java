@@ -1,5 +1,6 @@
 package com.hunk.nobank.feature.login.activity;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.view.ViewCompat;
@@ -28,7 +29,7 @@ public class LoginPageActivity extends AccountBaseActivity {
 	private EditText mInputLoginName;
 	private EditText mInputLoginPsd;
 	private CheckBox mRememberMe;
-	private View mBtnLogin;
+	private Button mBtnLogin;
 	
 	private MyHandler mHandler;
 	private NoBankApplication application;
@@ -53,9 +54,10 @@ public class LoginPageActivity extends AccountBaseActivity {
 		mInputLoginName = (EditText) findViewById(R.id.login_page_input_login_name);
 		mInputLoginPsd = (EditText) findViewById(R.id.login_page_input_password);		
 		mRememberMe = (CheckBox) findViewById(R.id.login_page_remember_me);
-		mBtnLogin = findViewById(R.id.login_page_login_btn);
+		mBtnLogin = (Button)findViewById(R.id.login_page_login_btn);
 		
 		// ---setListeners---
+        mBtnLogin.setTypeface(null, Typeface.NORMAL);
 		mBtnLogin.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

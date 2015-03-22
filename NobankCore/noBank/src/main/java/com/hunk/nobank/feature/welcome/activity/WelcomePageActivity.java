@@ -14,10 +14,12 @@ import com.hunk.nobank.core.CoreService;
 import com.hunk.nobank.feature.Feature;
 import com.hunk.nobank.feature.base.activity.AccountBaseActivity;
 import com.hunk.nobank.util.Logging;
+import com.hunk.nobank.views.SlideButton;
 
 public class WelcomePageActivity extends AccountBaseActivity {
 	private View btnSignIn;
 	private View btnSignUp;
+    private SlideButton slideBtn;
 
     private Intent gotoLogin;
     private Intent gotoRegistration;
@@ -63,6 +65,7 @@ public class WelcomePageActivity extends AccountBaseActivity {
 		// ---findViews---
 		btnSignUp = findViewById(R.id.welcome_btn_sign_up);
 		btnSignIn = findViewById(R.id.welcome_btn_sign_in);
+
 		// ---setListener---
         if (gotoRegistration.resolveActivity(getPackageManager()) != null) {
             btnSignUp.setVisibility(View.VISIBLE);
@@ -102,6 +105,7 @@ public class WelcomePageActivity extends AccountBaseActivity {
 		Intent intent = new Intent(getPackageName() + BaseActivity.ACTION_GOTO_ROOT);
 		intent.putExtra("exit", true);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setPackage(getApplicationContext().getPackageName());
 		startActivity(intent);
 	}
 }

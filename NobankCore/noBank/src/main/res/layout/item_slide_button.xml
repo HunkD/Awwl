@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hunk.nobank.views.SlideButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        style="@style/SlideText"
+        android:id="@+id/real_view"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Real Text"
+        android:background="@color/accent"/>
+    <TextView
+        style="@style/SlideText"
+        android:id="@+id/slide_mask"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:text="Slide Me"
+        android:background="@color/primary"/>
+    <ImageView
+        android:id="@+id/slide_icon"
+        android:layout_width="27dp"
+        android:layout_height="48dp"/>
+</com.hunk.nobank.views.SlideButton>

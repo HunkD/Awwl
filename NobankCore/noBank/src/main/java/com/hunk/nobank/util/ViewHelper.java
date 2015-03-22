@@ -15,6 +15,7 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 
@@ -139,29 +140,22 @@ public class ViewHelper {
 	    return point;
 	}
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static void translateX(final View mCardNumberInput, final float src, final float length,
                                   int animationDurationMedium) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            ObjectAnimator.ofFloat(mCardNumberInput, "translationX", length)
+            ObjectAnimator.ofFloat(mCardNumberInput, "translationX", mCardNumberInput.getTranslationX() + length)
                     .setDuration(2000).start();
         } else {
+            AnimationSet set = new AnimationSet(true);
             TranslateAnimation ta = new TranslateAnimation(
+                    src - length,
                     src,
-                    length,
                     0, 0);
             ta.setDuration(animationDurationMedium);
-            ta.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {}
-                @Override
-                public void onAnimationRepeat(Animation animation) {}
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mCardNumberInput.setTranslationX(length);
-                }
-            });
-            mCardNumberInput.startAnimation(ta);
+            set.addAnimation(ta);
+            set.setFillAfter(true);
+            mCardNumberInput.offsetLeftAndRight((int)length);
+            mCardNumberInput.startAnimation(set);
         }
     }
 
