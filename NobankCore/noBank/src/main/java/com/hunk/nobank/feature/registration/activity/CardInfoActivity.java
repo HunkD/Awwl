@@ -28,6 +28,7 @@ public class CardInfoActivity extends BaseActivity {
 	}
 
 	private void setupUI() {
+        setBaseStyle(Base.NO_DRAW_LAYOUT);
 		//---find views---
 		mCardCVVLabel = findViewById(R.id.card_info_page_lb_card_cvv);
 		mCardNumberInput = (EditText) findViewById(R.id.card_info_page_input_card_number);

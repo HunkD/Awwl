@@ -3,6 +3,7 @@ package com.hunk.nobank;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,23 +18,20 @@ public class BaseActivity extends ActionBarActivity {
 	public final static String ACTION_GOTO_ROOT = ".action.goto.root";
     private static final String DIALOG_LOADING_TAG = "DIALOG_LOADING_TAG";
 
-    private FrameLayout mContentContainer;
     protected NoBankApplication application;
+    private DrawerLayout mDrawLayout;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		application = (NoBankApplication)getApplication();
 
+        super.setContentView(R.layout.activity_base_with_titlebar);
         setupUI();
 	}
 
     private void setupUI() {
-        // get root container
-        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.activity_base_with_titlebar, null, false);
-        mContentContainer = (FrameLayout) view.findViewById(R.id.activity_base_main_content);
-        super.setContentView(view);
+        mDrawLayout = (DrawerLayout)findViewById(R.id.base_drawer_layout);
     }
 
     public void unrollActivity() {
@@ -69,8 +67,25 @@ public class BaseActivity extends ActionBarActivity {
 
     @Override
     public void setContentView(int layoutResID) {
+        // get root container
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(layoutResID, null, false);
-        mContentContainer.addView(view);
+        inflater.inflate(layoutResID, (FrameLayout) findViewById(R.id.activity_base_main_content), true);
+    }
+
+    public void setBaseStyle(Base style) {
+        switch (style) {
+            case NO_DRAW_LAYOUT:
+                mDrawLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                break;
+            case NO_TITLE_BAR:
+                findViewById(R.id.activity_base_title_bar).setVisibility(View.GONE);
+                findViewById(R.id.activity_base_shadow_under_title_bar).setVisibility(View.GONE);
+                break;
+        }
+    }
+
+    public enum Base {
+        NO_DRAW_LAYOUT,
+        NO_TITLE_BAR;
     }
 }
