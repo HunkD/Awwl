@@ -2,15 +2,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <include
+        android:id="@+id/slide_button"
+        layout="@layout/item_slide_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
     <Button
         android:id="@+id/login_page_login_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sign_in"
-        android:layout_alignParentBottom="true"
+        android:textSize="@dimen/text_size_medium"
         android:background="@drawable/raised_button"
         android:layout_margin="4dp"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:layout_above="@id/slide_button"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

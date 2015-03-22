@@ -36,11 +36,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/hello_world"/>
-            <include
-                android:id="@+id/slide_button"
-                layout="@layout/item_slide_button"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

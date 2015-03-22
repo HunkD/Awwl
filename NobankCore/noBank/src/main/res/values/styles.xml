@@ -61,6 +61,7 @@
 
     <style name="SlideText" parent="TextMedium">
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
     </style>
 </resources>
