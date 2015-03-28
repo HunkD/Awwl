@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
         <include
-            android:id="@+id/activity_base_title_bar"
+            android:id="@+id/activity_base_menu"
             layout="@layout/item_menu"
             />
     </android.support.v4.widget.DrawerLayout>

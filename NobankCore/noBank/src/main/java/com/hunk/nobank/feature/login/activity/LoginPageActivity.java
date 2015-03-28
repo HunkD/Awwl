@@ -38,7 +38,7 @@ public class LoginPageActivity extends AccountBaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.activity_login);
+		this.setContentView(R.layout.activity_login, Base.NO_DRAW_LAYOUT);
 		application = (NoBankApplication)getApplication();
         mLoginManager =
                 (LoginManager) CoreService.mRegisteredFeatureManager.get(Feature.login.toString());
@@ -50,7 +50,6 @@ public class LoginPageActivity extends AccountBaseActivity {
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
 //        setSupportActionBar(toolbar);
 //        getSupportActionBar().setElevation(ViewHelper.pxFromDp(this, R.dimen.title_bar_shadow_elevation));
-        setBaseStyle(Base.NO_DRAW_LAYOUT);
 		// ---findViews---
 		mInputLoginName = (EditText) findViewById(R.id.login_page_input_login_name);
 		mInputLoginPsd = (EditText) findViewById(R.id.login_page_input_password);		

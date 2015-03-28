@@ -1,10 +1,12 @@
 package com.hunk.nobank;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -12,7 +14,13 @@ import android.widget.FrameLayout;
 import com.hunk.nobank.feature.Feature;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.views.LoadingDialogFragment;
+import com.hunk.nobank.views.MenuProxy;
+import com.hunk.nobank.views.TitleBarPoxy;
 
+/**
+ * Base Activity to provide base function. Each Activity should extends it
+ * such as custom title bar, left slide menu, unrollActivity
+ */
 public class BaseActivity extends ActionBarActivity {
 	
 	public final static String ACTION_GOTO_ROOT = ".action.goto.root";
@@ -20,6 +28,9 @@ public class BaseActivity extends ActionBarActivity {
 
     protected NoBankApplication application;
     private DrawerLayout mDrawLayout;
+
+    private TitleBarPoxy mTitleBarPoxy;
+    private MenuProxy mMenuProxy;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,18 +43,22 @@ public class BaseActivity extends ActionBarActivity {
 
     private void setupUI() {
         mDrawLayout = (DrawerLayout)findViewById(R.id.base_drawer_layout);
+
+        mTitleBarPoxy = new TitleBarPoxy(findViewById(R.id.activity_base_title_bar));
+        mMenuProxy = new MenuProxy(findViewById(R.id.activity_base_menu));
     }
 
-    public void unrollActivity() {
-		String packageName = this.getApplication().getPackageName();
+    public static void unrollActivity(Context ctx) {
+		String packageName = ctx.getPackageName();
 		
 		Intent unroll = new Intent();
+        unroll.setPackage(packageName);
 		unroll.setAction(packageName + ACTION_GOTO_ROOT);
 		unroll.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		this.startActivity(unroll);
+		ctx.startActivity(unroll);
 	}
 
-    protected String generateAction(Feature feature, String realAction) {
+    public static String generateAction(Feature feature, String realAction) {
         return String.format("action.%s.%s", feature.toString(), realAction);
     }
 
@@ -72,6 +87,11 @@ public class BaseActivity extends ActionBarActivity {
         inflater.inflate(layoutResID, (FrameLayout) findViewById(R.id.activity_base_main_content), true);
     }
 
+    public void setContentView(int layoutResID, Base style) {
+        this.setContentView(layoutResID);
+        setBaseStyle(style);
+    }
+
     public void setBaseStyle(Base style) {
         switch (style) {
             case NO_DRAW_LAYOUT:
@@ -80,12 +100,32 @@ public class BaseActivity extends ActionBarActivity {
             case NO_TITLE_BAR:
                 findViewById(R.id.activity_base_title_bar).setVisibility(View.GONE);
                 findViewById(R.id.activity_base_shadow_under_title_bar).setVisibility(View.GONE);
+                mMenuProxy.prepareMenuButtons();
+                break;
+            default:
+                // set Default Left button onclick listener
+                mTitleBarPoxy.getLeftIcon().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mDrawLayout.isDrawerOpen(Gravity.LEFT)) {
+                            mDrawLayout.closeDrawer(Gravity.LEFT);
+                        } else {
+                            mDrawLayout.openDrawer(Gravity.LEFT);
+                        }
+                    }
+                });
+                mMenuProxy.prepareMenuButtons();
                 break;
         }
     }
 
     public enum Base {
         NO_DRAW_LAYOUT,
-        NO_TITLE_BAR;
+        NO_TITLE_BAR,
+        NORMAL;
+    }
+
+    public TitleBarPoxy getTitleBarPoxy() {
+        return mTitleBarPoxy;
     }
 }

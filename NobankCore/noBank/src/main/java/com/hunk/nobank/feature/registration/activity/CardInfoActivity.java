@@ -22,13 +22,12 @@ public class CardInfoActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
-		setContentView(R.layout.activity_card_info);
+		setContentView(R.layout.activity_card_info, Base.NO_DRAW_LAYOUT);
 		
 		setupUI();
 	}
 
 	private void setupUI() {
-        setBaseStyle(Base.NO_DRAW_LAYOUT);
 		//---find views---
 		mCardCVVLabel = findViewById(R.id.card_info_page_lb_card_cvv);
 		mCardNumberInput = (EditText) findViewById(R.id.card_info_page_input_card_number);

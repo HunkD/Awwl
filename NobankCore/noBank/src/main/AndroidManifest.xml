@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hunk.nobank"
-    android:versionCode="1"
-    android:versionName="1.0" >
-
+    package="com.hunk.nobank">
 
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-sdk
-        android:minSdkVersion="10"
-        android:targetSdkVersion="21" />
 
     <application
         android:name="com.hunk.nobank.NoBankApplication"
@@ -55,9 +48,10 @@
             android:name="com.hunk.nobank.feature.base.activity.DashboardActivity"
             android:screenOrientation="sensorPortrait"
             android:exported="false"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="com.hunk.reference.action.goto.base.dashboard"/>
+                <action android:name="action.dashboard.open_main"/>
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
