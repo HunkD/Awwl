@@ -9,6 +9,9 @@ android {
         applicationId 'com.hunk.nobank'
         minSdkVersion 10
         targetSdkVersion 21
+
+        versionCode 1
+        versionName '1.0'
     }
 
     buildTypes {

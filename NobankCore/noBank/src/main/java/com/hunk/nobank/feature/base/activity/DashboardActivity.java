@@ -18,12 +18,15 @@ public class DashboardActivity extends AccountBaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_dashboard_page);
+		setContentView(R.layout.activity_dashboard_page, Base.NORMAL);
 		
 		setupUI();
 	}
 
 	private void setupUI() {
+        // set Title
+        getTitleBarPoxy().getTitle().setText(R.string.dashboard);
+        // set Main Content
 		findViewById(R.id.capture).setOnClickListener(new View.OnClickListener() {
 			
 			@Override

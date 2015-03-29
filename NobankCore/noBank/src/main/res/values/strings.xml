@@ -26,4 +26,8 @@
     <string name="txt_example_card_cvv">123</string>
     <string name="loading_title">Loading</string>
     <string name="loading_message">Fetching your data</string>
+
+    <string name="menu_log_out">Log out</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="hello_user">HELLO, USER!</string>
 </resources>

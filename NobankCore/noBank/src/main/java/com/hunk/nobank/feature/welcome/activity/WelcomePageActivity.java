@@ -49,6 +49,8 @@ public class WelcomePageActivity extends AccountBaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome_page);
+        setBaseStyle(Base.NO_DRAW_LAYOUT);
+        setBaseStyle(Base.NO_TITLE_BAR);
 
 		setupUI();
 	}

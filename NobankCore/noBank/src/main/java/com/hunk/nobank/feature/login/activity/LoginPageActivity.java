@@ -38,7 +38,7 @@ public class LoginPageActivity extends AccountBaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.activity_login);
+		this.setContentView(R.layout.activity_login, Base.NO_DRAW_LAYOUT);
 		application = (NoBankApplication)getApplication();
         mLoginManager =
                 (LoginManager) CoreService.mRegisteredFeatureManager.get(Feature.login.toString());

@@ -22,7 +22,7 @@ public class CardInfoActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);		
-		setContentView(R.layout.activity_card_info);
+		setContentView(R.layout.activity_card_info, Base.NO_DRAW_LAYOUT);
 		
 		setupUI();
 	}

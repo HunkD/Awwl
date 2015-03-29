@@ -6,5 +6,6 @@ package com.hunk.nobank.feature;
 public enum Feature {
     welcome,
     login,
-    registration;
+    registration,
+    dashboard;
 }

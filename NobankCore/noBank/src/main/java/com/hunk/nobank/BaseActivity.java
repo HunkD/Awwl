@@ -1,9 +1,12 @@
 package com.hunk.nobank;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,41 +14,51 @@ import android.widget.FrameLayout;
 import com.hunk.nobank.feature.Feature;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.views.LoadingDialogFragment;
+import com.hunk.nobank.views.MenuProxy;
+import com.hunk.nobank.views.TitleBarPoxy;
 
+/**
+ * Base Activity to provide base function. Each Activity should extends it
+ * such as custom title bar, left slide menu, unrollActivity
+ */
 public class BaseActivity extends ActionBarActivity {
 	
 	public final static String ACTION_GOTO_ROOT = ".action.goto.root";
     private static final String DIALOG_LOADING_TAG = "DIALOG_LOADING_TAG";
 
-    private FrameLayout mContentContainer;
     protected NoBankApplication application;
+    private DrawerLayout mDrawLayout;
+
+    private TitleBarPoxy mTitleBarPoxy;
+    private MenuProxy mMenuProxy;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		application = (NoBankApplication)getApplication();
 
+        super.setContentView(R.layout.activity_base_with_titlebar);
         setupUI();
 	}
 
     private void setupUI() {
-        // get root container
-        LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.activity_base_with_titlebar, null, false);
-        mContentContainer = (FrameLayout) view.findViewById(R.id.activity_base_main_content);
-        super.setContentView(view);
+        mDrawLayout = (DrawerLayout)findViewById(R.id.base_drawer_layout);
+
+        mTitleBarPoxy = new TitleBarPoxy(findViewById(R.id.activity_base_title_bar));
+        mMenuProxy = new MenuProxy(findViewById(R.id.activity_base_menu));
     }
 
-    public void unrollActivity() {
-		String packageName = this.getApplication().getPackageName();
+    public static void unrollActivity(Context ctx) {
+		String packageName = ctx.getPackageName();
 		
 		Intent unroll = new Intent();
+        unroll.setPackage(packageName);
 		unroll.setAction(packageName + ACTION_GOTO_ROOT);
 		unroll.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		this.startActivity(unroll);
+		ctx.startActivity(unroll);
 	}
 
-    protected String generateAction(Feature feature, String realAction) {
+    public static String generateAction(Feature feature, String realAction) {
         return String.format("action.%s.%s", feature.toString(), realAction);
     }
 
@@ -69,8 +82,50 @@ public class BaseActivity extends ActionBarActivity {
 
     @Override
     public void setContentView(int layoutResID) {
+        // get root container
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(layoutResID, null, false);
-        mContentContainer.addView(view);
+        inflater.inflate(layoutResID, (FrameLayout) findViewById(R.id.activity_base_main_content), true);
+    }
+
+    public void setContentView(int layoutResID, Base style) {
+        this.setContentView(layoutResID);
+        setBaseStyle(style);
+    }
+
+    public void setBaseStyle(Base style) {
+        switch (style) {
+            case NO_DRAW_LAYOUT:
+                mDrawLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                break;
+            case NO_TITLE_BAR:
+                findViewById(R.id.activity_base_title_bar).setVisibility(View.GONE);
+                findViewById(R.id.activity_base_shadow_under_title_bar).setVisibility(View.GONE);
+                mMenuProxy.prepareMenuButtons();
+                break;
+            default:
+                // set Default Left button onclick listener
+                mTitleBarPoxy.getLeftIcon().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mDrawLayout.isDrawerOpen(Gravity.LEFT)) {
+                            mDrawLayout.closeDrawer(Gravity.LEFT);
+                        } else {
+                            mDrawLayout.openDrawer(Gravity.LEFT);
+                        }
+                    }
+                });
+                mMenuProxy.prepareMenuButtons();
+                break;
+        }
+    }
+
+    public enum Base {
+        NO_DRAW_LAYOUT,
+        NO_TITLE_BAR,
+        NORMAL;
+    }
+
+    public TitleBarPoxy getTitleBarPoxy() {
+        return mTitleBarPoxy;
     }
 }

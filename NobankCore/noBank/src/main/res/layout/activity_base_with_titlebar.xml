@@ -6,19 +6,26 @@
     android:layout_height="match_parent">
     <include
         android:id="@+id/activity_base_title_bar"
-        layout="@layout/item_title_bar"
-        />
+        layout="@layout/item_title_bar"/>
     <View
         android:id="@+id/activity_base_shadow_under_title_bar"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:background="@drawable/toolbar_dropshadow"
         android:layout_below="@id/activity_base_title_bar"/>
-    <FrameLayout
-        android:id="@+id/activity_base_main_content"
-        android:layout_below="@id/activity_base_shadow_under_title_bar"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/base_drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@id/activity_base_title_bar">
+        <!-- The main content view -->
+        <FrameLayout
+            android:id="@+id/activity_base_main_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <include
+            android:id="@+id/activity_base_menu"
+            layout="@layout/item_menu"
+            />
+    </android.support.v4.widget.DrawerLayout>
 </RelativeLayout>
