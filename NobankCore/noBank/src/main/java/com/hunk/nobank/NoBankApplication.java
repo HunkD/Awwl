@@ -16,7 +16,7 @@ public class NoBankApplication extends Application {
 		super.onCreate();
         // Set Logging TAG
         // Put a uuid into it, so we can track the error when application crash.
-        Logging.TAG = getPackageName() + "-" + UUID.randomUUID().toString();
+        Logging.TAG = getPackageName() + "[" + UUID.randomUUID().toString() + "]";
 
 		mInstance = this;
         Hunk.HunkInfo info = Hunk.getSingInfo(this);

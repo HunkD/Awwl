@@ -8,18 +8,16 @@ import android.view.View;
 
 import com.hunk.nobank.BaseActivity;
 import com.hunk.nobank.NConstants;
-import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
 import com.hunk.nobank.core.CoreService;
 import com.hunk.nobank.feature.Feature;
 import com.hunk.nobank.feature.base.activity.AccountBaseActivity;
-import com.hunk.nobank.util.Logging;
-import com.hunk.nobank.views.SlideButton;
+import com.hunk.nobank.views.SlideButtonLayout;
 
 public class WelcomePageActivity extends AccountBaseActivity {
 	private View btnSignIn;
 	private View btnSignUp;
-    private SlideButton slideBtn;
+    private SlideButtonLayout slideBtn;
 
     private Intent gotoLogin;
     private Intent gotoRegistration;
