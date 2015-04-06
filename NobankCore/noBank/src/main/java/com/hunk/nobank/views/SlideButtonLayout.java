@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Shader;
 import android.support.annotation.NonNull;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.VelocityTrackerCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -19,6 +20,7 @@ import android.widget.Scroller;
 
 import com.hunk.nobank.R;
 import com.hunk.nobank.util.Logging;
+import com.hunk.nobank.util.ViewHelper;
 
 /**This view will provide a feature that allow user to slide the slide icon (which is the last view of the viewgroup).<br>
  * <p>
@@ -34,7 +36,7 @@ import com.hunk.nobank.util.Logging;
  */
 public class SlideButtonLayout extends RelativeLayout {
 
-    private static final int DURATION_TIME = 1 * 1000;
+    private static final int DURATION_TIME = 1000;
     // A icon we can hold and move it to reveal the slide view.
     private View mSlideIcon;
     // Local android scroller component
@@ -55,13 +57,21 @@ public class SlideButtonLayout extends RelativeLayout {
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {
-            // If the view start scroll/fling, then we need disable touch event handling.
-            if (State.STOP != mState) {
+            int action = MotionEventCompat.getActionMasked(event);
+            Logging.d("Log motion action : " + ViewHelper.actionToString(action) + ", State = " + mState.toString());
+
+            if (State.Fling == mState || State.RUNNING == mState) {
+                // If the view start scroll/fling, then we need disable touch event handling.
                 // but we still consume it.
+                return true;
+            } else if (action != MotionEvent.ACTION_DOWN && State.STOP == mState) {
+                // Since the framework will always trigger onTouchEvent(),
+                // so we need be careful when ACTION_DOWN has been dropped by above "IF" check,
+                // and ACTION_UP will be handled without init mVelocityTracker.
                 return true;
             }
             // Default handling:
-            switch (event.getAction()) {
+            switch (action) {
                 case MotionEvent.ACTION_DOWN:
                     // This is the entry point for drag slide view on touch mode.
                     mStartPointerId = event.getPointerId(0);
@@ -79,7 +89,8 @@ public class SlideButtonLayout extends RelativeLayout {
                     }
                     // Add a user's movement to the tracker.
                     mVelocityTracker.addMovement(event);
-
+                    // Set state.
+                    mState = State.DRAG;
                     break;
                 case MotionEvent.ACTION_MOVE:
                     // Track the slide icon's velocity when we move it.
@@ -229,6 +240,7 @@ public class SlideButtonLayout extends RelativeLayout {
      */
     enum State {
         STOP, // The scroll operation of slide icon has been done.
+        DRAG, // User start drag the view from STOP state.
         Fling, // slide icon will first fling a little when we request to restore it.
         RUNNING; // scroll the slide icon with same speed.
     }
