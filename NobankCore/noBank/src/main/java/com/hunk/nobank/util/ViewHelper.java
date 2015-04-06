@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory.Options;
 import android.graphics.Point;
 import android.os.Build;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -170,5 +171,18 @@ public class ViewHelper {
     public static float pxFromDp(final Context context, final int dimen) {
         float dp = context.getResources().getDimension(dimen);
         return pxFromDp(context, dp);
+    }
+
+    public static String actionToString(int action) {
+        switch (action) {
+            case MotionEvent.ACTION_DOWN: return "Down";
+            case MotionEvent.ACTION_MOVE: return "Move";
+            case MotionEvent.ACTION_POINTER_DOWN: return "Pointer Down";
+            case MotionEvent.ACTION_UP: return "Up";
+            case MotionEvent.ACTION_POINTER_UP: return "Pointer Up";
+            case MotionEvent.ACTION_OUTSIDE: return "Outside";
+            case MotionEvent.ACTION_CANCEL: return "Cancel";
+        }
+        return "";
     }
 }
