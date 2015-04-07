@@ -15,8 +15,6 @@ public class SubRootActivity extends RootActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // mapping feature
-        CoreService.mRegisteredFeatureManager.put(
-                Feature.login.toString(), new LoginManager(getApplicationContext()));
+
     }
 }

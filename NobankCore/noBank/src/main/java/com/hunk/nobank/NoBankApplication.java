@@ -2,16 +2,22 @@ package com.hunk.nobank;
 
 import android.app.Application;
 
+import com.hunk.nobank.core.CoreService;
+import com.hunk.nobank.feature.Feature;
 import com.hunk.nobank.feature.interfaces.Client;
+import com.hunk.nobank.feature.login.manager.LoginManager;
 import com.hunk.nobank.util.Hunk;
 import com.hunk.nobank.util.Logging;
+import com.hunk.stubserver.StubClient;
 
 import java.util.UUID;
 
 public class NoBankApplication extends Application {
 	
 	private static NoBankApplication mInstance;
-	@Override
+    private Client mClient;
+
+    @Override
 	public void onCreate() {			
 		super.onCreate();
         // Set Logging TAG
@@ -21,6 +27,13 @@ public class NoBankApplication extends Application {
 		mInstance = this;
         Hunk.HunkInfo info = Hunk.getSingInfo(this);
         Logging.i(info.toString());
+
+        // inject fake client
+        mClient = new StubClient();
+
+        // mapping feature
+        CoreService.mRegisteredFeatureManager.put(
+                Feature.login.toString(), new LoginManager(getApplicationContext()));
     }
 
 	public static NoBankApplication getInstance() {
@@ -28,7 +41,6 @@ public class NoBankApplication extends Application {
 	}
 
 	public Client getClient() {
-		// TODO Auto-generated method stub
-		return null;
+		return mClient;
 	}
 }

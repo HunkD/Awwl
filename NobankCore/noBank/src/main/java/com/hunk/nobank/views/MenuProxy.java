@@ -3,6 +3,8 @@ package com.hunk.nobank.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,20 +23,23 @@ import java.util.List;
 
 public class MenuProxy {
     private final MenuBaseAdapter mMenuListAdapter;
+    private final DrawerLayout mDrawLayout;
     private TextView mHelloUser;
     private TextView mLogOut;
     private ListView mMenuList;
     private Context mCtx;
 
-    public MenuProxy(View menu) {
+    public MenuProxy(View menu, DrawerLayout mDrawLayout) {
         this.mCtx = menu.getContext();
         mHelloUser = (TextView) menu.findViewById(R.id.menu_hello_user).findViewById(R.id.menu_button);
         mLogOut = (TextView) menu.findViewById(R.id.menu_log_out).findViewById(R.id.menu_button);
 
         mMenuList = (ListView) menu.findViewById(R.id.menu_list);
-        mMenuListAdapter = new MenuBaseAdapter(menu.getContext(), 0, new ArrayList<MenuButton>());
+        mMenuListAdapter = new MenuBaseAdapter(menu.getContext(), 0, new ArrayList<MenuButton>(), mDrawLayout);
         mMenuList.setAdapter(mMenuListAdapter);
         mMenuList.setOnItemClickListener(mMenuListAdapter);
+
+        this.mDrawLayout = mDrawLayout;
     }
 
     /**
@@ -73,8 +78,11 @@ public class MenuProxy {
 
     private static class MenuBaseAdapter extends ArrayAdapter<MenuButton> implements AdapterView.OnItemClickListener {
 
-        public MenuBaseAdapter(Context context, int resource, List<MenuButton> objects) {
+        private final DrawerLayout mDrawLayout;
+
+        public MenuBaseAdapter(Context context, int resource, List<MenuButton> objects, DrawerLayout mDrawLayout) {
             super(context, resource, objects);
+            this.mDrawLayout = mDrawLayout;
         }
 
         /**
@@ -115,6 +123,8 @@ public class MenuProxy {
             toScreenIntent.setAction(button.action);
             toScreenIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             view.getContext().startActivity(toScreenIntent);
+
+            mDrawLayout.closeDrawer(Gravity.LEFT);
         }
     }
 }

@@ -10,6 +10,9 @@ android {
         targetSdkVersion 21
 
         testApplicationId "com.hunk.reference.test"
+
+        versionName "1.0"
+        versionCode 1
     }
 
     signingConfigs {
