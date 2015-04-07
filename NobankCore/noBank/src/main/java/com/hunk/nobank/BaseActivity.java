@@ -23,7 +23,7 @@ import com.hunk.nobank.views.TitleBarPoxy;
  */
 public class BaseActivity extends ActionBarActivity {
 	
-	public final static String ACTION_GOTO_ROOT = ".action.goto.root";
+	public final static String ACTION_GOTO_ROOT = "action.root.open_main";
     private static final String DIALOG_LOADING_TAG = "DIALOG_LOADING_TAG";
 
     protected NoBankApplication application;
@@ -45,7 +45,7 @@ public class BaseActivity extends ActionBarActivity {
         mDrawLayout = (DrawerLayout)findViewById(R.id.base_drawer_layout);
 
         mTitleBarPoxy = new TitleBarPoxy(findViewById(R.id.activity_base_title_bar));
-        mMenuProxy = new MenuProxy(findViewById(R.id.activity_base_menu));
+        mMenuProxy = new MenuProxy(findViewById(R.id.activity_base_menu), mDrawLayout);
     }
 
     public static void unrollActivity(Context ctx) {
@@ -53,7 +53,7 @@ public class BaseActivity extends ActionBarActivity {
 		
 		Intent unroll = new Intent();
         unroll.setPackage(packageName);
-		unroll.setAction(packageName + ACTION_GOTO_ROOT);
+		unroll.setAction(ACTION_GOTO_ROOT);
 		unroll.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		ctx.startActivity(unroll);
 	}

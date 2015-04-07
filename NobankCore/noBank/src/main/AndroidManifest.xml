@@ -16,7 +16,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.hunk.reference.action.goto.root"/>
+                <action android:name="action.root.open_main"/>
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <action android:name="android.intent.action.MAIN" />

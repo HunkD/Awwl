@@ -1,7 +1,5 @@
 package com.hunk.nobank.feature.registration.activity;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -51,7 +49,7 @@ public class CardInfoActivity extends BaseActivity {
 			public void onFocusChange(View v, boolean hasFocus) {
 				if (hasFocus) {
 					// start animation for focus on CVV
-					anmiateToCVV();
+					animateToCVV();
 				}
 			}
 		});
@@ -59,7 +57,7 @@ public class CardInfoActivity extends BaseActivity {
 		mState = State.CardNumber;
 	}
 
-	protected void anmiateToCVV() {
+	protected void animateToCVV() {
 		if (mState != State.CardCVV) {
 			mState = State.CardCVV;
 			
