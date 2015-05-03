@@ -1,7 +1,9 @@
-<RelativeLayout 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	tools:context="com.hunk.nobank.feature.base.activity.DashboardActivity">
     <Button 
         android:id="@+id/capture"
         android:layout_width="wrap_content"
@@ -14,4 +16,13 @@
         android:layout_height="fill_parent"
         android:scaleType="centerInside"
         />
+	<fragment
+		android:name="com.hunk.nobank.feature.base.activity.TransactionListFragment"
+		android:id="@+id/frag_transaction_list"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/capture"
+		android:layout_alignParentBottom="true"
+		tools:layout="@layout/fragment_transaction_list"
+		/>
 </RelativeLayout>

@@ -3,9 +3,9 @@ package com.hunk.nobank;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +21,7 @@ import com.hunk.nobank.views.TitleBarPoxy;
  * Base Activity to provide base function. Each Activity should extends it
  * such as custom title bar, left slide menu, unrollActivity
  */
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends FragmentActivity {
 	
 	public final static String ACTION_GOTO_ROOT = "action.root.open_main";
     private static final String DIALOG_LOADING_TAG = "DIALOG_LOADING_TAG";
