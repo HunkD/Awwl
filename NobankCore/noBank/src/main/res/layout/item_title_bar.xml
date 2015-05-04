@@ -8,8 +8,8 @@
         android:id="@+id/title_bar_left_btn"
         android:layout_width="?attr/actionBarSize"
         android:layout_height="?attr/actionBarSize"
-        android:padding="10dp"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/ic_launcher"
+		android:scaleType="fitCenter"/>
     <TextView
         android:id="@+id/title_bar_title_txt"
         android:layout_toRightOf="@id/title_bar_left_btn"
@@ -18,13 +18,15 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:textSize="@dimen/text_size_large"
-        android:textStyle="bold"
-        android:textColor="@color/primary_text"/>
+        android:textColor="@color/third_text"
+		android:layout_marginLeft="@dimen/page_padding"
+		android:layout_marginRight="@dimen/page_padding"
+        android:textStyle="bold"/>
     <ImageView
         android:id="@+id/title_bar_right_btn"
         android:layout_width="?attr/actionBarSize"
         android:layout_height="?attr/actionBarSize"
-        android:padding="10dp"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/ic_launcher"
+		android:scaleType="fitCenter"/>
 </RelativeLayout>

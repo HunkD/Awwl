@@ -9,10 +9,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.hunk.nobank.feature.Feature;
 import com.hunk.nobank.util.Logging;
+import com.hunk.nobank.util.ViewHelper;
 import com.hunk.nobank.views.LoadingDialogFragment;
 import com.hunk.nobank.views.MenuProxy;
 import com.hunk.nobank.views.TitleBarPoxy;
@@ -85,6 +87,14 @@ public class BaseActivity extends FragmentActivity {
         // get root container
         LayoutInflater inflater = (LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE);
         inflater.inflate(layoutResID, (FrameLayout) findViewById(R.id.activity_base_main_content), true);
+
+        setFontsStyle();
+    }
+
+    private void setFontsStyle() {
+        // tree walk root view, change every text component to using custom font style.
+        ViewGroup vg = (ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content);
+        ViewHelper.updateFontsStyle(vg);
     }
 
     public void setContentView(int layoutResID, Base style) {

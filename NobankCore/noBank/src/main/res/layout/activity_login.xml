@@ -24,7 +24,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_above="@id/login_page_login_btn"
-        android:padding="10dp">
+        android:padding="@dimen/page_padding">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
