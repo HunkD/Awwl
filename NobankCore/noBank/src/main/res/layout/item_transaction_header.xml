@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+
+	<View
+		android:layout_width="match_parent"
+		android:layout_height="3dp"
+		android:background="@color/divider"
+		android:layout_alignParentBottom="true"/>
+
+	<RelativeLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="15dp"
+		android:layout_marginBottom="15dp"
+		android:layout_centerHorizontal="true">
+		<ImageView
+			android:id="@+id/refresh_icon"
+			android:layout_width="40dp"
+			android:layout_height="40dp"
+			android:scaleType="fitCenter"
+			android:src="@drawable/ic_launcher"/>
+
+		<TextView
+			android:id="@+id/pull_to_refresh_txt"
+			style="@style/TextMedium"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_toRightOf="@id/refresh_icon"
+			android:text="@string/pull_to_refresh"
+			android:layout_marginLeft="10dp"/>
+
+		<TextView
+			android:id="@+id/last_refresh_timestamp"
+			style="@style/TextSmallMedium"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_toRightOf="@id/refresh_icon"
+			android:layout_below="@id/pull_to_refresh_txt"
+			android:text="@string/last_refresh_timestamp"
+			android:layout_marginLeft="10dp"/>
+	</RelativeLayout>
+
+</RelativeLayout>

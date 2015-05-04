@@ -4,14 +4,13 @@
     <string name="app_name">NoBank</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-
     <string name="sign_up">Sign Up</string>
     <string name="sign_in">Sign In</string>
     <string name="capture_image_preview">Captured Image</string>
     <string name="front_upper">FRONT</string>
     <string name="back_upper">BACK</string>
-   	<!-- login text -->
-   	<string name="txt_login_title">Login</string>
+    <!-- login text -->
+    <string name="txt_login_title">Login</string>
     <string name="txt_login_name">Login Name</string>
     <string name="txt_login_password">Login Password</string>
     <string name="txt_remember_me">Remember Me</string>
@@ -19,15 +18,19 @@
     <!-- camera text -->
     <string name="txt_front_check_title">Take front</string>
     <string name="txt_back_check_title">Take back</string>
-
     <string name="txt_card_number">Card Number</string>
     <string name="txt_cvv">CVV</string>
     <string name="txt_example_card_number">1234 5678 9101 1121</string>
     <string name="txt_example_card_cvv">123</string>
     <string name="loading_title">Loading</string>
     <string name="loading_message">Fetching your data</string>
-
     <string name="menu_log_out">Log out</string>
     <string name="dashboard">Dashboard</string>
     <string name="hello_user">HELLO, USER!</string>
+    <string name="title_activity_test">TestActivity</string>
+
+	<!-- Pull To Refresh -->
+	<string name="pull_to_refresh">Pull To Refresh</string>
+	<string name="release_to_fetch">Release and fetching</string>
+	<string name="last_refresh_timestamp">Last update time:</string>
 </resources>
