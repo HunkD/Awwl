@@ -204,6 +204,10 @@ public class ViewHelper {
 
     private static void setFontByConfig(TextView tv) {
         TypefaceCache cache = NoBankApplication.getInstance().getTypefaceCache();
+		if (tv.getTypeface() == null) {
+			Logging.d("setFontByConfig meet a null pointer problem and this text view id = " + tv.getId());
+			return;
+		}
         int style = tv.getTypeface().getStyle();
         if (style == Typeface.BOLD) {
             tv.setTypeface(cache.BOLD);

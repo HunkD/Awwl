@@ -27,8 +27,9 @@ public class NoBankApplication extends Application {
         Logging.TAG = getPackageName() + "[" + UUID.randomUUID().toString() + "]";
 
 		mInstance = this;
-        Hunk.HunkInfo info = Hunk.getSingInfo(this);
-        Logging.i(info.toString());
+        // TODO: release it!
+//        Hunk.HunkInfo info = Hunk.getSingInfo(this);
+//        Logging.i(info.toString());
 
         // inject fake client
         mClient = new StubClient();
