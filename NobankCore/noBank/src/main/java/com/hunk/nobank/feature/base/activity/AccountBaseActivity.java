@@ -9,6 +9,7 @@ import com.hunk.nobank.feature.Feature;
 public class AccountBaseActivity extends BaseActivity {
 	public void gotoNextActivity(AccountBaseActivity act) {
 		Intent next = new Intent();
+		next.setPackage(getPackageName());
 		next.setAction(BaseActivity.generateAction(Feature.dashboard, NConstants.OPEN_MAIN));
 		this.startActivity(next);
 	}

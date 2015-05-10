@@ -59,51 +59,61 @@ public class LoginPageActivity extends AccountBaseActivity {
 		// ---setListeners---
         mBtnLogin.setTypeface(null, Typeface.NORMAL);
 		mBtnLogin.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				if (checkInput()) {
-					submit();			
+					submit();
 				} else {
 					Toast.makeText(getApplicationContext(), "Fill all info, please.", Toast.LENGTH_SHORT).show();
 				}
 			}
 
 			private void submit() {
-				final LoginReq req = new LoginReq();
-				req.username = mInputLoginName.getText().toString();
-				req.password = mInputLoginPsd.getText().toString();
+				final LoginReq req = getLoginReq();
 				showLoading();
 				new Thread(new Runnable() {
 
 					@Override
 					public void run() {
-						SequenceRequest sq = new SequenceRequest();
-						sq.addRequestHandler(AccountManager.loginPoster.generate(req));
-						boolean isSuccess = sq.execute();
-						Message message = null;
-						if (isSuccess) {
-							message = mHandler.obtainMessage(MyHandler.LOGIN_SUCCESS);
-						} else {
-							message = mHandler.obtainMessage(MyHandler.LOGIN_FAILED);
-						}
-						mHandler.sendMessage(message);
+						doLogin(req);
 					}
-					
-				}).start();				
+
+				}).start();
 			}
 
-			private boolean checkInput() {
-				boolean pass = true;
-				if (StringUtils.isNullOrEmpty(mInputLoginName.getText().toString())) {
-					pass = false;
-				}
-				if (StringUtils.isNullOrEmpty(mInputLoginPsd.getText().toString())) {
-					pass = false;
-				}
-				return pass;
-			}
 		});
+	}
+
+	public boolean checkInput() {
+		boolean pass = true;
+		if (StringUtils.isNullOrEmpty(mInputLoginName.getText().toString())) {
+			pass = false;
+		}
+		if (StringUtils.isNullOrEmpty(mInputLoginPsd.getText().toString())) {
+			pass = false;
+		}
+		return pass;
+	}
+
+	public LoginReq getLoginReq() {
+		LoginReq req = new LoginReq();
+		req.username = mInputLoginName.getText().toString();
+		req.password = mInputLoginPsd.getText().toString();
+		return req;
+	}
+
+	public void doLogin(LoginReq req) {
+		SequenceRequest sq = new SequenceRequest();
+		sq.addRequestHandler(AccountManager.loginPoster.generate(req));
+		boolean isSuccess = sq.execute();
+		Message message = null;
+		if (isSuccess) {
+			message = mHandler.obtainMessage(MyHandler.LOGIN_SUCCESS);
+		} else {
+			message = mHandler.obtainMessage(MyHandler.LOGIN_FAILED);
+		}
+		mHandler.sendMessage(message);
 	}
 
 	@Override
