@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:padding="@dimen/page_padding"
+	android:background="@color/primary">
+	<ImageView
+		android:id="@+id/user_logo"
+		android:layout_width="80dp"
+		android:layout_height="80dp"
+		android:layout_marginRight="10dp"
+		android:src="@drawable/ic_hello"/>
+	<TextView
+		style="@style/TextExtraLarge"
+		android:id="@+id/txt_balance"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_toRightOf="@id/user_logo"
+		android:textColor="@color/third_text"/>
+	<TextView
+		style="@style/TextLarge"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/txt_available_balance"
+		android:layout_toRightOf="@id/user_logo"
+		android:layout_below="@id/txt_balance"
+		android:textColor="@color/third_text"/>
+	<!--<Button -->
+	<!--android:id="@+id/capture"-->
+	<!--android:layout_width="wrap_content"-->
+	<!--android:layout_height="wrap_content"-->
+	<!--android:text="capture"/>-->
+	<!--<ImageView-->
+	<!--android:id="@+id/captured"-->
+	<!--android:layout_below="@id/capture"-->
+	<!--android:layout_width="fill_parent"-->
+	<!--android:layout_height="fill_parent"-->
+	<!--android:scaleType="centerInside"-->
+	<!--/>-->
+</RelativeLayout>

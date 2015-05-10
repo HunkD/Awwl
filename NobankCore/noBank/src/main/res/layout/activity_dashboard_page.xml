@@ -4,24 +4,19 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	tools:context="com.hunk.nobank.feature.base.activity.DashboardActivity">
-    <Button 
-        android:id="@+id/capture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="capture"/>
-    <ImageView
-        android:id="@+id/captured"
-        android:layout_below="@id/capture"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scaleType="centerInside"
-        />
+	<fragment
+		android:id="@+id/frag_balance"
+		android:name="com.hunk.nobank.feature.base.activity.BalanceFragment"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		tools:layout="@layout/fragment_balance"
+		/>
 	<fragment
 		android:name="com.hunk.nobank.feature.base.activity.TransactionListFragment"
 		android:id="@+id/frag_transaction_list"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_below="@id/capture"
+		android:layout_below="@id/frag_balance"
 		android:layout_alignParentBottom="true"
 		tools:layout="@layout/fragment_transaction_list"
 		/>

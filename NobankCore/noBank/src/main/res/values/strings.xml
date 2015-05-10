@@ -33,4 +33,5 @@
 	<string name="pull_to_refresh">Pull To Refresh</string>
 	<string name="release_to_fetch">Release and fetching</string>
 	<string name="last_refresh_timestamp">Last update time:</string>
+	<string name="txt_available_balance">Available Balance</string>
 </resources>

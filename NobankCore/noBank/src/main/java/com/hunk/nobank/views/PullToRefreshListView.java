@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
+import com.hunk.nobank.util.ViewHelper;
 
 public class PullToRefreshListView extends ListView {
 
@@ -47,6 +48,7 @@ public class PullToRefreshListView extends ListView {
 	private void setupUI() {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		mHeader = (RelativeLayout) inflater.inflate(R.layout.item_transaction_header, null);
+        ViewHelper.updateFontsStyle(mHeader);
 		// hide mHeader first
 		hideHeaderView();
 		//

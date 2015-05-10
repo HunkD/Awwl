@@ -10,16 +10,21 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
 
 public class ViewHelper {
@@ -184,5 +189,52 @@ public class ViewHelper {
             case MotionEvent.ACTION_CANCEL: return "Cancel";
         }
         return "";
+    }
+
+    public static void updateFontsStyle(ViewGroup vg) {
+        for (int i = 0; i < vg.getChildCount(); i++) {
+            View v = vg.getChildAt(i);
+            if (v instanceof TextView) {
+                setFontByConfig((TextView)v);
+            } else if (v instanceof ViewGroup) {
+                updateFontsStyle((ViewGroup)v);
+            }
+        }
+    }
+
+    private static void setFontByConfig(TextView tv) {
+        TypefaceCache cache = NoBankApplication.getInstance().getTypefaceCache();
+		if (tv.getTypeface() == null) {
+			Logging.d("setFontByConfig meet a null pointer problem and this text view id = " + tv.getId());
+			return;
+		}
+        int style = tv.getTypeface().getStyle();
+        if (style == Typeface.BOLD) {
+            tv.setTypeface(cache.BOLD);
+        } else if (style == Typeface.ITALIC){
+            tv.setTypeface(cache.ITALIC);
+        } else if (style == Typeface.NORMAL) {
+            tv.setTypeface(cache.NORMAL);
+        }
+    }
+
+    public static class TypefaceCache {
+        private static TypefaceCache instance;
+        public final Typeface NORMAL;
+        public final Typeface ITALIC;
+        public final Typeface BOLD;
+
+        private TypefaceCache(Context ctx) {
+            NORMAL = Typeface.createFromAsset(ctx.getAssets(),"fonts/Roboto-Light.ttf");
+            ITALIC = Typeface.createFromAsset(ctx.getAssets(),"fonts/Roboto-LightItalic.ttf");
+            BOLD = Typeface.createFromAsset(ctx.getAssets(),"fonts/Roboto-Regular.ttf");
+        }
+
+        public static synchronized TypefaceCache getInstance(Context ctx) {
+            if (instance == null) {
+                instance = new TypefaceCache(ctx);
+            }
+            return instance;
+        }
     }
 }

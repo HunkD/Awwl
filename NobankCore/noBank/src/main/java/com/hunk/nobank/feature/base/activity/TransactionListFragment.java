@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.hunk.nobank.R;
 import com.hunk.nobank.feature.base.model.TransactionFields;
 import com.hunk.nobank.feature.base.model.TransactionType;
+import com.hunk.nobank.util.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,8 @@ public class TransactionListFragment extends Fragment {
 			if (convertView == null) {
 				LayoutInflater inflater = LayoutInflater.from(getContext());
 				convertView = inflater.inflate(R.layout.item_transaction, parent, false);
+
+                ViewHelper.updateFontsStyle((ViewGroup) convertView);
 
 				viewHolder = new ViewHolder();
 				viewHolder.mTitle = (TextView) convertView.findViewById(R.id.title);

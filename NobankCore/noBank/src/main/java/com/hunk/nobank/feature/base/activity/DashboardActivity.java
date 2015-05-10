@@ -27,19 +27,19 @@ public class DashboardActivity extends AccountBaseActivity {
         // set Title
         getTitleBarPoxy().getTitle().setText(R.string.dashboard);
         // set Main Content
-		findViewById(R.id.capture).setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				String packageName = getApplication().getPackageName();
-				
-				Intent gotoCapture = new Intent();
-				gotoCapture.setAction(packageName + ".action.goto.base.capture.picture");
-				startActivityForResult(gotoCapture, CAMERA_REQUEST);
-			}
-		});
-		
-		mCaptured = (ImageView) findViewById(R.id.captured);
+//		findViewById(R.id.capture).setOnClickListener(new View.OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				String packageName = getApplication().getPackageName();
+//
+//				Intent gotoCapture = new Intent();
+//				gotoCapture.setAction(packageName + ".action.goto.base.capture.picture");
+//				startActivityForResult(gotoCapture, CAMERA_REQUEST);
+//			}
+//		});
+//
+//		mCaptured = (ImageView) findViewById(R.id.captured);
 	}
 
 	@Override

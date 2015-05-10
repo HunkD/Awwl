@@ -17,6 +17,7 @@ import com.hunk.nobank.BaseActivity;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.feature.Feature;
+import com.hunk.nobank.util.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +101,7 @@ public class MenuProxy {
             if (convertView == null) {
                 LayoutInflater inflater = ((Activity)getContext()).getLayoutInflater();
                 convertView = inflater.inflate(R.layout.item_menu_button, parent, false);
+                ViewHelper.updateFontsStyle((ViewGroup) convertView);
 
                 holder = new ViewHolder();
                 holder.menuButton = (TextView) convertView.findViewById(R.id.menu_button);
