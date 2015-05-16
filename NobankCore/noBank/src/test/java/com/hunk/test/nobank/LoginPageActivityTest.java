@@ -4,14 +4,14 @@ import android.content.Intent;
 import android.os.Build;
 import android.widget.EditText;
 
-import com.hunk.nobank.BaseActivity;
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
-import com.hunk.nobank.feature.Feature;
-import com.hunk.nobank.feature.login.activity.LoginPageActivity;
+import com.hunk.nobank.activity.BaseActivity;
+import com.hunk.nobank.activity.LoginPageActivity;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.TestNoBankApplication;
+import com.hunk.whitelabel.Feature;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,8 +38,8 @@ public class LoginPageActivityTest extends NBAbstractTest {
 
         LoginPageActivity activity = Robolectric.setupActivity(LoginPageActivity.class);
 
-        ((EditText)activity.findViewById(R.id.login_page_input_login_name)).setText("hello");
-        ((EditText)activity.findViewById(R.id.login_page_input_password)).setText("psd");
+        ((EditText) activity.findViewById(R.id.login_page_input_login_name)).setText("hello");
+        ((EditText) activity.findViewById(R.id.login_page_input_password)).setText("psd");
 
         activity.doLogin(activity.getLoginReq());
 
@@ -53,8 +53,8 @@ public class LoginPageActivityTest extends NBAbstractTest {
     public void testCheckInput() {
         LoginPageActivity activity = Robolectric.setupActivity(LoginPageActivity.class);
 
-        ((EditText)activity.findViewById(R.id.login_page_input_login_name)).setText("hello");
-        ((EditText)activity.findViewById(R.id.login_page_input_password)).setText("psd");
+        ((EditText) activity.findViewById(R.id.login_page_input_login_name)).setText("hello");
+        ((EditText) activity.findViewById(R.id.login_page_input_password)).setText("psd");
 
         assertThat(activity.checkInput()).isTrue();
     }

@@ -1,23 +1,25 @@
 <RelativeLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	tools:context="com.hunk.nobank.feature.base.activity.DashboardActivity">
-	<fragment
-		android:id="@+id/frag_balance"
-		android:name="com.hunk.nobank.feature.base.activity.BalanceFragment"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		tools:layout="@layout/fragment_balance"
-		/>
-	<fragment
-		android:name="com.hunk.nobank.feature.base.activity.TransactionListFragment"
-		android:id="@+id/frag_transaction_list"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_below="@id/frag_balance"
-		android:layout_alignParentBottom="true"
-		tools:layout="@layout/fragment_transaction_list"
-		/>
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hunk.nobank.activity.DashboardActivity">
+
+    <fragment
+        android:id="@+id/frag_balance"
+        android:name="com.hunk.nobank.activity.BalanceFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/fragment_balance"
+        />
+
+    <fragment
+        android:name="com.hunk.nobank.activity.TransactionListFragment"
+        android:id="@+id/frag_transaction_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/frag_balance"
+        android:layout_alignParentBottom="true"
+        tools:layout="@layout/fragment_transaction_list"
+        />
 </RelativeLayout>
