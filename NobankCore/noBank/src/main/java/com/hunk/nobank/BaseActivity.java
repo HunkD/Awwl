@@ -79,7 +79,9 @@ public class BaseActivity extends FragmentActivity {
     public void dismissLoading() {
         FragmentManager fragMgr = getSupportFragmentManager();
         LoadingDialogFragment frag = (LoadingDialogFragment)fragMgr.findFragmentByTag(DIALOG_LOADING_TAG);
-        frag.dismiss();
+        if (frag != null && frag.isVisible()) {
+            frag.dismiss();
+        }
     }
 
     @Override
