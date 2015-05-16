@@ -16,6 +16,12 @@ import java.security.cert.X509Certificate;
  * Get Sign Information for this application
  */
 public class Hunk {
+    /**
+     * When we run Roboletric test, method getSingInfo() will throw err, so add mock flag to control it.
+     * @see #getSingInfo(Context)
+     */
+    private static Boolean mMockFlag = Boolean.FALSE;
+
     /**Request system service PackageManager.GET_SIGNATURES to get signature for this application.
      * And then pass it to parseSignature to get Certification information.
      * @see #parseSignature(byte[])
@@ -25,6 +31,7 @@ public class Hunk {
      *      @see com.hunk.nobank.util.Hunk.HunkInfo
      */
     public static HunkInfo getSingInfo(Context context) {
+        if (mMockFlag) return null;
         try {
             PackageInfo packageInfo = context.getPackageManager().getPackageInfo(
                     context.getApplicationContext().getPackageName(), PackageManager.GET_SIGNATURES);

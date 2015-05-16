@@ -11,6 +11,7 @@ import com.hunk.nobank.R;
 import com.hunk.nobank.feature.Feature;
 import com.hunk.nobank.feature.login.activity.LoginPageActivity;
 import com.hunk.test.utils.NBAbstractTest;
+import com.hunk.test.utils.TestNoBankApplication;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +27,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricGradleTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class, emulateSdk = Build.VERSION_CODES.JELLY_BEAN)
+@Config(constants = BuildConfig.class, emulateSdk = Build.VERSION_CODES.JELLY_BEAN,
+        application = TestNoBankApplication.class)
 public class LoginPageActivityTest extends NBAbstractTest {
     @Test
     public void testLoginToDashboard() {

@@ -22,6 +22,10 @@ public abstract class NBAbstractTest {
      */
     @Before
     public void setup() {
+        addImplicitIntentToPM();
+    }
+
+    private void addImplicitIntentToPM() {
         RobolectricPackageManager rpm =
                 (RobolectricPackageManager) RuntimeEnvironment.application.getPackageManager();
 
