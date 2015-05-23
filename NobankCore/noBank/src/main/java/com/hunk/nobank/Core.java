@@ -2,6 +2,7 @@ package com.hunk.nobank;
 
 import android.content.Context;
 
+import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.extension.network.interfaces.Client;
 import com.hunk.nobank.manager.LoginManager;
 import com.hunk.nobank.util.Logging;
@@ -13,17 +14,20 @@ import com.hunk.stubserver.StubClient;
  */
 public class Core {
     private static Core mCore;
+    private NetworkHandler mNetworkHandler;
     private LoginManager mLoginManager;
     private Client mClient;
     private ViewHelper.TypefaceCache mTypefaceCache;
 
     private Core(Context ctx) {
-
-        mLoginManager = new LoginManager(ctx);
         mTypefaceCache = ViewHelper.TypefaceCache.getInstance(ctx);
 
         // inject fake client
         mClient = new StubClient();
+
+        mNetworkHandler = new NetworkHandler(ctx);
+
+        mLoginManager = new LoginManager(ctx);
     }
 
     public synchronized static Core getInstance() {
@@ -48,5 +52,13 @@ public class Core {
 
     public ViewHelper.TypefaceCache getTypefaceCache() {
         return mTypefaceCache;
+    }
+
+    public NetworkHandler getNetworkHandler() {
+        return mNetworkHandler;
+    }
+
+    public void setNetworkHandler(NetworkHandler networkHandler) {
+        this.mNetworkHandler = networkHandler;
     }
 }
