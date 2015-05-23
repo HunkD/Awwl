@@ -3,26 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:background="@android:color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dip" />
+                android:layout_height="300dip"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:padding="10dp" >
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/card_info_page_lb_card_number"
@@ -30,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:text="@string/txt_card_number"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/card_info_page_lb_card_cvv"
@@ -38,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:text="@string/txt_cvv"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <EditText
                     android:id="@+id/card_info_page_input_card_number"
@@ -48,7 +49,7 @@
                     android:layout_below="@id/card_info_page_lb_card_number"
                     android:background="@null"
                     android:hint="@string/txt_example_card_number"
-                    android:inputType="number" />
+                    android:inputType="number"/>
 
                 <EditText
                     android:id="@+id/card_info_page_input_card_cvv"
@@ -58,7 +59,7 @@
                     android:layout_below="@id/card_info_page_lb_card_cvv"
                     android:background="@null"
                     android:hint="@string/txt_example_card_cvv"
-                    android:inputType="number" />
+                    android:inputType="number"/>
 
                 <View
                     android:id="@+id/input_line"
@@ -66,7 +67,7 @@
                     android:layout_height="1dip"
                     android:layout_below="@id/card_info_page_input_card_cvv"
                     android:layout_marginTop="-3dp"
-                    android:background="@android:color/black" />
+                    android:background="@android:color/black"/>
 
                 <EditText
                     android:id="@+id/card_info_page_input_card_number_sufix"
@@ -74,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:text="1234"
-                    android:visibility="invisible" />
+                    android:visibility="invisible"/>
             </RelativeLayout>
 
             <View
@@ -84,6 +85,7 @@
 
         </LinearLayout>
     </ScrollView>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="60dp"

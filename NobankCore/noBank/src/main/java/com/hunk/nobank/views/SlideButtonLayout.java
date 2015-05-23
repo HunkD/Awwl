@@ -22,7 +22,8 @@ import com.hunk.nobank.R;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
 
-/**This view will provide a feature that allow user to slide the slide icon (which is the last view of the viewgroup).<br>
+/**
+ * This view will provide a feature that allow user to slide the slide icon (which is the last view of the viewgroup).<br>
  * <p>
  * 1) If user slide the icon more than half of this view's width, then it will keep slide action until all 'reveal' view has been shown. <br>
  * 2) If user slide the icon less than half of this view's width, then it will fling a little bit and scroll back to origin state.
@@ -80,7 +81,7 @@ public class SlideButtonLayout extends RelativeLayout {
                     }
                     Logging.d("ACTION_DOWN, and start x = " + mViewStartRawX);
                     //Init VelocityTracker if necessary.
-                    if(mVelocityTracker == null) {
+                    if (mVelocityTracker == null) {
                         // Retrieve a new VelocityTracker object to watch the velocity of a motion.
                         mVelocityTracker = VelocityTracker.obtain();
                     } else {
@@ -104,7 +105,7 @@ public class SlideButtonLayout extends RelativeLayout {
                     mCurrentXVelocity = (int) VelocityTrackerCompat.getXVelocity(mVelocityTracker, mStartPointerId);
 
                     // Move the slide icon and post re-draw event to main thread.
-                    int translateValue = (int)(event.getX() - mViewStartRawX);
+                    int translateValue = (int) (event.getX() - mViewStartRawX);
                     Logging.d("ACTION_MOVE, translateValue = " + translateValue);
                     v.offsetLeftAndRight(translateValue);
 
@@ -121,7 +122,7 @@ public class SlideButtonLayout extends RelativeLayout {
                     Logging.d("ACTION_UP, NOW = " + mScrollStartX);
                     // construct the scroller instance to provide help when we set view position in scroll period.
                     mScroller = new Scroller(getContext());
-                    if (mScrollStartX >= getMeasuredWidth()/2) {
+                    if (mScrollStartX >= getMeasuredWidth() / 2) {
                         Logging.d("ACTION_UP, reveal the view.");
                         mScroller.startScroll(mScrollStartX, 0, getRight() - mScrollStartX, 0, DURATION_TIME);
                         mState = State.RUNNING;
@@ -154,6 +155,7 @@ public class SlideButtonLayout extends RelativeLayout {
 
     /**
      * So this will be called during parse layout xml.
+     *
      * @param child
      * @param index
      * @param params
@@ -170,6 +172,7 @@ public class SlideButtonLayout extends RelativeLayout {
 
     /**
      * In the viewgroup, the dispatchDraw() will be triggered when invalidate the SlideView instead of onDraw()
+     *
      * @param canvas
      */
     @Override
@@ -182,6 +185,7 @@ public class SlideButtonLayout extends RelativeLayout {
 
     /**
      * Return the drawing cache of last index view in this SlideView layout
+     *
      * @return
      */
     private Bitmap getMaskBitmap() {
@@ -196,6 +200,7 @@ public class SlideButtonLayout extends RelativeLayout {
 
     /**
      * Draw the arrow and reveal picture for the mask.
+     *
      * @param canvas
      * @param bitmap
      */
@@ -220,7 +225,7 @@ public class SlideButtonLayout extends RelativeLayout {
     public void computeScroll() {
         if (mScroller != null) {
             if (mScroller.computeScrollOffset()) {
-                Logging.d("mState = "+ mState.toString() + ", mScroller.getFinalX() = " + mScroller.getFinalX());
+                Logging.d("mState = " + mState.toString() + ", mScroller.getFinalX() = " + mScroller.getFinalX());
                 Logging.d("getOffset = " + (mScroller.getCurrX() - mSlideIcon.getLeft()));
                 mSlideIcon.offsetLeftAndRight(mScroller.getCurrX() - mSlideIcon.getLeft());
                 postInvalidate();

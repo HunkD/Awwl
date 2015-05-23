@@ -3,14 +3,14 @@ package com.hunk.test.nobank;
 import android.content.Intent;
 import android.os.Build;
 
-import com.hunk.nobank.BaseActivity;
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
-import com.hunk.nobank.feature.Feature;
-import com.hunk.nobank.feature.welcome.activity.WelcomePageActivity;
+import com.hunk.nobank.activity.BaseActivity;
+import com.hunk.nobank.activity.WelcomePageActivity;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.TestNoBankApplication;
+import com.hunk.whitelabel.Feature;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

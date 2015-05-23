@@ -18,17 +18,19 @@ import java.security.cert.X509Certificate;
 public class Hunk {
     /**
      * When we run Roboletric test, method getSingInfo() will throw err, so add mock flag to control it.
+     *
      * @see #getSingInfo(Context)
      */
     private static Boolean mMockFlag = Boolean.FALSE;
 
-    /**Request system service PackageManager.GET_SIGNATURES to get signature for this application.
+    /**
+     * Request system service PackageManager.GET_SIGNATURES to get signature for this application.
      * And then pass it to parseSignature to get Certification information.
-     * @see #parseSignature(byte[])
+     *
      * @param context application context
-     * @return
-     *      A wrapper class to describe readable certification information.
-     *      @see com.hunk.nobank.util.Hunk.HunkInfo
+     * @return A wrapper class to describe readable certification information.
+     * @see #parseSignature(byte[])
+     * @see com.hunk.nobank.util.Hunk.HunkInfo
      */
     public static HunkInfo getSingInfo(Context context) {
         if (mMockFlag) return null;
@@ -46,12 +48,11 @@ public class Hunk {
 
     /**
      * @param signature signature byte array.
-     *      @see #getSingInfo(android.content.Context)
-     * @return
-     *      A wrapper class to describe readable certification information.
-     *      @see com.hunk.nobank.util.Hunk.HunkInfo
+     * @return A wrapper class to describe readable certification information.
      * @throws CertificateException
      * @throws NoSuchAlgorithmException
+     * @see #getSingInfo(android.content.Context)
+     * @see com.hunk.nobank.util.Hunk.HunkInfo
      */
     public static HunkInfo parseSignature(byte[] signature) throws CertificateException, NoSuchAlgorithmException {
         // get certification
@@ -72,8 +73,8 @@ public class Hunk {
 
     /**
      * To format the publicKey byte array like the format which KeyTool shows.
-     * @param arr
-     *      public key byte array.
+     *
+     * @param arr public key byte array.
      * @return
      */
     public static String byte2HexFormatted(byte[] arr) {
