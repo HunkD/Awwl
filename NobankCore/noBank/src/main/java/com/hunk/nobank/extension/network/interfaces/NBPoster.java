@@ -7,7 +7,7 @@ import com.hunk.nobank.util.Logging;
 
 import java.util.Collection;
 
-public class NBPoster<Req extends BaseRequest, Resp> implements Poster<Req, Resp> {
+public class NBPoster<Req extends BaseReqPackage, Resp> implements Poster<Req, Resp> {
 
     public NBPoster(String url, TypeToken<BaseResponse<Resp>> resultClazz) {
         super();

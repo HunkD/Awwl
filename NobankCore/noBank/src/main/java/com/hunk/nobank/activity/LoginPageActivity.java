@@ -2,7 +2,6 @@ package com.hunk.nobank.activity;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,12 +11,10 @@ import android.widget.Toast;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
-import com.hunk.nobank.extension.network.interfaces.SequenceRequest;
-import com.hunk.nobank.manager.AccountManager;
 import com.hunk.nobank.manager.LoginManager;
-import com.hunk.nobank.model.LoginReq;
+import com.hunk.nobank.manager.ManagerListener;
+import com.hunk.nobank.model.login.LoginReqPackage;
 import com.hunk.nobank.util.StringUtils;
-import com.hunk.nobank.util.WeakHandler;
 
 public class LoginPageActivity extends AccountBaseActivity {
 
@@ -26,7 +23,6 @@ public class LoginPageActivity extends AccountBaseActivity {
     private CheckBox mRememberMe;
     private Button mBtnLogin;
 
-    private MyHandler mHandler;
     private NoBankApplication application;
     private LoginManager mLoginManager;
 
@@ -36,7 +32,6 @@ public class LoginPageActivity extends AccountBaseActivity {
         this.setContentView(R.layout.activity_login, Base.NO_DRAW_LAYOUT);
         application = (NoBankApplication) getApplication();
         mLoginManager = Core.getInstance().getLoginManager();
-        mHandler = new MyHandler(this);
         setupUI();
     }
 
@@ -63,20 +58,13 @@ public class LoginPageActivity extends AccountBaseActivity {
                 }
             }
 
-            private void submit() {
-                final LoginReq req = getLoginReq();
-                showLoading();
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        doLogin(req);
-                    }
-
-                }).start();
-            }
-
         });
+    }
+
+    public void submit() {
+        final LoginReqPackage req = getLoginReq();
+        showLoading();
+        mLoginManager.fetchLogin(req, mManagerListener);
     }
 
     public boolean checkInput() {
@@ -90,24 +78,12 @@ public class LoginPageActivity extends AccountBaseActivity {
         return pass;
     }
 
-    public LoginReq getLoginReq() {
-        LoginReq req = new LoginReq();
-        req.username = mInputLoginName.getText().toString();
-        req.password = mInputLoginPsd.getText().toString();
+    public LoginReqPackage getLoginReq() {
+        LoginReqPackage req = new LoginReqPackage(
+                mInputLoginName.getText().toString(),
+                mInputLoginPsd.getText().toString(),
+                mRememberMe.isChecked());
         return req;
-    }
-
-    public void doLogin(LoginReq req) {
-        SequenceRequest sq = new SequenceRequest();
-        sq.addRequestHandler(AccountManager.loginPoster.generate(req));
-        boolean isSuccess = sq.execute();
-        Message message = null;
-        if (isSuccess) {
-            message = mHandler.obtainMessage(MyHandler.LOGIN_SUCCESS);
-        } else {
-            message = mHandler.obtainMessage(MyHandler.LOGIN_FAILED);
-        }
-        mHandler.sendMessage(message);
     }
 
     @Override
@@ -134,26 +110,34 @@ public class LoginPageActivity extends AccountBaseActivity {
         }
     }
 
-    private static class MyHandler extends WeakHandler<LoginPageActivity> {
+    private ManagerListener mManagerListener = new ManagerListener() {
+        @Override
+        public void success(String managerId, String messageId, Object data) {
+            if (managerId.equals(mLoginManager.getManagerId())) {
+                if (messageId.equals(LoginManager.METHOD_LOGIN)) {
+                    dismissLoading();
+                    
+                    if (mLoginManager.isLogInSuccessfully()) {
+                        gotoNextActivity(LoginPageActivity.this);
+                    } else {
+                        gotoNextActivity(LoginPageActivity.this);
+                    }
+                }
+            } else {
 
-        private final static int LOGIN_SUCCESS = 1;
-        private final static int LOGIN_FAILED = 2;
-
-        public MyHandler(LoginPageActivity act) {
-            super(act);
+            }
         }
 
         @Override
-        public void handleMessageSafely(Message msg, LoginPageActivity activity) {
-            activity.dismissLoading();
-            switch (msg.what) {
-                case LOGIN_SUCCESS:
-                    activity.gotoNextActivity(activity);
-                    break;
-                case LOGIN_FAILED:
-                    Toast.makeText(activity, "failed", Toast.LENGTH_SHORT).show();
-                    break;
+        public void failed(String managerId, String messageId, Object data) {
+            if (managerId.equals(mLoginManager.getManagerId())) {
+                if (messageId.equals(LoginManager.METHOD_LOGIN)) {
+                    dismissLoading();
+                    Toast.makeText(LoginPageActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+
             }
         }
-    }
+    };
 }
