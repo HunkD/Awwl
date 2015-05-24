@@ -4,8 +4,8 @@ import android.os.Build;
 
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
-import com.hunk.nobank.extension.network.LoginResp;
-import com.hunk.nobank.extension.network.RealResp;
+import com.hunk.nobank.contract.LoginResp;
+import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.model.login.LoginReqPackage;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;

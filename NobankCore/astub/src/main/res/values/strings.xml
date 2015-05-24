@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AStub</string>
+    <string name="start_service">Start</string>
+    <string name="stop_service">Stop</string>
+    <string name="application_purpose">This is an application to start/stop a http server which serves Awwl project. /n
+        As a stub http server, it will respond fake json data for happy path only</string>
+    <string name="page_title">AwwlStubServer</string>
+</resources>

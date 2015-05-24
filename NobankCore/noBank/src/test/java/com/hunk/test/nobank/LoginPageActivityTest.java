@@ -10,7 +10,8 @@ import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.activity.LoginPageActivity;
-import com.hunk.nobank.extension.network.RealResp;
+import com.hunk.nobank.contract.LoginResp;
+import com.hunk.nobank.contract.RealResp;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -53,8 +54,10 @@ public class LoginPageActivityTest extends NBAbstractTest {
         ((EditText) activity.findViewById(R.id.login_page_input_login_name)).setText("hello");
         ((EditText) activity.findViewById(R.id.login_page_input_password)).setText("psd");
 
-
-        RealResp realResp = new RealResp();
+        LoginResp loginResp = new LoginResp();
+        loginResp.NeedSecurityQuestionCheck = true;
+        RealResp<LoginResp> realResp = new RealResp<>();
+        realResp.Response = loginResp;
         mNetworkHandlerStub.setNextResponse(realResp);
 
         activity.submit();

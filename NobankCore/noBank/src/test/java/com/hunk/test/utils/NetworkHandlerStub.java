@@ -3,7 +3,7 @@ package com.hunk.test.utils;
 import android.content.Context;
 
 import com.hunk.nobank.extension.network.NetworkHandler;
-import com.hunk.nobank.extension.network.RealResp;
+import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.extension.network.interfaces.BaseReqPackage;
 import com.hunk.nobank.manager.ManagerListener;
 

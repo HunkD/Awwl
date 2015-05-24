@@ -1,4 +1,4 @@
-package com.hunk.nobank.extension.network;
+package com.hunk.nobank.contract;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.hunk.nobank.extension.network;
+package com.hunk.nobank.contract;
 
 public class RealResp<Resp> {
     public int Code;

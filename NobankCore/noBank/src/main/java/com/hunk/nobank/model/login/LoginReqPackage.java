@@ -1,8 +1,9 @@
 package com.hunk.nobank.model.login;
 
 import com.google.gson.reflect.TypeToken;
-import com.hunk.nobank.extension.network.LoginResp;
-import com.hunk.nobank.extension.network.RealResp;
+import com.hunk.nobank.contract.LoginReq;
+import com.hunk.nobank.contract.LoginResp;
+import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.extension.network.interfaces.BaseReqPackage;
 
 import java.lang.reflect.Type;
@@ -28,17 +29,5 @@ public class LoginReqPackage extends BaseReqPackage {
     @Override
     public Object getRequest() {
         return req;
-    }
-
-    public static class LoginReq {
-        public final String Username;
-        public final String Password;
-        public final boolean RememberMe;
-
-        public LoginReq(String username, String password, boolean rememberMe) {
-            Username = username;
-            Password = password;
-            RememberMe = rememberMe;
-        }
     }
 }

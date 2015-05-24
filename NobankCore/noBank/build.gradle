@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
 
+    compileOptions.encoding = 'utf-8'
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
 
@@ -24,10 +25,6 @@ android {
     lintOptions {
         abortOnError false
     }
-
-//    sourceSets {
-//        androidTest.setRoot('src/test')
-//    }
 }
 
 dependencies {
@@ -38,5 +35,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:1.7.0'
     testCompile 'org.robolectric:robolectric:3.0-rc2'
-    testCompile "org.mockito:mockito-core:1.+"
+    testCompile 'org.mockito:mockito-core:1.+'
+    compile project(':contract')
 }
