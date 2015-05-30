@@ -8,6 +8,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.hunk.nobank.contract.ContractGson;
 import com.hunk.nobank.contract.RealReq;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.extension.network.interfaces.BaseReqPackage;
@@ -86,6 +87,6 @@ public class NetworkHandler {
     }
 
     public Gson getGson() {
-        return new Gson();
+        return ContractGson.getInstance();
     }
 }

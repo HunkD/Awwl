@@ -18,7 +18,7 @@ public class LoginReqPackage extends BaseReqPackage {
 
     @Override
     public String getPath() {
-        return "/Login";
+        return "/User/Login";
     }
 
     @Override
