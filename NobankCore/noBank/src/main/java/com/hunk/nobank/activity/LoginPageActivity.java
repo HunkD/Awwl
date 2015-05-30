@@ -13,6 +13,7 @@ import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
 import com.hunk.nobank.manager.LoginManager;
 import com.hunk.nobank.manager.ManagerListener;
+import com.hunk.nobank.manager.ViewManagerListener;
 import com.hunk.nobank.model.login.LoginReqPackage;
 import com.hunk.nobank.util.StringUtils;
 
@@ -110,9 +111,9 @@ public class LoginPageActivity extends AccountBaseActivity {
         }
     }
 
-    private ManagerListener mManagerListener = new ManagerListener() {
+    private ViewManagerListener mManagerListener = new ViewManagerListener(this) {
         @Override
-        public void success(String managerId, String messageId, Object data) {
+        public void onSuccess(String managerId, String messageId, Object data) {
             if (managerId.equals(mLoginManager.getManagerId())) {
                 if (messageId.equals(LoginManager.METHOD_LOGIN)) {
                     dismissLoading();
@@ -129,7 +130,7 @@ public class LoginPageActivity extends AccountBaseActivity {
         }
 
         @Override
-        public void failed(String managerId, String messageId, Object data) {
+        public void onFailed(String managerId, String messageId, Object data) {
             if (managerId.equals(mLoginManager.getManagerId())) {
                 if (messageId.equals(LoginManager.METHOD_LOGIN)) {
                     dismissLoading();
