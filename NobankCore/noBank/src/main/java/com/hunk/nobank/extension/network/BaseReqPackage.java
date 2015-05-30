@@ -1,4 +1,4 @@
-package com.hunk.nobank.extension.network.interfaces;
+package com.hunk.nobank.extension.network;
 
 import com.android.volley.Request;
 

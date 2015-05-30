@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 import com.hunk.nobank.contract.ContractGson;
 import com.hunk.nobank.contract.RealReq;
 import com.hunk.nobank.contract.RealResp;
-import com.hunk.nobank.extension.network.interfaces.BaseReqPackage;
 import com.hunk.nobank.manager.ManagerListener;
 import com.hunk.nobank.util.Logging;
 

@@ -4,7 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import com.hunk.nobank.contract.LoginReq;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
-import com.hunk.nobank.extension.network.interfaces.BaseReqPackage;
+import com.hunk.nobank.extension.network.BaseReqPackage;
 
 import java.lang.reflect.Type;
 

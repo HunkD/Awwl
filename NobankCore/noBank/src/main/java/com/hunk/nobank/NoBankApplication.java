@@ -2,7 +2,6 @@ package com.hunk.nobank;
 
 import android.app.Application;
 
-import com.hunk.nobank.extension.network.interfaces.Client;
 import com.hunk.nobank.util.Hunk;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
@@ -12,7 +11,6 @@ import java.util.UUID;
 public class NoBankApplication extends Application {
 
     private static NoBankApplication mInstance;
-    private Client mClient;
     private ViewHelper.TypefaceCache mTypefaceCache;
 
     @Override
