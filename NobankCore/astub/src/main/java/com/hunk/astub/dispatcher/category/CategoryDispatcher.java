@@ -16,6 +16,7 @@ public class CategoryDispatcher implements Dispatcher {
         this.categoryDispatcherMap = new HashMap<>();
         // mapping here!
         categoryDispatcherMap.put(Category.User.toString(), new UserDispatcher());
+        categoryDispatcherMap.put(Category.Account.toString(), new AccountDispatcher());
     }
 
     public String dispatch(NanoHTTPD.IHTTPSession session) {

@@ -11,11 +11,13 @@ import android.widget.Toast;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
-import com.hunk.nobank.manager.LoginManager;
-import com.hunk.nobank.manager.ManagerListener;
+import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.ViewManagerListener;
-import com.hunk.nobank.model.login.LoginReqPackage;
+import com.hunk.nobank.model.AccountSummaryPackage;
+import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.nobank.util.StringUtils;
+
+import org.w3c.dom.UserDataHandler;
 
 public class LoginPageActivity extends AccountBaseActivity {
 
@@ -25,14 +27,14 @@ public class LoginPageActivity extends AccountBaseActivity {
     private Button mBtnLogin;
 
     private NoBankApplication application;
-    private LoginManager mLoginManager;
+    private UserManager mUserManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_login, Base.NO_DRAW_LAYOUT);
         application = (NoBankApplication) getApplication();
-        mLoginManager = Core.getInstance().getLoginManager();
+        mUserManager = Core.getInstance().getLoginManager();
         setupUI();
     }
 
@@ -65,7 +67,7 @@ public class LoginPageActivity extends AccountBaseActivity {
     public void submit() {
         final LoginReqPackage req = getLoginReq();
         showLoading();
-        mLoginManager.fetchLogin(req, mManagerListener);
+        mUserManager.fetchLogin(req, mManagerListener);
     }
 
     public boolean checkInput() {
@@ -92,9 +94,9 @@ public class LoginPageActivity extends AccountBaseActivity {
         super.onResume();
         // set dynamic information
 
-        if (mLoginManager.isRememberMe()) {
+        if (mUserManager.isRememberMe()) {
             mRememberMe.setChecked(true);
-            mInputLoginName.setText(mLoginManager.getRememberMeUserName());
+            mInputLoginName.setText(mUserManager.getRememberMeUserName());
         } else {
             // should not reset this in onResume(), do this after restart this application.
         }
@@ -105,24 +107,26 @@ public class LoginPageActivity extends AccountBaseActivity {
         super.onPause();
         // save Remember Me Status
         if (mRememberMe.isChecked()) {
-            mLoginManager.setRememberMe(true, mInputLoginName.getText().toString());
+            mUserManager.setRememberMe(true, mInputLoginName.getText().toString());
         } else {
-            mLoginManager.setRememberMe(false, null);
+            mUserManager.setRememberMe(false, null);
         }
     }
 
     private ViewManagerListener mManagerListener = new ViewManagerListener(this) {
         @Override
         public void onSuccess(String managerId, String messageId, Object data) {
-            if (managerId.equals(mLoginManager.getManagerId())) {
-                if (messageId.equals(LoginManager.METHOD_LOGIN)) {
-                    dismissLoading();
-                    
-                    if (mLoginManager.isLogInSuccessfully()) {
-                        gotoNextActivity(LoginPageActivity.this);
+            if (managerId.equals(mUserManager.getManagerId())) {
+                if (messageId.equals(UserManager.METHOD_LOGIN)) {
+                    if (mUserManager.isLogInSuccessfully()) {
+                        AccountSummaryPackage accountSummaryPackage = new AccountSummaryPackage();
+                        mUserManager.fetchAccountSummary(accountSummaryPackage, this);
                     } else {
-                        gotoNextActivity(LoginPageActivity.this);
+                        dismissLoading();
+                        Toast.makeText(LoginPageActivity.this, "verifySecurityQuestion", Toast.LENGTH_SHORT).show();
                     }
+                } else if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
+                    gotoNextActivity(LoginPageActivity.this);
                 }
             } else {
 
@@ -131,8 +135,8 @@ public class LoginPageActivity extends AccountBaseActivity {
 
         @Override
         public void onFailed(String managerId, String messageId, Object data) {
-            if (managerId.equals(mLoginManager.getManagerId())) {
-                if (messageId.equals(LoginManager.METHOD_LOGIN)) {
+            if (managerId.equals(mUserManager.getManagerId())) {
+                if (messageId.equals(UserManager.METHOD_LOGIN)) {
                     dismissLoading();
                     Toast.makeText(LoginPageActivity.this, "failed", Toast.LENGTH_SHORT).show();
                 }

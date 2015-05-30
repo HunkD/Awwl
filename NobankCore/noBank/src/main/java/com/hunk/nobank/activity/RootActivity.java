@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
-import com.hunk.nobank.manager.LoginManager;
+import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.util.Logging;
 import com.hunk.whitelabel.Feature;
 import com.hunk.whitelabel.FeatureConfigs;
@@ -26,9 +26,9 @@ public class RootActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
         // ask Login feature if the user already login.
-        LoginManager loginManager = Core.getInstance().getLoginManager();
+        UserManager userManager = Core.getInstance().getLoginManager();
 
-        if (loginManager.isLogInSuccessfully()) {
+        if (userManager.isLogInSuccessfully()) {
             if (FeatureConfigs.FEATURE_DASHBOARD) {
                 // go to Welcome Screen
                 Intent gotoWelcome = new Intent();

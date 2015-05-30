@@ -7,10 +7,13 @@ import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.extension.network.BaseReqPackage;
 import com.hunk.nobank.manager.ManagerListener;
 
+import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public class NetworkHandlerStub extends NetworkHandler {
-    private Stack<RealResp<?>> prepareList = new Stack<>();
+    private Queue<RealResp<?>> prepareList = new ArrayBlockingQueue<>(50);
 
     public NetworkHandlerStub(Context ctx) {
         super(ctx);
@@ -18,7 +21,7 @@ public class NetworkHandlerStub extends NetworkHandler {
 
     @Override
     public void fireRequest(ManagerListener listener, BaseReqPackage req, String managerId, String messageId) {
-        RealResp<?> nextRealResp = prepareList.pop();
+        RealResp<?> nextRealResp = prepareList.poll();
         if (isRespSuccessfully(nextRealResp)) {
             listener.success(managerId, messageId, nextRealResp);
         } else {
@@ -27,7 +30,7 @@ public class NetworkHandlerStub extends NetworkHandler {
     }
 
     public void setNextResponse(RealResp<?> realResp) {
-        prepareList.push(realResp);
+        prepareList.add(realResp);
     }
 
     public void clear() {

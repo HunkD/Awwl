@@ -1,10 +1,13 @@
-package com.hunk.nobank.model.login;
+package com.hunk.nobank.model;
+
+import android.net.Uri;
 
 import com.google.gson.reflect.TypeToken;
 import com.hunk.nobank.contract.LoginReq;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.extension.network.BaseReqPackage;
+import com.hunk.nobank.extension.network.ServerConfig;
 
 import java.lang.reflect.Type;
 
@@ -17,13 +20,15 @@ public class LoginReqPackage extends BaseReqPackage {
     }
 
     @Override
-    public String getPath() {
-        return "/User/Login";
+    public Type getResponseType() {
+        return new TypeToken<RealResp<LoginResp>>(){}.getType();
     }
 
     @Override
-    public Type getResponseType() {
-        return new TypeToken<RealResp<LoginResp>>(){}.getType();
+    public Uri getUri(ServerConfig serverConfig) {
+        return serverConfig.getUriBuilder()
+                .appendEncodedPath("User/Login")
+                .build();
     }
 
     @Override

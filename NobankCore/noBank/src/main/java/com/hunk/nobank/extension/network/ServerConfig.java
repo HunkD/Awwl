@@ -1,15 +1,20 @@
 package com.hunk.nobank.extension.network;
 
-public class ServerConfig {
-    private final int port;
-    private String url;
+import android.net.Uri;
 
-    public ServerConfig(String url, int port) {
-        this.url = url;
+public class ServerConfig {
+
+    private String scheme;
+    private final int port;
+    private String authority;
+
+    public ServerConfig(String scheme, String authority, int port) {
+        this.scheme = scheme;
+        this.authority = authority;
         this.port = port;
     }
 
-    public String getURL() {
-        return url + ":" + port;
+    public Uri.Builder getUriBuilder() {
+        return Uri.parse(scheme + "://" + authority + ":" + port).buildUpon();
     }
 }

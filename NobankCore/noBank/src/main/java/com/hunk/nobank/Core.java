@@ -3,7 +3,7 @@ package com.hunk.nobank;
 import android.content.Context;
 
 import com.hunk.nobank.extension.network.NetworkHandler;
-import com.hunk.nobank.manager.LoginManager;
+import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
 
@@ -13,7 +13,7 @@ import com.hunk.nobank.util.ViewHelper;
 public class Core {
     private static Core mCore;
     private NetworkHandler mNetworkHandler;
-    private LoginManager mLoginManager;
+    private UserManager mUserManager;
     private ViewHelper.TypefaceCache mTypefaceCache;
 
     private Core(Context ctx) {
@@ -21,7 +21,7 @@ public class Core {
 
         mNetworkHandler = new NetworkHandler(ctx);
 
-        mLoginManager = new LoginManager(ctx);
+        mUserManager = new UserManager(ctx);
     }
 
     public synchronized static Core getInstance() {
@@ -35,8 +35,8 @@ public class Core {
         mCore = new Core(ctx);
     }
 
-    public LoginManager getLoginManager() {
-        return mLoginManager;
+    public UserManager getLoginManager() {
+        return mUserManager;
     }
 
     public ViewHelper.TypefaceCache getTypefaceCache() {

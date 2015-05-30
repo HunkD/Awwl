@@ -195,6 +195,9 @@ public class ViewHelper {
     }
 
     public static void updateFontsStyle(ViewGroup vg) {
+        if (vg.isInEditMode()) {
+            return;
+        }
         for (int i = 0; i < vg.getChildCount(); i++) {
             View v = vg.getChildAt(i);
             if (v instanceof TextView) {
