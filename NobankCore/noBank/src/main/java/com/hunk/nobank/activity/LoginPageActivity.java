@@ -126,6 +126,7 @@ public class LoginPageActivity extends AccountBaseActivity {
                         Toast.makeText(LoginPageActivity.this, "verifySecurityQuestion", Toast.LENGTH_SHORT).show();
                     }
                 } else if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
+                    dismissLoading();
                     gotoNextActivity(LoginPageActivity.this);
                 }
             } else {

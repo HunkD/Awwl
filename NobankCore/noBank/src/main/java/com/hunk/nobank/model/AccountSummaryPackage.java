@@ -14,7 +14,9 @@ import java.lang.reflect.Type;
 /**
  *
  */
-public class AccountSummaryPackage extends BaseReqPackage {
+public class AccountSummaryPackage extends BaseReqPackage implements Cacheable {
+
+    public static Cache<RealResp<AccountSummary>> cache = new Cache<>();
 
     @Override
     public Uri getUri(ServerConfig serverConfig) {
@@ -31,5 +33,10 @@ public class AccountSummaryPackage extends BaseReqPackage {
     @Override
     public int getHttpMethod() {
         return Request.Method.GET;
+    }
+
+    @Override
+    public void setCache(RealResp realResp, BaseReqPackage req) {
+        cache.setCache(realResp, req);
     }
 }

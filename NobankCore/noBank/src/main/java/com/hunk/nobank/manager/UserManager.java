@@ -109,20 +109,24 @@ public class UserManager extends DataManager {
     public static final String METHOD_ACCOUNT_SUMMARY = "METHOD_ACCOUNT_SUMMARY";
     public void fetchAccountSummary(
             AccountSummaryPackage req, final ManagerListener listener) {
-        Core.getInstance().getNetworkHandler()
-                .fireRequest(new ManagerListener() {
-                    @Override
-                    public void success(String managerId, String messageId, Object data) {
-                        RealResp<AccountSummary> realResp = (RealResp<AccountSummary>) data;
-                        AccountSummary accountSummary = realResp.Response;
-                        generateAccountDataManager(accountSummary);
-                        listener.success(managerId, messageId, data);
-                    }
+        if (AccountSummaryPackage.cache.shouldFetch(req)) {
+            Core.getInstance().getNetworkHandler()
+                    .fireRequest(new ManagerListener() {
+                        @Override
+                        public void success(String managerId, String messageId, Object data) {
+                            RealResp<AccountSummary> realResp = (RealResp<AccountSummary>) data;
+                            AccountSummary accountSummary = realResp.Response;
+                            generateAccountDataManager(accountSummary);
+                            listener.success(managerId, messageId, data);
+                        }
 
-                    @Override
-                    public void failed(String managerId, String messageId, Object data) {
-                        listener.failed(managerId, messageId, data);
-                    }
-                }, req, getManagerId(), METHOD_ACCOUNT_SUMMARY);
+                        @Override
+                        public void failed(String managerId, String messageId, Object data) {
+                            listener.failed(managerId, messageId, data);
+                        }
+                    }, req, getManagerId(), METHOD_ACCOUNT_SUMMARY);
+        } else {
+            listener.success(getManagerId(), METHOD_ACCOUNT_SUMMARY, AccountSummaryPackage.cache.get());
+        }
     }
 }

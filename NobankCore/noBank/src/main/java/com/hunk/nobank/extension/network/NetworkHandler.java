@@ -32,22 +32,12 @@ public class NetworkHandler {
 
     private RequestQueue mQueue;
 
-    public ServerConfig getCurrentServerConfig() {
-        return mCurrentServerConfig;
-    }
-
-    private ServerConfig mCurrentServerConfig = new ServerConfig("http", "localhost", 8466);
-
     public NetworkHandler(Context ctx) {
         mQueue = Volley.newRequestQueue(ctx, null, 1024*1024);
     }
 
-    public void setCurrentServerConfig(ServerConfig serverConfig) {
-        this.mCurrentServerConfig = serverConfig;
-    }
-
     public void fireRequest(final ManagerListener listener, final BaseReqPackage req, final String managerId, final String messageId) {
-        Uri uri = req.getUri(mCurrentServerConfig);
+        Uri uri = req.getUri();
         Logging.d("request to url : " + uri.toString());
         String jsonReq = null;
         if (req.getHttpMethod() == Request.Method.POST) {
