@@ -11,11 +11,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
-import com.hunk.nobank.model.TransactionFields;
-import com.hunk.nobank.model.TransactionType;
+import com.hunk.nobank.contract.TransactionFields;
+import com.hunk.nobank.contract.TransactionType;
+import com.hunk.nobank.model.TransListReqPackage;
 import com.hunk.nobank.util.ViewHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TransactionListFragment extends Fragment {
@@ -44,6 +46,14 @@ public class TransactionListFragment extends Fragment {
         list.add(new TransactionFields("Pay to Hunk", 19.5, TransactionType.PAY));
         list.add(new TransactionFields("Deposit from check", 25.5, TransactionType.DEPOSIT));
         return list;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        TransListReqPackage transListReqPackage = new TransListReqPackage();
+        transListReqPackage.setTimestamp(new Date());
+
     }
 
     private static class TransactionListAdapter extends ArrayAdapter<TransactionFields> {

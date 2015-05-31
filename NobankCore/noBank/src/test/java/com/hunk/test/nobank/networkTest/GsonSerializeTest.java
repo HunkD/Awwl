@@ -4,9 +4,11 @@ import android.os.Build;
 
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
+import com.hunk.nobank.contract.ContractGson;
 import com.hunk.nobank.contract.LoginResp;
+import com.hunk.nobank.contract.Money;
 import com.hunk.nobank.contract.RealResp;
-import com.hunk.nobank.model.login.LoginReqPackage;
+import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
 
@@ -19,6 +21,7 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.Arrays;
+import java.util.Date;
 
 @RunWith(RobolectricGradleTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
@@ -63,5 +66,27 @@ public class GsonSerializeTest {
 
         Assert.assertEquals(realResp.Response, realResp1.Response);
         Assert.assertEquals(realResp, realResp1);
+    }
+
+    @Test
+    public void testSerializeDateClass() {
+        Date originalDate = new Date();
+        String json = ContractGson.getInstance().toJson(originalDate);
+        Date genDate = ContractGson.getInstance().fromJson(json, Date.class);
+        Assert.assertEquals(originalDate.getTime(), genDate.getTime());
+    }
+
+    @Test
+    public void testSerializeMoneyClass() {
+        Money originalMoney = new Money("50");
+        Assert.assertEquals("50.00", originalMoney.string());
+
+        String expectedJson = "\"50.00\"";
+        String json = ContractGson.getInstance().toJson(originalMoney);
+        Assert.assertEquals(expectedJson, json);
+
+        Money genMoney = ContractGson.getInstance().fromJson(json, Money.class);
+        Assert.assertEquals(0, originalMoney.getValue().compareTo(genMoney.getValue()));
+        Assert.assertEquals("50.00", genMoney.string());
     }
 }

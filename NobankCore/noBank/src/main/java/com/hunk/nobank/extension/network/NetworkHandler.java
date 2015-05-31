@@ -1,50 +1,59 @@
 package com.hunk.nobank.extension.network;
 
 import android.content.Context;
+import android.net.Uri;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
+import com.android.volley.Network;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.hunk.nobank.contract.ContractGson;
 import com.hunk.nobank.contract.RealReq;
 import com.hunk.nobank.contract.RealResp;
-import com.hunk.nobank.extension.network.interfaces.BaseReqPackage;
 import com.hunk.nobank.manager.ManagerListener;
 import com.hunk.nobank.util.Logging;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+
 public class NetworkHandler {
-    private static final int NETWORK_ERROR = -5000;
+    public static final int NETWORK_ERROR = -5000;
 
     private RequestQueue mQueue;
-    private ServerConfig mCurrentServerConfig = new ServerConfig("http://localhost", 8451);
 
     public NetworkHandler(Context ctx) {
-        mQueue = Volley.newRequestQueue(ctx);
-    }
-
-    public void setCurrentServerConfig(ServerConfig serverConfig) {
-        this.mCurrentServerConfig = serverConfig;
+        mQueue = Volley.newRequestQueue(ctx, null, 1024*1024);
     }
 
     public void fireRequest(final ManagerListener listener, final BaseReqPackage req, final String managerId, final String messageId) {
-        String url = mCurrentServerConfig.getURL() + req.getPath();
-        String jsonReq = getRealRequest(req.getRequest());
-        // We make the request to json string, so
-        JsonObjectRequest stringRequest =
-                new JsonObjectRequest(
+        Uri uri = req.getUri();
+        Logging.d("request to url : " + uri.toString());
+        String jsonReq = null;
+        if (req.getHttpMethod() == Request.Method.POST) {
+//            jsonReq = getRealRequest(req.getRequest());
+        }
+
+        StringRequest stringRequest =
+                new MyStringRequest(
                         req.getHttpMethod(),
-                        url,
+                        uri.toString(),
                         jsonReq,
-                        new Response.Listener<JSONObject>() {
+                        new Response.Listener<String>() {
                             @Override
-                            public void onResponse(JSONObject response) {
-                                String jsonStr = response.toString();
-                                Logging.d("network resp=" + jsonStr);
-                                RealResp realResp = getRealResponse(jsonStr, req);
+                            public void onResponse(String response) {
+                                Logging.d("network resp=" + response);
+                                RealResp realResp = getRealResponse(response, req);
                                 if (isRespSuccessfully(realResp)) {
                                     listener.success(managerId, messageId, realResp);
                                 } else {
@@ -86,6 +95,28 @@ public class NetworkHandler {
     }
 
     public Gson getGson() {
-        return new Gson();
+        return ContractGson.getInstance();
+    }
+
+    public static class MyStringRequest extends StringRequest {
+
+
+        private static final String PROTOCOL_CHARSET = "utf-8";
+        private final String json;
+
+        public MyStringRequest(int method, String url, String json, Response.Listener<String> listener, Response.ErrorListener errorListener) {
+            super(method, url, listener, errorListener);
+            this.json = json;
+        }
+
+        @Override
+        public byte[] getBody() throws AuthFailureError {
+            try {
+                return json == null ? super.getBody() : json.getBytes(PROTOCOL_CHARSET);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

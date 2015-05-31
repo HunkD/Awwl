@@ -7,7 +7,7 @@ import android.view.View;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
-import com.hunk.nobank.manager.LoginManager;
+import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.views.SlideButtonLayout;
 import com.hunk.whitelabel.Feature;
 
@@ -73,8 +73,8 @@ public class WelcomePageActivity extends AccountBaseActivity {
         if (checkRememberMe) {
             checkRememberMe = false;
 
-            LoginManager loginManager = Core.getInstance().getLoginManager();
-            if (loginManager.isRememberMe()) {
+            UserManager userManager = Core.getInstance().getLoginManager();
+            if (userManager.isRememberMe()) {
                 // go to login screen
                 Intent gotoLogin = new Intent();
                 gotoLogin.setPackage(getApplicationContext().getPackageName());

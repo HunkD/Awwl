@@ -10,6 +10,7 @@ import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.activity.LoginPageActivity;
+import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.test.utils.NBAbstractTest;
@@ -27,6 +28,8 @@ import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowLooper;
+
+import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,6 +51,38 @@ public class LoginPageActivityTest extends NBAbstractTest {
     }
     @Test
     public void testLoginToDashboard() {
+        // set Activity fake data
+        LoginPageActivity activity = Robolectric.setupActivity(LoginPageActivity.class);
+
+        ((EditText) activity.findViewById(R.id.login_page_input_login_name)).setText("hello");
+        ((EditText) activity.findViewById(R.id.login_page_input_password)).setText("psd");
+
+        LoginResp loginResp = new LoginResp();
+        loginResp.NeedSecurityQuestionCheck = false;
+        RealResp<LoginResp> realResp = new RealResp<>();
+        realResp.Response = loginResp;
+        mNetworkHandlerStub.setNextResponse(realResp);
+
+        AccountSummary accountSummary = new AccountSummary();
+        accountSummary.Accounts = new ArrayList<>();
+        RealResp<AccountSummary> realResp1 = new RealResp<>();
+        realResp1.Response = accountSummary;
+        mNetworkHandlerStub.setNextResponse(realResp1);
+
+        activity.submit();
+
+        // check next started activity
+        ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
+
+        ShadowActivity si = Shadows.shadowOf(activity);
+        Intent gotoDashboard = new Intent();
+        gotoDashboard.setPackage(RuntimeEnvironment.application.getPackageName());
+        gotoDashboard.setAction(BaseActivity.generateAction(Feature.dashboard, NConstants.OPEN_MAIN));
+        assertThat(si.getNextStartedActivity()).isEqualTo(gotoDashboard);
+    }
+
+    @Test
+    public void testLoginToSecurityQuestion() {
         // set Activity fake data
         LoginPageActivity activity = Robolectric.setupActivity(LoginPageActivity.class);
 

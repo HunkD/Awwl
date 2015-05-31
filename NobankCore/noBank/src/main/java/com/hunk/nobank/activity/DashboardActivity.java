@@ -39,6 +39,8 @@ public class DashboardActivity extends AccountBaseActivity {
 //		});
 //
 //		mCaptured = (ImageView) findViewById(R.id.captured);
+
+
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.io.IOException;
  */
 public class MainActivity extends Activity {
 
-    private static final int SERVICE_PORT = 8451;
+    private static final int SERVICE_PORT = 8466;
     private Button mServiceBtn;
     private MyHTTPD mMyHTTPD;
 

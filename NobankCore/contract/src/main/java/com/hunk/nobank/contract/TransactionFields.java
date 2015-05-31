@@ -1,4 +1,4 @@
-package com.hunk.nobank.model;
+package com.hunk.nobank.contract;
 
 public class TransactionFields {
 
