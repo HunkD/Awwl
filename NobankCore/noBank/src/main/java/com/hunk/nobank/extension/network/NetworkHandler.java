@@ -28,9 +28,14 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 
 public class NetworkHandler {
-    private static final int NETWORK_ERROR = -5000;
+    public static final int NETWORK_ERROR = -5000;
 
     private RequestQueue mQueue;
+
+    public ServerConfig getCurrentServerConfig() {
+        return mCurrentServerConfig;
+    }
+
     private ServerConfig mCurrentServerConfig = new ServerConfig("http", "localhost", 8466);
 
     public NetworkHandler(Context ctx) {

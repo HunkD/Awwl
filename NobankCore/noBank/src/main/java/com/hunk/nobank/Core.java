@@ -2,6 +2,7 @@ package com.hunk.nobank;
 
 import android.content.Context;
 
+import com.hunk.nobank.extension.network.MyNetworkHandler;
 import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.util.Logging;
@@ -19,7 +20,7 @@ public class Core {
     private Core(Context ctx) {
         mTypefaceCache = ViewHelper.TypefaceCache.getInstance(ctx);
 
-        mNetworkHandler = new NetworkHandler(ctx);
+        mNetworkHandler = new MyNetworkHandler(ctx);
 
         mUserManager = new UserManager(ctx);
     }

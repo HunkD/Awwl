@@ -59,7 +59,7 @@ public class BalanceFragment extends Fragment {
         mBalance = (TextView) view.findViewById(R.id.txt_balance);
         mUserLogo = (ImageView) view.findViewById(R.id.user_logo);
 
-        mBalance.setText("$987.65");
+        mBalance.setText(R.string.loading_balance);
     }
 
     @Override
