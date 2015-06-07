@@ -1,10 +1,12 @@
 package com.hunk.nobank.activity;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.widget.FrameLayout;
 
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
+import com.hunk.nobank.util.HijackingNotification;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
 import com.hunk.nobank.views.LoadingDialogFragment;
@@ -36,12 +39,17 @@ public class BaseActivity extends FragmentActivity {
     private TitleBarPoxy mTitleBarPoxy;
     private MenuProxy mMenuProxy;
 
+    // Sets an ID for the notification
+    public final static int mNotificationId = 001;
+    private HijackingNotification mHijackingNotification;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         application = (NoBankApplication) getApplication();
 
         super.setContentView(R.layout.activity_base_with_titlebar);
+        mHijackingNotification = new HijackingNotification(this);
         setupUI();
     }
 
@@ -141,5 +149,23 @@ public class BaseActivity extends FragmentActivity {
 
     public TitleBarPoxy getTitleBarPoxy() {
         return mTitleBarPoxy;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mHijackingNotification.dismiss();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        mHijackingNotification.show();
+    }
+
+    public HijackingNotification getHijackingNotification() {
+        return mHijackingNotification;
     }
 }

@@ -16,10 +16,10 @@ public class RootActivity extends BaseActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        if (intent.getBooleanExtra("exit", false)) {
+        super.onNewIntent(intent);
+        if (isExit(intent)) {
             finish();
         }
-        super.onNewIntent(intent);
     }
 
     @Override
@@ -55,5 +55,14 @@ public class RootActivity extends BaseActivity {
         }
     }
 
+    public boolean isExit(Intent newIntent) {
+        return newIntent.getBooleanExtra("exit", false);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        getHijackingNotification().dismiss();
+    }
 }
