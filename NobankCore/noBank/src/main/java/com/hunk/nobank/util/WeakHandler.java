@@ -10,7 +10,7 @@ public abstract class WeakHandler<T> extends Handler {
 
     public WeakHandler(T mAct) {
         super();
-        this.mAct = new WeakReference<T>(mAct);
+        this.mAct = new WeakReference<>(mAct);
     }
 
     @Override

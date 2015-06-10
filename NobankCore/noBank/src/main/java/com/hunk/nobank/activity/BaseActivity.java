@@ -37,8 +37,6 @@ public class BaseActivity extends FragmentActivity {
     private TitleBarPoxy mTitleBarPoxy;
     private MenuProxy mMenuProxy;
 
-    // Sets an ID for the notification
-    public final static int mNotificationId = 001;
     private HijackingNotification mHijackingNotification;
 
     @Override

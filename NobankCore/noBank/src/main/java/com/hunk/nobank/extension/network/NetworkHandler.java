@@ -33,7 +33,7 @@ public class NetworkHandler {
         Logging.d("request to url : " + uri.toString());
         String jsonReq = null;
         if (req.getHttpMethod() == Request.Method.POST) {
-//            jsonReq = getRealRequest(req.getRequest());
+            jsonReq = getRealRequest(req.getRequest());
         }
 
         StringRequest stringRequest =
