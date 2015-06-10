@@ -8,7 +8,6 @@ import com.hunk.nobank.contract.AccountModel;
 import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.contract.LoginResp;
-import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;

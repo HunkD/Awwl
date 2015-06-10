@@ -4,9 +4,9 @@ import android.net.Uri;
 
 import com.android.volley.Request;
 import com.google.gson.reflect.TypeToken;
-import com.hunk.nobank.contract.adapter.DateAdapter;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.TransactionFields;
+import com.hunk.nobank.contract.adapter.DateAdapter;
 import com.hunk.nobank.extension.network.BaseReqPackage;
 import com.hunk.nobank.extension.network.ServerConfig;
 

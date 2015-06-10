@@ -1,7 +1,7 @@
 package com.hunk.astub.dispatcher.category;
 
-import com.hunk.astub.dispatcher.method.Method;
 import com.hunk.astub.dispatcher.method.LoginMethodHandler;
+import com.hunk.astub.dispatcher.method.Method;
 
 /**
  *
