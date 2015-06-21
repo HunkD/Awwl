@@ -2,6 +2,7 @@ package com.hunk.nobank.views;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -138,7 +139,7 @@ public class PullToRefreshListView extends ListView {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
+    public boolean onTouchEvent(@NonNull MotionEvent ev) {
         this.mTouchEventState.onTouchEvent(ev);
         return super.onTouchEvent(ev);
     }

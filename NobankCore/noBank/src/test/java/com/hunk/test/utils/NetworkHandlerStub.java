@@ -2,15 +2,13 @@ package com.hunk.test.utils;
 
 import android.content.Context;
 
-import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.extension.network.BaseReqPackage;
+import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.manager.ManagerListener;
 
 import java.util.Queue;
-import java.util.Stack;
 import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
 
 public class NetworkHandlerStub extends NetworkHandler {
     private Queue<RealResp<?>> prepareList = new ArrayBlockingQueue<>(50);

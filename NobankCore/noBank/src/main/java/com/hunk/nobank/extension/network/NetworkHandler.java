@@ -4,16 +4,10 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.Cache;
-import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.BasicNetwork;
-import com.android.volley.toolbox.DiskBasedCache;
-import com.android.volley.toolbox.HurlStack;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
@@ -22,8 +16,6 @@ import com.hunk.nobank.contract.RealReq;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.manager.ManagerListener;
 import com.hunk.nobank.util.Logging;
-
-import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 
@@ -41,7 +33,7 @@ public class NetworkHandler {
         Logging.d("request to url : " + uri.toString());
         String jsonReq = null;
         if (req.getHttpMethod() == Request.Method.POST) {
-//            jsonReq = getRealRequest(req.getRequest());
+            jsonReq = getRealRequest(req.getRequest());
         }
 
         StringRequest stringRequest =

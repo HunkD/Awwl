@@ -1,12 +1,10 @@
 package com.hunk.nobank.activity;
 
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -39,8 +37,6 @@ public class BaseActivity extends FragmentActivity {
     private TitleBarPoxy mTitleBarPoxy;
     private MenuProxy mMenuProxy;
 
-    // Sets an ID for the notification
-    public final static int mNotificationId = 001;
     private HijackingNotification mHijackingNotification;
 
     @Override

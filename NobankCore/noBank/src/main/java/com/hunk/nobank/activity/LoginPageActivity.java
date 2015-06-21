@@ -17,8 +17,6 @@ import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.nobank.util.StringUtils;
 
-import org.w3c.dom.UserDataHandler;
-
 public class LoginPageActivity extends AccountBaseActivity {
 
     private EditText mInputLoginName;
