@@ -1,0 +1,13 @@
+language: android
+jdk: oraclejdk7
+
+android:
+  components:
+  # Uncomment the lines below if you want to
+  # use the latest revision of Android SDK Tools
+  - build-tools-21.1.1
+  - android-21
+  - extra-google-m2repository
+  - extra-android-m2repository
+  
+script: gradle -b "NobankCore/noBank/build.gradle" clean assembleDebug --info --stacktrace
