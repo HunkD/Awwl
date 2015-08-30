@@ -25,7 +25,7 @@ import static org.robolectric.Shadows.shadowOf;
  */
 @RunWith(RobolectricGradleTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class, emulateSdk = Build.VERSION_CODES.JELLY_BEAN,
+@Config(constants = BuildConfig.class,
         application = TestNoBankApplication.class)
 public class HijackingNotificationTest extends NBAbstractTest {
     @Test
