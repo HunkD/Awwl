@@ -35,7 +35,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(RobolectricGradleTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class, emulateSdk = Build.VERSION_CODES.JELLY_BEAN,
+@Config(constants = BuildConfig.class,
         application = TestNoBankApplication.class)
 public class LoginPageActivityTest extends NBAbstractTest {
 
