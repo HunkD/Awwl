@@ -81,31 +81,31 @@ public class LoginPageActivityTest extends NBAbstractTest {
         assertThat(si.getNextStartedActivity()).isEqualTo(gotoDashboard);
     }
 
-//    @Test
-//    public void testLoginToSecurityQuestion() {
-//        // set Activity fake data
-//        LoginPageActivity activity = Robolectric.setupActivity(LoginPageActivity.class);
-//
-//        ((EditText) activity.findViewById(R.id.login_page_input_login_name)).setText("hello");
-//        ((EditText) activity.findViewById(R.id.login_page_input_password)).setText("psd");
-//
-//        LoginResp loginResp = new LoginResp();
-//        loginResp.NeedSecurityQuestionCheck = true;
-//        RealResp<LoginResp> realResp = new RealResp<>();
-//        realResp.Response = loginResp;
-//        mNetworkHandlerStub.setNextResponse(realResp);
-//
-//        activity.submit();
-//
-//        // check next started activity
-//        ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
-//
-//        ShadowActivity si = Shadows.shadowOf(activity);
-//        Intent gotoDashboard = new Intent();
-//        gotoDashboard.setPackage(RuntimeEnvironment.application.getPackageName());
-//        gotoDashboard.setAction(BaseActivity.generateAction(Feature.dashboard, NConstants.OPEN_MAIN));
-//        assertThat(si.getNextStartedActivity()).isEqualTo(gotoDashboard);
-//    }
+    @Test
+    public void testLoginToSecurityQuestion() {
+        // set Activity fake data
+        LoginPageActivity activity = Robolectric.setupActivity(LoginPageActivity.class);
+
+        ((EditText) activity.findViewById(R.id.login_page_input_login_name)).setText("hello");
+        ((EditText) activity.findViewById(R.id.login_page_input_password)).setText("psd");
+
+        LoginResp loginResp = new LoginResp();
+        loginResp.NeedSecurityQuestionCheck = true;
+        RealResp<LoginResp> realResp = new RealResp<>();
+        realResp.Response = loginResp;
+        mNetworkHandlerStub.setNextResponse(realResp);
+
+        activity.submit();
+
+        // check next started activity
+        ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
+
+        ShadowActivity si = Shadows.shadowOf(activity);
+        Intent gotoDashboard = new Intent();
+        gotoDashboard.setPackage(RuntimeEnvironment.application.getPackageName());
+        gotoDashboard.setAction(BaseActivity.generateAction(Feature.dashboard, NConstants.OPEN_MAIN));
+        assertThat(si.getNextStartedActivity()).isEqualTo(gotoDashboard);
+    }
 
     @Test
     public void testCheckInput() {
