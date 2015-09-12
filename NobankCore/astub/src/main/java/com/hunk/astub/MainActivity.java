@@ -2,6 +2,7 @@ package com.hunk.astub;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 public class MainActivity extends Activity {
 
     private static final int SERVICE_PORT = 8466;
+    private static final String TAG = "ASTUB";
     private Button mServiceBtn;
     private MyHTTPD mMyHTTPD;
 
@@ -43,5 +45,12 @@ public class MainActivity extends Activity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Log.d(TAG, "Main Activity has been destroyed.");
     }
 }
