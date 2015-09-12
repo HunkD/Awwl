@@ -2,14 +2,19 @@ package com.hunk.nobank.contract;
 
 public class TransactionFields {
 
-    private final String mTitle;
-    private final double mMoney;
-    private final TransactionType mVault;
+    private String mTitle;
+    private double mMoney;
+    private TransactionType mVault;
+    private long mTimestamp;
 
-    public TransactionFields(String title, double money, TransactionType vault) {
+    public TransactionFields() {
+    }
+
+    public TransactionFields(String title, double money, TransactionType vault, long timestamp) {
         this.mTitle = title;
         this.mMoney = money;
         this.mVault = vault;
+        this.mTimestamp = timestamp;
     }
 
     public String getTitle() {
@@ -22,5 +27,9 @@ public class TransactionFields {
 
     public TransactionType getVault() {
         return mVault;
+    }
+
+    public long getTimeStamp() {
+        return mTimestamp;
     }
 }

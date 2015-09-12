@@ -31,6 +31,7 @@ public class UserManager extends DataManager {
     private Context mCtx;
     // TODO:check in LoginPageActivity
     private boolean mLoginSuccess;
+    private TransactionDataManager mTransactionDataManager;
 
     public AccountDataManager getAccountDataManagerByType(AccountType type) {
         return accountDataManagerMap.get(type);
@@ -116,6 +117,7 @@ public class UserManager extends DataManager {
                             RealResp<AccountSummary> realResp = (RealResp<AccountSummary>) data;
                             AccountSummary accountSummary = realResp.Response;
                             generateAccountDataManager(accountSummary);
+                            generateTransactionDataManager(accountSummary);
                             listener.success(managerId, messageId, data);
                         }
 
@@ -127,5 +129,13 @@ public class UserManager extends DataManager {
         } else {
             listener.success(getManagerId(), METHOD_ACCOUNT_SUMMARY, AccountSummaryPackage.cache.get());
         }
+    }
+
+    private void generateTransactionDataManager(AccountSummary accountSummary) {
+        mTransactionDataManager = new TransactionDataManager(accountSummary);
+    }
+
+    public TransactionDataManager getTransactionDataManager() {
+        return mTransactionDataManager;
     }
 }

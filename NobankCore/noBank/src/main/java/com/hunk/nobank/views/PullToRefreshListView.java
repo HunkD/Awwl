@@ -28,6 +28,7 @@ public class PullToRefreshListView extends ListView {
     private int mHeaderHeight;
     private int mScrollState;
     private State mState;
+    private ListListener mListListener;
 
     // Constructors
 
@@ -123,6 +124,10 @@ public class PullToRefreshListView extends ListView {
         }
     }
 
+    public void setListListener(ListListener listListener) {
+        this.mListListener = listListener;
+    }
+
     // Inner classes
 
     private class MyOnScrollListener implements OnScrollListener {
@@ -193,6 +198,7 @@ public class PullToRefreshListView extends ListView {
                                 break;
                             case Refresh:
                                 showHeaderView();
+                                triggerRefresh();
                                 break;
                         }
                     }
@@ -201,7 +207,17 @@ public class PullToRefreshListView extends ListView {
         }
     }
 
+    private void triggerRefresh() {
+        if (mListListener != null) {
+            mListListener.refresh();
+        }
+    }
+
     private enum State {
         Refresh, None, Pull
+    }
+
+    public interface ListListener {
+        void refresh();
     }
 }
