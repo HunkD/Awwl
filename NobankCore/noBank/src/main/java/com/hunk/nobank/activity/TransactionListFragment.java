@@ -11,28 +11,24 @@ import android.widget.TextView;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
-import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.contract.TransactionFields;
-import com.hunk.nobank.contract.TransactionType;
-import com.hunk.nobank.manager.AccountDataManager;
 import com.hunk.nobank.manager.ManagerListener;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.ViewManagerListener;
-import com.hunk.nobank.model.TransListReqPackage;
+import com.hunk.nobank.model.TransactionReqPackage;
 import com.hunk.nobank.util.ViewHelper;
 import com.hunk.nobank.views.PullToRefreshListView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TransactionListFragment extends Fragment {
 
     private PullToRefreshListView mTransactionList;
     private UserManager mUserManager;
-    private AccountDataManager mAccountDataMgr;
     private TransactionDataManager mTransactionDataMgr;
+    private TransactionListAdapter mTransactionListAdapter;
 
     public TransactionListFragment() {
         super();
@@ -55,8 +51,9 @@ public class TransactionListFragment extends Fragment {
 
     private void setupUI(View root) {
         mTransactionList = (PullToRefreshListView) root.findViewById(R.id.transaction_list);
-        mTransactionList.setAdapter(new TransactionListAdapter(root.getContext(), 0,
-                new ArrayList<TransactionFields>()));
+        mTransactionListAdapter = new TransactionListAdapter(root.getContext(), 0,
+                new ArrayList<TransactionFields>());
+        mTransactionList.setAdapter(mTransactionListAdapter);
         mTransactionList.setListListener(new PullToRefreshListView.ListListener() {
             @Override
             public void refresh() {
@@ -65,26 +62,26 @@ public class TransactionListFragment extends Fragment {
         });
     }
 
-    private List<TransactionFields> getData() {
-        List<TransactionFields> list = new ArrayList<>();
-        list.add(new TransactionFields("Move to vault", 15.5, TransactionType.VAULT, 1000));
-        list.add(new TransactionFields("Pay to Hunk", 19.5, TransactionType.PAY, 1000));
-        list.add(new TransactionFields("Deposit from check", 25.5, TransactionType.DEPOSIT, 1000));
-        return list;
-    }
-
     @Override
     public void onStart() {
         super.onStart();
-        TransListReqPackage transListReqPackage = new TransListReqPackage();
-        transListReqPackage.setTimestamp(new Date());
 
+        mTransactionDataMgr.fetchTransactions(false, mManagerListener);
     }
 
     ManagerListener mManagerListener = new ViewManagerListener(this) {
         @Override
         public void onSuccess(String managerId, String messageId, Object data) {
-
+            if (managerId.equals(mTransactionDataMgr.getManagerId())) {
+                if (messageId.equals(TransactionDataManager.METHOD_TRANSACTION)) {
+                    mTransactionListAdapter.clear();
+                    for (TransactionFields fields : TransactionReqPackage.cache.get().Response) {
+                        mTransactionListAdapter.add(fields);
+                    }
+                    mTransactionListAdapter.notifyDataSetChanged();
+                    mTransactionList.hideHeaderView();
+                }
+            }
         }
 
         @Override

@@ -70,7 +70,8 @@ public class PullToRefreshListView extends ListView {
         mLastUpdateTimestamp = (TextView) header.findViewById(R.id.last_refresh_timestamp);
     }
 
-    private void hideHeaderView() {
+    public void hideHeaderView() {
+        mState = State.None;
         if (mHeaderHeight == 0) {
             mHeader.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
@@ -113,13 +114,16 @@ public class PullToRefreshListView extends ListView {
         mHeader.setLayoutParams(lp);
     }
 
-    private void setHeaderText(State state) {
-        switch (state) {
+    private void setHeaderText() {
+        switch (mState) {
             case Pull:
                 mHeaderTitle.setText(R.string.pull_to_refresh);
                 break;
-            case Refresh:
+            case Release:
                 mHeaderTitle.setText(R.string.release_to_fetch);
+                break;
+            case Fetching:
+                mHeaderTitle.setText(R.string.fetching);
                 break;
         }
     }
@@ -158,7 +162,7 @@ public class PullToRefreshListView extends ListView {
             int action = MotionEventCompat.getActionMasked(ev);
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
-                    if (mFistItem == 0 && mState != State.Refresh) {
+                    if (mFistItem == 0 && mState == State.None) {
                         mIsPulling = true;
                         PullToRefreshListView.this.mStartY = ev.getY();
                     }
@@ -179,13 +183,13 @@ public class PullToRefreshListView extends ListView {
 
                     if (space > 0 && space < mHeaderHeight) {
                         mState = State.Pull;
-                        setHeaderText(State.Pull);
+                        setHeaderText();
                     } else if (space > mHeaderHeight + 30 /* && mScrollState = scroll // why we need this flag? */) {
-                        mState = State.Refresh;
-                        setHeaderText(State.Refresh);
+                        mState = State.Release;
+                        setHeaderText();
                     } else if (space < 0) {
                         mState = State.Pull;
-                        setHeaderText(State.Pull);
+                        setHeaderText();
                     }
                     break;
                 case MotionEvent.ACTION_UP:
@@ -196,7 +200,9 @@ public class PullToRefreshListView extends ListView {
                             case Pull:
                                 hideHeaderView();
                                 break;
-                            case Refresh:
+                            case Release:
+                                mState = State.Fetching;
+                                setHeaderText();
                                 showHeaderView();
                                 triggerRefresh();
                                 break;
@@ -214,7 +220,7 @@ public class PullToRefreshListView extends ListView {
     }
 
     private enum State {
-        Refresh, None, Pull
+        Release, None, Pull, Fetching
     }
 
     public interface ListListener {
