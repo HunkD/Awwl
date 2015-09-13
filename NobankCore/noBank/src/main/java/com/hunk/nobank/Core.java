@@ -51,4 +51,8 @@ public class Core {
     public void setNetworkHandler(NetworkHandler networkHandler) {
         this.mNetworkHandler = networkHandler;
     }
+
+    public void setLoginManager(UserManager userManager) {
+        this.mUserManager = userManager;
+    }
 }
