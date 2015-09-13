@@ -30,7 +30,7 @@ public class TransactionReqPackage extends BaseReqPackage implements Cacheable {
     @Override
     public Uri getUri(ServerConfig serverConfig) {
         Uri.Builder builder = serverConfig.getUriBuilder()
-                .appendEncodedPath("Transaction");
+                .appendEncodedPath("Transaction/List");
         builder.appendQueryParameter("timestamp", String.valueOf(mTimestamp));
         return builder.build();
     }
