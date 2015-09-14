@@ -2,31 +2,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <include
-        android:id="@+id/slide_button"
-        layout="@layout/item_slide_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
-
-    <Button
-        android:id="@+id/login_page_login_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/sign_in"
-        android:textSize="@dimen/text_size_medium"
-        android:background="@drawable/raised_button"
-        android:layout_margin="4dp"
-        android:textAllCaps="false"
-        android:layout_above="@id/slide_button"/>
-
     <ScrollView
+        android:id="@+id/sl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_above="@id/login_page_login_btn"
-        android:padding="@dimen/page_padding">
+        android:padding="@dimen/page_padding"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,7 +21,7 @@
                 android:text="@string/txt_login_title"
                 android:gravity="left"
                 style="@style/TextQuiteLarge"
-                android:layout_marginBottom="@dimen/title_interval_bottom"/>
+                android:layout_marginBottom="150dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -58,6 +40,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textNoSuggestions"
+                    style="@style/TextSmallMedium"
+                    android:layout_marginBottom="@dimen/item_interval_bottom"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Login TEXTVIEW"
+                    style="@style/TextMedium"
+                    android:layout_marginBottom="@dimen/item_interval_bottom"/>
+
+                <TextView
+                    android:id="@+id/login_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Amount FIELD"
                     style="@style/TextSmallMedium"
                     android:layout_marginBottom="@dimen/item_interval_bottom"/>
 
@@ -84,6 +81,24 @@
                     android:text="@string/txt_remember_me"
                     android:layout_marginBottom="@dimen/item_interval_bottom"/>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/login_page_login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sign_in"
+                android:textSize="@dimen/text_size_medium"
+                android:background="@drawable/raised_button"
+                android:layout_margin="4dp"
+                android:textAllCaps="false"
+                />
         </LinearLayout>
     </ScrollView>
+    <RelativeLayout
+        android:id="@+id/fake_keypad"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@color/primary_dark"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"/>
 </RelativeLayout>

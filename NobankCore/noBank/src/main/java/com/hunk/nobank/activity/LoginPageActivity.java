@@ -1,12 +1,20 @@
 package com.hunk.nobank.activity;
 
+import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.RelativeLayout.LayoutParams;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NoBankApplication;
@@ -23,9 +31,14 @@ public class LoginPageActivity extends AccountBaseActivity {
     private EditText mInputLoginPsd;
     private CheckBox mRememberMe;
     private Button mBtnLogin;
+    private TextView mInputTextView;
+    private ScrollView mSlContainer;
+    private View mFakeKeypad;
 
     private NoBankApplication application;
     private UserManager mUserManager;
+    private int mKeypadHeight;
+    private int mSlContainerHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,46 @@ public class LoginPageActivity extends AccountBaseActivity {
         mInputLoginPsd = (EditText) findViewById(R.id.login_page_input_password);
         mRememberMe = (CheckBox) findViewById(R.id.login_page_remember_me);
         mBtnLogin = (Button) findViewById(R.id.login_page_login_btn);
+        mInputTextView = (TextView) findViewById(R.id.login_textView);
+        mFakeKeypad = findViewById(R.id.fake_keypad);
+        mSlContainer = (ScrollView) findViewById(R.id.sl_container);
+
+        mSlContainer.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mSlContainerHeight = findViewById(R.id.sl_container).getHeight();
+
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                    mSlContainer.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                } else {
+                    mSlContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+
+            }
+        });
+
+        mInputTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mInputTextView.isFocused()) {
+                    displayKeypad();
+                } else {
+                    mInputTextView.requestFocus();
+                }
+            }
+        });
+        mInputTextView.setFocusable(true);
+        mInputTextView.setFocusableInTouchMode(true);
+        mInputTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    displayKeypad();
+                } else {
+                    dismissKeypad();
+                }
+            }
+        });
 
         // ---setListeners---
         mBtnLogin.setTypeface(null, Typeface.NORMAL);
@@ -60,6 +113,52 @@ public class LoginPageActivity extends AccountBaseActivity {
             }
 
         });
+    }
+
+    private void displayKeypad() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mInputTextView.getWindowToken(), 0);
+
+        if (mFakeKeypad.getVisibility() != View.VISIBLE) {
+            mFakeKeypad.setVisibility(View.VISIBLE);
+
+            if (mKeypadHeight == 0) {
+                mFakeKeypad.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        mKeypadHeight = findViewById(R.id.fake_keypad).getHeight();
+
+                        extrudeScrollView();
+                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                            mFakeKeypad.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        } else {
+                            mFakeKeypad.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        }
+
+                    }
+                });
+            } else {
+                extrudeScrollView();
+            }
+        }
+    }
+
+    private void dismissKeypad() {
+        if (mFakeKeypad.getVisibility() == View.VISIBLE) {
+            mFakeKeypad.setVisibility(View.GONE);
+
+            mInputTextView.post(new Runnable() {
+                @Override
+                public void run() {
+                    LayoutParams layoutParam =
+                            (LayoutParams) mSlContainer.getLayoutParams();
+                    LayoutParams newParam =
+                            new LayoutParams(layoutParam.width, LayoutParams.MATCH_PARENT);
+                    mSlContainer.setLayoutParams(newParam);
+                    mSlContainer.setFillViewport(true);
+                }
+            });
+        }
     }
 
     public void submit() {
@@ -144,4 +243,27 @@ public class LoginPageActivity extends AccountBaseActivity {
             }
         }
     };
+
+    private void extrudeScrollView() {
+        mInputTextView.post(new Runnable() {
+            @Override
+            public void run() {
+                LayoutParams layoutParam =
+                        (LayoutParams) mSlContainer.getLayoutParams();
+                LayoutParams newParam =
+                        new LayoutParams(layoutParam.width, mSlContainerHeight - mKeypadHeight);
+                mSlContainer.setLayoutParams(newParam);
+                mSlContainer.setFillViewport(false);
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mFakeKeypad.getVisibility() == View.VISIBLE) {
+            dismissKeypad();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

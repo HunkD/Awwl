@@ -39,6 +39,6 @@ public class HijackingNotification {
                                 .bigText(context.getString(R.string.notify_background_now)));
 
         // Builds the notification and issues it.
-        mNotifyMgr.notify(NOTIFICATION_ID, mBuilder.build());
+//        mNotifyMgr.notify(NOTIFICATION_ID, mBuilder.build());
     }
 }
