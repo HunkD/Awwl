@@ -37,7 +37,7 @@ public class TransactionDataManager extends DataManager {
         }
     }
 
-    public String getManagerId() {
+    public final String getManagerId() {
         return MANAGER_ID;
     }
 }
