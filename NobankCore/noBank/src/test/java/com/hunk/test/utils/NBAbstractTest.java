@@ -5,6 +5,8 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
 
+import com.hunk.nobank.Core;
+
 import org.junit.Before;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.manifest.ActivityData;
@@ -23,6 +25,8 @@ public abstract class NBAbstractTest {
     @Before
     public void setup() {
         addImplicitIntentToPM();
+
+        Core.clearCache();
     }
 
     private void addImplicitIntentToPM() {

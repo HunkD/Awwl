@@ -7,8 +7,10 @@ import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BalanceFragment;
 import com.hunk.nobank.contract.AccountModel;
+import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.contract.Money;
+import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.manager.AccountDataManager;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.ViewManagerListener;
@@ -25,9 +27,12 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import org.robolectric.util.ReflectionHelpers;
+
+import java.util.ArrayList;
 
 @RunWith(RobolectricGradleTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
@@ -47,30 +52,20 @@ public class BalanceFragmentTest extends NBAbstractTest {
 
     @Test
     public void testShowBalance() {
-        AccountModel accountModel = new AccountModel();
-        accountModel.Balance = new Money("9999.99");
-        AccountDataManager accountDataManager = Mockito.mock(AccountDataManager.class);
-        Mockito.when(accountDataManager.getAccountModel()).thenReturn(accountModel);
-        final UserManager userManager = Mockito.mock(UserManager.class);
-        Mockito.when(userManager.getAccountDataManagerByType(AccountType.Main)).thenReturn(accountDataManager);
+        final UserManager userManager = new UserManager(null);
         Core.getInstance().setLoginManager(userManager);
 
+        AccountModel accountModel = new AccountModel();
+        accountModel.Balance = new Money("9999.99");
+        accountModel.Type = AccountType.Main;
+        AccountSummary accountSummary = new AccountSummary();
+        accountSummary.Accounts = new ArrayList<>();
+        accountSummary.Accounts.add(accountModel);
+        RealResp<AccountSummary> realResp = new RealResp<>();
+        realResp.Response = accountSummary;
+        mNetworkHandlerStub.setNextResponse(realResp);
+
         BalanceFragment balanceFragment = new BalanceFragment();
-
-        Mockito.doAnswer(new Answer() {
-            @Override
-            public Object answer(InvocationOnMock invocation) throws Throwable {
-                ViewManagerListener managerListener = (ViewManagerListener) invocation.getArguments()[1];
-                managerListener.success(
-                        ReflectionHelpers.getStaticField(UserManager.class, "MANAGER_ID").toString(),
-                        UserManager.METHOD_ACCOUNT_SUMMARY,
-                        null);
-                return null;
-            }
-        }).when(userManager).fetchAccountSummary(
-                Mockito.any(AccountSummaryPackage.class),
-                Mockito.any(ViewManagerListener.class));
-
         SupportFragmentTestUtil.startFragment(balanceFragment);
 
         Assert.assertNotNull(balanceFragment);

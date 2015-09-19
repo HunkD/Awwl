@@ -5,8 +5,12 @@ import android.content.Context;
 import com.hunk.nobank.extension.network.MyNetworkHandler;
 import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.manager.UserManager;
+import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Keep reference to all managers, services and caches.
@@ -16,6 +20,7 @@ public class Core {
     private NetworkHandler mNetworkHandler;
     private UserManager mUserManager;
     private ViewHelper.TypefaceCache mTypefaceCache;
+    private static List<Cache<?>> mCacheList = new ArrayList<>();
 
     private Core(Context ctx) {
         mTypefaceCache = ViewHelper.TypefaceCache.getInstance(ctx);
@@ -54,5 +59,15 @@ public class Core {
 
     public void setLoginManager(UserManager userManager) {
         this.mUserManager = userManager;
+    }
+
+    public static void registerCache(Cache<?> cache) {
+        mCacheList.add(cache);
+    }
+
+    public static void clearCache() {
+        for (Cache<?> cache : mCacheList) {
+            cache.expire();
+        }
     }
 }
