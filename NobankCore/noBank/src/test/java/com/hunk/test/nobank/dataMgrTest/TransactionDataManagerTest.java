@@ -90,4 +90,52 @@ public class TransactionDataManagerTest {
         });
     }
 
+    @Test
+    public void testFetchMoreTransactionWithoutCache() {
+        TransactionDataManager transactionDataManager = new TransactionDataManager(null);
+
+        TransactionFields transactionFields = new TransactionFields("XXX", 1000, TransactionType.DEPOSIT, 1000);
+        RealResp<List<TransactionFields>> realResp = new RealResp<>();
+        realResp.Response = new ArrayList<>();
+        realResp.Response.add(transactionFields);
+
+        mNetworkHandlerStub.setNextResponse(realResp);
+
+        transactionDataManager.fetchTransactions(false, new ManagerListener() {
+            @Override
+            public void success(String managerId, String messageId, Object data) {
+                RealResp<List<TransactionFields>> realResp = (RealResp<List<TransactionFields>>) data;
+                Assert.assertEquals(1, realResp.Response.size());
+                Assert.assertEquals("XXX", realResp.Response.get(0).getTitle());
+            }
+
+            @Override
+            public void failed(String managerId, String messageId, Object data) {
+
+            }
+        });
+
+
+        TransactionFields transactionFields2 = new TransactionFields("XXX2", 1000, TransactionType.DEPOSIT, 1000);
+        RealResp<List<TransactionFields>> realResp2 = new RealResp<>();
+        realResp2.Response = new ArrayList<>();
+        realResp2.Response.add(transactionFields2);
+
+        mNetworkHandlerStub.setNextResponse(realResp2);
+
+        transactionDataManager.fetchTransactions(true, new ManagerListener() {
+            @Override
+            public void success(String managerId, String messageId, Object data) {
+                RealResp<List<TransactionFields>> realResp = (RealResp<List<TransactionFields>>) data;
+                Assert.assertEquals(2, realResp.Response.size());
+                Assert.assertEquals("XXX", realResp.Response.get(0).getTitle());
+                Assert.assertEquals("XXX2", realResp.Response.get(1).getTitle());
+            }
+
+            @Override
+            public void failed(String managerId, String messageId, Object data) {
+
+            }
+        });
+    }
 }
