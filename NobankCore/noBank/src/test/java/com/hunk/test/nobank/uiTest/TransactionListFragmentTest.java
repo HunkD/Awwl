@@ -11,9 +11,7 @@ import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.contract.TransactionType;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.manager.ViewManagerListener;
-import com.hunk.nobank.model.AccountSummaryPackage;
-import com.hunk.nobank.model.TransactionReqPackage;
+import com.hunk.nobank.activity.TransactionListFragment.TransactionListAdapter.ViewTransactionFields;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -74,8 +72,9 @@ public class TransactionListFragmentTest extends NBAbstractTest {
         Assert.assertNotNull(transactionListFragment.getView());
 
         ListView transactionListView = (ListView) transactionListFragment.getView().findViewById(R.id.transaction_list);
-        Assert.assertEquals("Move to vault", ((TransactionFields) transactionListView.getAdapter().getItem(1)).getTitle());
+        Assert.assertEquals("Move to vault",
+                ((ViewTransactionFields) transactionListView.getAdapter().getItem(1)).getTransactionFields().getTitle());
 
-        Assert.assertEquals(list.size() + 1, transactionListView.getAdapter().getCount());
+        Assert.assertEquals(list.size() + 2, transactionListView.getAdapter().getCount());
     }
 }

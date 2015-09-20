@@ -225,5 +225,6 @@ public class PullToRefreshListView extends ListView {
 
     public interface ListListener {
         void refresh();
+        void more();
     }
 }

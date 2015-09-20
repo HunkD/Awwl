@@ -25,9 +25,11 @@ public class TransListMethodHandler implements MethodHandler {
 
     private List<TransactionFields> getData() {
         List<TransactionFields> list = new ArrayList<>();
-        list.add(new TransactionFields("Move to vault", 15.5, TransactionType.VAULT, 1000));
-        list.add(new TransactionFields("Pay to Hunk", 19.5, TransactionType.PAY, 1000));
-        list.add(new TransactionFields("Deposit from check", 25.5, TransactionType.DEPOSIT, 1000));
+        for (int i = 0; i < 10; i++) {
+            list.add(new TransactionFields("Move to vault" + i, 15.5, TransactionType.VAULT, 1000));
+            list.add(new TransactionFields("Pay to Hunk" + i, 19.5, TransactionType.PAY, 1000));
+            list.add(new TransactionFields("Deposit from check" + i, 25.5, TransactionType.DEPOSIT, 1000));
+        }
         return list;
     }
 }

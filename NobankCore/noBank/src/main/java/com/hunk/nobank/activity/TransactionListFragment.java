@@ -52,12 +52,19 @@ public class TransactionListFragment extends Fragment {
     private void setupUI(View root) {
         mTransactionList = (PullToRefreshListView) root.findViewById(R.id.transaction_list);
         mTransactionListAdapter = new TransactionListAdapter(root.getContext(), 0,
-                new ArrayList<TransactionFields>());
+                new ArrayList<TransactionListAdapter.ViewTransactionFields>());
         mTransactionList.setAdapter(mTransactionListAdapter);
         mTransactionList.setListListener(new PullToRefreshListView.ListListener() {
             @Override
             public void refresh() {
+                // Force fetch when pull the list view
+                TransactionReqPackage.cache.expire();
                 mTransactionDataMgr.fetchTransactions(false, mManagerListener);
+            }
+
+            @Override
+            public void more() {
+                mTransactionDataMgr.fetchTransactions(true, mManagerListener);
             }
         });
     }
@@ -75,9 +82,7 @@ public class TransactionListFragment extends Fragment {
             if (managerId.equals(mTransactionDataMgr.getManagerId())) {
                 if (messageId.equals(TransactionDataManager.METHOD_TRANSACTION)) {
                     mTransactionListAdapter.clear();
-                    for (TransactionFields fields : TransactionReqPackage.cache.get().Response) {
-                        mTransactionListAdapter.add(fields);
-                    }
+                    mTransactionListAdapter.addRawTransactionFields(TransactionReqPackage.cache.get().Response);
                     mTransactionListAdapter.notifyDataSetChanged();
                     mTransactionList.hideHeaderView();
                 }
@@ -90,9 +95,9 @@ public class TransactionListFragment extends Fragment {
         }
     };
 
-    private static class TransactionListAdapter extends ArrayAdapter<TransactionFields> {
+    public static class TransactionListAdapter extends ArrayAdapter<TransactionListAdapter.ViewTransactionFields> {
 
-        public TransactionListAdapter(Context context, int resource, List<TransactionFields> objects) {
+        public TransactionListAdapter(Context context, int resource, List<ViewTransactionFields> objects) {
             super(context, resource, objects);
         }
 
@@ -115,18 +120,81 @@ public class TransactionListFragment extends Fragment {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
 
-            TransactionFields fields = getItem(position);
+            ViewTransactionFields fields = getItem(position);
             if (fields != null) {
-                viewHolder.mTitle.setText(fields.getTitle());
-                viewHolder.mMoney.setText(String.valueOf(fields.getMoney()));
+                switch (fields.getViewType()) {
+                    case PAY:
+                    case DEPOSIT:
+                    case VAULT:
+                        viewHolder.mTitle.setText(fields.getTransactionFields().getTitle());
+                        viewHolder.mMoney.setText(String.valueOf(fields.getTransactionFields().getMoney()));
+                        break;
+                    case MORE:
+                        viewHolder.mTitle.setText("MORE");
+                        break;
+                }
             }
             return convertView;
+        }
+
+        /**
+         * 1. Convert TransactionFields to ViewTransactionFields
+         * 2. Sort them
+         * 3. Add date label
+         * 4. Add more button
+         * @param fields
+         */
+        public void addRawTransactionFields(List<TransactionFields> fields) {
+            List<ViewTransactionFields> newList = new ArrayList<>();
+            for (TransactionFields raw : fields) {
+                ViewTransactionType type = null;
+                switch (raw.getVault()) {
+                    case PAY:
+                        type = ViewTransactionType.PAY;
+                        break;
+                    case DEPOSIT:
+                        type = ViewTransactionType.DEPOSIT;
+                        break;
+                    case VAULT:
+                        type = ViewTransactionType.VAULT;
+                        break;
+                }
+                ViewTransactionFields newField = new ViewTransactionFields(type, raw);
+                newList.add(newField);
+            }
+            newList.add(new ViewTransactionFields(ViewTransactionType.MORE, null));
+
+            for (ViewTransactionFields newField : newList) {
+                add(newField);
+            }
         }
 
         static class ViewHolder {
             TextView mTitle;
             TextView mMoney;
             TextView mType;
+        }
+
+        public enum ViewTransactionType {
+            DATE, MORE, PAY, VAULT, DEPOSIT
+        }
+
+        public static class ViewTransactionFields {
+            ViewTransactionType mViewType;
+            TransactionFields mTransactionFields;
+
+            public ViewTransactionFields(ViewTransactionType viewType, TransactionFields transactionFields) {
+                this.mViewType = viewType;
+                this.mTransactionFields = transactionFields;
+            }
+
+            public TransactionFields getTransactionFields() {
+                return mTransactionFields;
+            }
+
+            public ViewTransactionType getViewType() {
+                return mViewType;
+            }
         }
     }
 }
