@@ -1,17 +1,14 @@
 package com.hunk.test.nobank.uiTest;
 
-import android.widget.ListView;
-
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
-import com.hunk.nobank.R;
 import com.hunk.nobank.activity.TransactionListFragment;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.contract.TransactionType;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.activity.TransactionListFragment.TransactionListAdapter.ViewTransactionFields;
+import com.hunk.nobank.activity.TransactionListFragment.TransactionListAdapter;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -25,6 +22,7 @@ import org.mockito.Mockito;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
+import org.robolectric.util.ReflectionHelpers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,10 +69,8 @@ public class TransactionListFragmentTest extends NBAbstractTest {
         Assert.assertNotNull(transactionListFragment);
         Assert.assertNotNull(transactionListFragment.getView());
 
-        ListView transactionListView = (ListView) transactionListFragment.getView().findViewById(R.id.transaction_list);
-        Assert.assertEquals("Move to vault",
-                ((ViewTransactionFields) transactionListView.getAdapter().getItem(1)).getTransactionFields().getTitle());
-
-        Assert.assertEquals(list.size() + 2, transactionListView.getAdapter().getCount());
+        TransactionListAdapter transactionListAdapter = ReflectionHelpers.getField(transactionListFragment, "mTransactionListAdapter");
+        Assert.assertEquals("Move to vault", transactionListAdapter.getItem(0).getTransactionFields().getTitle());
+        Assert.assertEquals(list.size() + 1, transactionListAdapter.getCount());
     }
 }
