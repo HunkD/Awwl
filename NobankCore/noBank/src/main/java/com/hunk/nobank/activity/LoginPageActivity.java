@@ -47,7 +47,6 @@ public class LoginPageActivity extends AccountBaseActivity {
         mBtnLogin = (Button) findViewById(R.id.login_page_login_btn);
 
         // ---setListeners---
-        mBtnLogin.setTypeface(null, Typeface.NORMAL);
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
 
             @Override

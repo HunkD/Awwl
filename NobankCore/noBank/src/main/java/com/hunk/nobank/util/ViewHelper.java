@@ -210,8 +210,8 @@ public class ViewHelper {
 
     private static void setFontByConfig(TextView tv) {
         TypefaceCache cache = Core.getInstance().getTypefaceCache();
-        if (tv.getTypeface() == null) {
-            Logging.d("setFontByConfig meet a null pointer problem and this text view id = " + tv.getId());
+        if (tv.getTypeface() == null) { // default font won't have typeface.
+            tv.setTypeface(cache.NORMAL);
             return;
         }
         int style = tv.getTypeface().getStyle();
