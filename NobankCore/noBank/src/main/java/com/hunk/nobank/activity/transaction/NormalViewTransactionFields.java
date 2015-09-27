@@ -42,6 +42,11 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
         return convertView;
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
+
 
     static class ViewHolder {
         TextView mTitle;

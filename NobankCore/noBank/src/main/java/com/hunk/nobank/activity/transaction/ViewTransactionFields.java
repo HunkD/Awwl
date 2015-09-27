@@ -1,11 +1,13 @@
 package com.hunk.nobank.activity.transaction;
 
+import android.view.View;
+
 import com.hunk.nobank.contract.TransactionFields;
 
 /**
  *
  */
-public abstract class ViewTransactionFields implements Rendering {
+public abstract class ViewTransactionFields implements Rendering, View.OnClickListener {
     ViewTransactionType mViewType;
     TransactionFields mTransactionFields;
 

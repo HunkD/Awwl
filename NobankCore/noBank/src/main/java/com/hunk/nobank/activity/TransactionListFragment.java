@@ -6,10 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.transaction.MoreView;
 import com.hunk.nobank.activity.transaction.TransactionViewFactory;
 import com.hunk.nobank.activity.transaction.ViewTransactionFields;
 import com.hunk.nobank.activity.transaction.ViewTransactionType;
@@ -65,7 +67,13 @@ public class TransactionListFragment extends Fragment {
 
             @Override
             public void more() {
-                mTransactionDataMgr.fetchTransactions(true, mManagerListener);
+            }
+        });
+        mTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ViewTransactionFields viewTransactionFields = mTransactionListAdapter.getItem(position - 1);
+                viewTransactionFields.onClick(view);
             }
         });
     }
@@ -82,8 +90,12 @@ public class TransactionListFragment extends Fragment {
         public void onSuccess(String managerId, String messageId, Object data) {
             if (managerId.equals(mTransactionDataMgr.getManagerId())) {
                 if (messageId.equals(TransactionDataManager.METHOD_TRANSACTION)) {
+                    mMoreView.reset();
                     mTransactionListAdapter.clear();
-                    mTransactionListAdapter.addRawTransactionFields(TransactionReqPackage.cache.get().Response);
+                    List<ViewTransactionFields> newList = addRawTransactionFields(TransactionReqPackage.cache.get().Response);
+                    for (ViewTransactionFields fields : newList) {
+                        mTransactionListAdapter.add(fields);
+                    }
                     mTransactionListAdapter.notifyDataSetChanged();
                     mTransactionList.hideHeaderView();
                 }
@@ -93,6 +105,46 @@ public class TransactionListFragment extends Fragment {
         @Override
         public void onFailed(String managerId, String messageId, Object data) {
 
+        }
+    };
+
+    /**
+     * 1. Convert TransactionFields to ViewTransactionFields
+     * 2. Sort them
+     * 3. Add date label
+     * 4. Add more button
+     * @param fields
+     */
+    public List<ViewTransactionFields> addRawTransactionFields(List<TransactionFields> fields) {
+        List<ViewTransactionFields> newList = new ArrayList<>();
+        for (TransactionFields raw : fields) {
+            ViewTransactionType type = null;
+            switch (raw.getVault()) {
+                case PAY:
+                    type = ViewTransactionType.PAY;
+                    break;
+                case DEPOSIT:
+                    type = ViewTransactionType.DEPOSIT;
+                    break;
+                case VAULT:
+                    type = ViewTransactionType.VAULT;
+                    break;
+            }
+            ViewTransactionFields newField = TransactionViewFactory.getViewTransactionFields(type, raw);
+            newList.add(newField);
+        }
+        newList.add(mMoreView);
+
+        return newList;
+    }
+
+    private MoreView mMoreView = new MoreView(ViewTransactionType.MORE, null) {
+        @Override
+        public void onClick(View v) {
+            if (!isFetching()) {
+                mTransactionDataMgr.fetchTransactions(true, mManagerListener);
+            }
+            super.onClick(v);
         }
     };
 
@@ -115,38 +167,6 @@ public class TransactionListFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             return getItem(position).render(getContext(), position, convertView, parent);
-        }
-
-        /**
-         * 1. Convert TransactionFields to ViewTransactionFields
-         * 2. Sort them
-         * 3. Add date label
-         * 4. Add more button
-         * @param fields
-         */
-        public void addRawTransactionFields(List<TransactionFields> fields) {
-            List<ViewTransactionFields> newList = new ArrayList<>();
-            for (TransactionFields raw : fields) {
-                ViewTransactionType type = null;
-                switch (raw.getVault()) {
-                    case PAY:
-                        type = ViewTransactionType.PAY;
-                        break;
-                    case DEPOSIT:
-                        type = ViewTransactionType.DEPOSIT;
-                        break;
-                    case VAULT:
-                        type = ViewTransactionType.VAULT;
-                        break;
-                }
-                ViewTransactionFields newField = TransactionViewFactory.getViewTransactionFields(type, raw);
-                newList.add(newField);
-            }
-            newList.add(TransactionViewFactory.getViewTransactionFields(ViewTransactionType.MORE, null));
-
-            for (ViewTransactionFields newField : newList) {
-                add(newField);
-            }
         }
     }
 }

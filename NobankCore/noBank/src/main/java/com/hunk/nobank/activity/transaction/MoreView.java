@@ -14,6 +14,8 @@ import com.hunk.nobank.util.ViewHelper;
  *
  */
 public class MoreView extends ViewTransactionFields {
+    private boolean mIsFetching;
+
     public MoreView(ViewTransactionType type, TransactionFields raw) {
         super(type, raw);
     }
@@ -35,11 +37,34 @@ public class MoreView extends ViewTransactionFields {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-
-        viewHolder.mTitle.setText("MORE");
+        if (mIsFetching) {
+            viewHolder.mTitle.setText(R.string.more_fetching);
+        } else {
+            viewHolder.mTitle.setText(R.string.more);
+        }
         return convertView;
     }
 
+    @Override
+    public void onClick(View v) {
+        if (!mIsFetching) {
+            mIsFetching = true;
+            updateView(v);
+        }
+    }
+
+    private void updateView(View v) {
+        ViewHolder viewHolder = (ViewHolder) v.getTag();
+        viewHolder.mTitle.setText(R.string.more_fetching);
+    }
+
+    public boolean isFetching() {
+        return mIsFetching;
+    }
+
+    public void reset() {
+        mIsFetching = false;
+    }
 
     static class ViewHolder {
         TextView mTitle;

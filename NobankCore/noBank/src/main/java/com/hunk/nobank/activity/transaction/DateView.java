@@ -18,4 +18,9 @@ public class DateView extends ViewTransactionFields {
     public View render(Context context, int position, View convertView, ViewGroup parent) {
         return null;
     }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 }
