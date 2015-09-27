@@ -1,6 +1,5 @@
 package com.hunk.nobank.activity.transaction;
 
-import com.hunk.nobank.activity.TransactionListFragment.TransactionListAdapter.*;
 import com.hunk.nobank.contract.TransactionFields;
 
 /**

@@ -13,9 +13,9 @@ import com.hunk.nobank.util.ViewHelper;
 /**
  *
  */
-public class MoreView extends ViewTransactionFields {
-    public MoreView(ViewTransactionType type, TransactionFields raw) {
-        super(type, raw);
+public class NormalViewTransactionFields extends ViewTransactionFields  {
+    public NormalViewTransactionFields(ViewTransactionType viewType, TransactionFields transactionFields) {
+        super(viewType, transactionFields);
     }
 
     @Override
@@ -23,12 +23,13 @@ public class MoreView extends ViewTransactionFields {
         ViewHolder viewHolder;
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.item_transaction_more, parent, false);
+            convertView = inflater.inflate(R.layout.item_transaction, parent, false);
 
             ViewHelper.updateFontsStyle((ViewGroup) convertView);
 
             viewHolder = new ViewHolder();
             viewHolder.mTitle = (TextView) convertView.findViewById(R.id.title);
+            viewHolder.mMoney = (TextView) convertView.findViewById(R.id.money);
 
             convertView.setTag(viewHolder);
         } else {
@@ -36,12 +37,15 @@ public class MoreView extends ViewTransactionFields {
         }
 
 
-        viewHolder.mTitle.setText("MORE");
+        viewHolder.mTitle.setText(getTransactionFields().getTitle());
+        viewHolder.mMoney.setText(String.valueOf(getTransactionFields().getMoney()));
         return convertView;
     }
 
 
     static class ViewHolder {
         TextView mTitle;
+        TextView mMoney;
+        TextView mType;
     }
 }
