@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.transaction.TransactionViewFactory;
+import com.hunk.nobank.activity.transaction.ViewTransactionType;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.manager.ManagerListener;
 import com.hunk.nobank.manager.TransactionDataManager;
@@ -159,7 +161,7 @@ public class TransactionListFragment extends Fragment {
                         type = ViewTransactionType.VAULT;
                         break;
                 }
-                ViewTransactionFields newField = new ViewTransactionFields(type, raw);
+                ViewTransactionFields newField = TransactionViewFactory.getViewTransactionFields(type, raw);
                 newList.add(newField);
             }
             newList.add(new ViewTransactionFields(ViewTransactionType.MORE, null));
