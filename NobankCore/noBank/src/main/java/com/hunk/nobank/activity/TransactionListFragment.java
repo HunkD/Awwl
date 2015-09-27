@@ -175,10 +175,6 @@ public class TransactionListFragment extends Fragment {
             TextView mType;
         }
 
-        public enum ViewTransactionType {
-            DATE, MORE, PAY, VAULT, DEPOSIT
-        }
-
         public static class ViewTransactionFields {
             ViewTransactionType mViewType;
             TransactionFields mTransactionFields;
