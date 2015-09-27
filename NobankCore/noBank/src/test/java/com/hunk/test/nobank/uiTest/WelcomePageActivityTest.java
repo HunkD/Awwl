@@ -1,4 +1,4 @@
-package com.hunk.test.nobank;
+package com.hunk.test.nobank.uiTest;
 
 import android.content.Intent;
 import android.os.Build;

@@ -4,5 +4,5 @@ package com.hunk.astub.dispatcher.method;
  *
  */
 public enum Method {
-    Login, Summary
+    Login, Summary, List
 }

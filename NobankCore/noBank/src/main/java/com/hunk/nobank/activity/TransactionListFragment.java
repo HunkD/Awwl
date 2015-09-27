@@ -6,21 +6,32 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
+import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.transaction.MoreView;
+import com.hunk.nobank.activity.transaction.TransactionViewFactory;
+import com.hunk.nobank.activity.transaction.ViewTransactionFields;
+import com.hunk.nobank.activity.transaction.ViewTransactionType;
 import com.hunk.nobank.contract.TransactionFields;
-import com.hunk.nobank.contract.TransactionType;
-import com.hunk.nobank.model.TransListReqPackage;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.nobank.manager.ManagerListener;
+import com.hunk.nobank.manager.TransactionDataManager;
+import com.hunk.nobank.manager.UserManager;
+import com.hunk.nobank.manager.ViewManagerListener;
+import com.hunk.nobank.model.TransactionReqPackage;
+import com.hunk.nobank.views.PullToRefreshListView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TransactionListFragment extends Fragment {
+
+    private PullToRefreshListView mTransactionList;
+    private UserManager mUserManager;
+    private TransactionDataManager mTransactionDataMgr;
+    private TransactionListAdapter mTransactionListAdapter;
 
     public TransactionListFragment() {
         super();
@@ -31,68 +42,131 @@ public class TransactionListFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_transaction_list, container, false);
+        bindingListener();
         setupUI(view);
         return view;
     }
 
-    private void setupUI(View root) {
-        ListView transactionList = (ListView) root.findViewById(R.id.transaction_list);
-        transactionList.setAdapter(new TransactionListAdapter(root.getContext(), 0, getData()));
+    private void bindingListener() {
+        mUserManager = Core.getInstance().getLoginManager();
+        mTransactionDataMgr = mUserManager.getTransactionDataManager();
     }
 
-    private List<TransactionFields> getData() {
-        List<TransactionFields> list = new ArrayList<>();
-        list.add(new TransactionFields("Move to vault", 15.5, TransactionType.VAULT));
-        list.add(new TransactionFields("Pay to Hunk", 19.5, TransactionType.PAY));
-        list.add(new TransactionFields("Deposit from check", 25.5, TransactionType.DEPOSIT));
-        return list;
+    private void setupUI(View root) {
+        mTransactionList = (PullToRefreshListView) root.findViewById(R.id.transaction_list);
+        mTransactionListAdapter = new TransactionListAdapter(root.getContext(), 0,
+                new ArrayList<ViewTransactionFields>());
+        mTransactionList.setAdapter(mTransactionListAdapter);
+        mTransactionList.setListListener(new PullToRefreshListView.ListListener() {
+            @Override
+            public void refresh() {
+                // Force fetch when pull the list view
+                TransactionReqPackage.cache.expire();
+                mTransactionDataMgr.fetchTransactions(false, mManagerListener);
+            }
+
+            @Override
+            public void more() {
+            }
+        });
+        mTransactionList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ViewTransactionFields viewTransactionFields = mTransactionListAdapter.getItem(position - 1);
+                viewTransactionFields.onClick(view);
+            }
+        });
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        TransListReqPackage transListReqPackage = new TransListReqPackage();
-        transListReqPackage.setTimestamp(new Date());
 
+        mTransactionDataMgr.fetchTransactions(false, mManagerListener);
     }
 
-    private static class TransactionListAdapter extends ArrayAdapter<TransactionFields> {
+    ManagerListener mManagerListener = new ViewManagerListener(this) {
+        @Override
+        public void onSuccess(String managerId, String messageId, Object data) {
+            if (managerId.equals(mTransactionDataMgr.getManagerId())) {
+                if (messageId.equals(TransactionDataManager.METHOD_TRANSACTION)) {
+                    mMoreView.reset();
+                    mTransactionListAdapter.clear();
+                    List<ViewTransactionFields> newList = addRawTransactionFields(TransactionReqPackage.cache.get().Response);
+                    for (ViewTransactionFields fields : newList) {
+                        mTransactionListAdapter.add(fields);
+                    }
+                    mTransactionListAdapter.notifyDataSetChanged();
+                    mTransactionList.hideHeaderView();
+                }
+            }
+        }
 
-        public TransactionListAdapter(Context context, int resource, List<TransactionFields> objects) {
+        @Override
+        public void onFailed(String managerId, String messageId, Object data) {
+
+        }
+    };
+
+    /**
+     * 1. Convert TransactionFields to ViewTransactionFields
+     * 2. Sort them
+     * 3. Add date label
+     * 4. Add more button
+     * @param fields
+     */
+    public List<ViewTransactionFields> addRawTransactionFields(List<TransactionFields> fields) {
+        List<ViewTransactionFields> newList = new ArrayList<>();
+        for (TransactionFields raw : fields) {
+            ViewTransactionType type = null;
+            switch (raw.getVault()) {
+                case PAY:
+                    type = ViewTransactionType.PAY;
+                    break;
+                case DEPOSIT:
+                    type = ViewTransactionType.DEPOSIT;
+                    break;
+                case VAULT:
+                    type = ViewTransactionType.VAULT;
+                    break;
+            }
+            ViewTransactionFields newField = TransactionViewFactory.getViewTransactionFields(type, raw);
+            newList.add(newField);
+        }
+        newList.add(mMoreView);
+
+        return newList;
+    }
+
+    private MoreView mMoreView = new MoreView(ViewTransactionType.MORE, null) {
+        @Override
+        public void onClick(View v) {
+            if (!isFetching()) {
+                mTransactionDataMgr.fetchTransactions(true, mManagerListener);
+            }
+            super.onClick(v);
+        }
+    };
+
+    public static class TransactionListAdapter extends ArrayAdapter<ViewTransactionFields> {
+
+        public TransactionListAdapter(Context context, int resource, List<ViewTransactionFields> objects) {
             super(context, resource, objects);
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            ViewHolder viewHolder;
-
-            if (convertView == null) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                convertView = inflater.inflate(R.layout.item_transaction, parent, false);
-
-                ViewHelper.updateFontsStyle((ViewGroup) convertView);
-
-                viewHolder = new ViewHolder();
-                viewHolder.mTitle = (TextView) convertView.findViewById(R.id.title);
-                viewHolder.mMoney = (TextView) convertView.findViewById(R.id.money);
-
-                convertView.setTag(viewHolder);
-            } else {
-                viewHolder = (ViewHolder) convertView.getTag();
-            }
-
-            TransactionFields fields = getItem(position);
-            if (fields != null) {
-                viewHolder.mTitle.setText(fields.getTitle());
-                viewHolder.mMoney.setText(String.valueOf(fields.getMoney()));
-            }
-            return convertView;
+        public int getViewTypeCount() {
+            return ViewTransactionType.values().length;
         }
 
-        static class ViewHolder {
-            TextView mTitle;
-            TextView mMoney;
-            TextView mType;
+        @Override
+        public int getItemViewType(int position) {
+            return getItem(position).getViewType().value;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getItem(position).render(getContext(), position, convertView, parent);
         }
     }
 }

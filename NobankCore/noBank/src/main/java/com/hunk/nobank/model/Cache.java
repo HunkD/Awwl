@@ -1,5 +1,6 @@
 package com.hunk.nobank.model;
 
+import com.hunk.nobank.Core;
 import com.hunk.nobank.extension.network.BaseReqPackage;
 
 /**
@@ -19,6 +20,7 @@ public class Cache<Resp> {
 
     public Cache(long cacheTimeout) {
         this.cacheTimeout = cacheTimeout;
+        Core.registerCache(this);
     }
 
     public void setCache(Resp cache, BaseReqPackage cachePack) {
