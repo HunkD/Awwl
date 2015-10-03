@@ -61,6 +61,7 @@ public class TransactionListFragment extends Fragment {
             @Override
             public void refresh() {
                 mLoadingState = LoadingState.PULL_TO_REFRESH;
+                mMoreView.setDisable(true);
                 // Force fetch when pull the list view
                 TransactionReqPackage.cache.expire();
                 mTransactionDataMgr.fetchTransactions(false, mManagerListener);
@@ -101,6 +102,7 @@ public class TransactionListFragment extends Fragment {
                             mTransactionList.setPullable(true);
                             break;
                         case PULL_TO_REFRESH:
+                            mMoreView.setDisable(false);
                             break;
                         case INIT_REFRESH:
                             mLoadingView.stopAnimation();
@@ -163,12 +165,14 @@ public class TransactionListFragment extends Fragment {
     private MoreView mMoreView = new MoreView(ViewTransactionType.MORE, null) {
         @Override
         public void onClick(View v) {
-            if (!isFetching()) {
-                mLoadingState = LoadingState.MORE_REFRESH;
-                mTransactionList.setPullable(false);
-                mTransactionDataMgr.fetchTransactions(true, mManagerListener);
+            if (!getDisable()) {
+                if (!isFetching()) {
+                    mLoadingState = LoadingState.MORE_REFRESH;
+                    mTransactionList.setPullable(false);
+                    mTransactionDataMgr.fetchTransactions(true, mManagerListener);
+                }
+                super.onClick(v);
             }
-            super.onClick(v);
         }
     };
 

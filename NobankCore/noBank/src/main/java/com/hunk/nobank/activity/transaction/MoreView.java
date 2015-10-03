@@ -15,6 +15,7 @@ import com.hunk.nobank.util.ViewHelper;
  */
 public class MoreView extends ViewTransactionFields {
     private boolean mIsFetching;
+    private boolean mDisable;
 
     public MoreView(ViewTransactionType type, TransactionFields raw) {
         super(type, raw);
@@ -64,6 +65,14 @@ public class MoreView extends ViewTransactionFields {
 
     public void reset() {
         mIsFetching = false;
+    }
+
+    public void setDisable(boolean mDisable) {
+        this.mDisable = mDisable;
+    }
+
+    public boolean getDisable() {
+        return mDisable;
     }
 
     static class ViewHolder {
