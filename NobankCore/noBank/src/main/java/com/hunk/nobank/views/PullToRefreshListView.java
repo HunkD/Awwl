@@ -29,6 +29,7 @@ public class PullToRefreshListView extends ListView {
     private int mScrollState;
     private State mState;
     private ListListener mListListener;
+    private boolean mPullable = true;
 
     // Constructors
 
@@ -132,6 +133,10 @@ public class PullToRefreshListView extends ListView {
         this.mListListener = listListener;
     }
 
+    public void setPullable(boolean pullable) {
+        this.mPullable = pullable;
+    }
+
     // Inner classes
 
     private class MyOnScrollListener implements OnScrollListener {
@@ -162,7 +167,7 @@ public class PullToRefreshListView extends ListView {
             int action = MotionEventCompat.getActionMasked(ev);
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
-                    if (mFistItem == 0 && mState == State.None) {
+                    if (mFistItem == 0 && mState == State.None && mPullable) {
                         mIsPulling = true;
                         PullToRefreshListView.this.mStartY = ev.getY();
                     }

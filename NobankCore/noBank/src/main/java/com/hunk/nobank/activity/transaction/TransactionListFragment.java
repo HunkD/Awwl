@@ -11,10 +11,6 @@ import android.widget.ArrayAdapter;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
-import com.hunk.nobank.activity.transaction.MoreView;
-import com.hunk.nobank.activity.transaction.TransactionViewFactory;
-import com.hunk.nobank.activity.transaction.ViewTransactionFields;
-import com.hunk.nobank.activity.transaction.ViewTransactionType;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.manager.ManagerListener;
 import com.hunk.nobank.manager.TransactionDataManager;
@@ -32,6 +28,8 @@ public class TransactionListFragment extends Fragment {
     private UserManager mUserManager;
     private TransactionDataManager mTransactionDataMgr;
     private TransactionListAdapter mTransactionListAdapter;
+    private LoadingState mLoadingState;
+    private boolean mIsFirstTime = true;
 
     public TransactionListFragment() {
         super();
@@ -60,6 +58,7 @@ public class TransactionListFragment extends Fragment {
         mTransactionList.setListListener(new PullToRefreshListView.ListListener() {
             @Override
             public void refresh() {
+                mLoadingState = LoadingState.PULL_TO_REFRESH;
                 // Force fetch when pull the list view
                 TransactionReqPackage.cache.expire();
                 mTransactionDataMgr.fetchTransactions(false, mManagerListener);
@@ -79,10 +78,13 @@ public class TransactionListFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        mTransactionDataMgr.fetchTransactions(false, mManagerListener);
+    public void onResume() {
+        super.onResume();
+        if (mIsFirstTime) {
+            mIsFirstTime = false;
+            mLoadingState = LoadingState.INIT_REFRESH;
+            mTransactionDataMgr.fetchTransactions(false, mManagerListener);
+        }
     }
 
     ManagerListener mManagerListener = new ViewManagerListener(this) {
@@ -90,16 +92,29 @@ public class TransactionListFragment extends Fragment {
         public void onSuccess(String managerId, String messageId, Object data) {
             if (managerId.equals(mTransactionDataMgr.getManagerId())) {
                 if (messageId.equals(TransactionDataManager.METHOD_TRANSACTION)) {
-                    mMoreView.reset();
-                    mTransactionListAdapter.clear();
-                    List<ViewTransactionFields> newList = addRawTransactionFields(TransactionReqPackage.cache.get().Response);
-                    for (ViewTransactionFields fields : newList) {
-                        mTransactionListAdapter.add(fields);
+                    switch (mLoadingState) {
+                        case MORE_REFRESH:
+                            mMoreView.reset();
+                            mTransactionList.setPullable(true);
+                            break;
+                        case PULL_TO_REFRESH:
+                            break;
+                        case INIT_REFRESH:
+                            break;
                     }
-                    mTransactionListAdapter.notifyDataSetChanged();
-                    mTransactionList.hideHeaderView();
+                    refreshListData();
                 }
             }
+        }
+
+        private void refreshListData() {
+            mTransactionListAdapter.clear();
+            List<ViewTransactionFields> newList = addRawTransactionFields(TransactionReqPackage.cache.get().Response);
+            for (ViewTransactionFields fields : newList) {
+                mTransactionListAdapter.add(fields);
+            }
+            mTransactionListAdapter.notifyDataSetChanged();
+            mTransactionList.hideHeaderView();
         }
 
         @Override
@@ -142,6 +157,8 @@ public class TransactionListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             if (!isFetching()) {
+                mLoadingState = LoadingState.MORE_REFRESH;
+                mTransactionList.setPullable(false);
                 mTransactionDataMgr.fetchTransactions(true, mManagerListener);
             }
             super.onClick(v);
