@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
 import com.hunk.nobank.contract.TransactionFields;
+import com.hunk.nobank.extension.view.NBProgressView;
 import com.hunk.nobank.manager.ManagerListener;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;
@@ -30,6 +31,7 @@ public class TransactionListFragment extends Fragment {
     private TransactionListAdapter mTransactionListAdapter;
     private LoadingState mLoadingState;
     private boolean mIsFirstTime = true;
+    private NBProgressView mLoadingView;
 
     public TransactionListFragment() {
         super();
@@ -75,6 +77,7 @@ public class TransactionListFragment extends Fragment {
                 viewTransactionFields.onClick(view);
             }
         });
+        mLoadingView = (NBProgressView) root.findViewById(R.id.loading_view);
     }
 
     @Override
@@ -100,8 +103,12 @@ public class TransactionListFragment extends Fragment {
                         case PULL_TO_REFRESH:
                             break;
                         case INIT_REFRESH:
+                            mLoadingView.stopAnimation();
+                            mLoadingView.setVisibility(View.GONE);
+                            mTransactionList.setVisibility(View.VISIBLE);
                             break;
                     }
+                    mLoadingState = LoadingState.UNKNOWN;
                     refreshListData();
                 }
             }
