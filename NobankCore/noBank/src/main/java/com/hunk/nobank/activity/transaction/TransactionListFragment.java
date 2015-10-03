@@ -1,4 +1,4 @@
-package com.hunk.nobank.activity;
+package com.hunk.nobank.activity.transaction;
 
 import android.content.Context;
 import android.os.Bundle;

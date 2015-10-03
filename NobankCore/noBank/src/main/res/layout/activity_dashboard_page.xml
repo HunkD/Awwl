@@ -14,7 +14,7 @@
         />
 
     <fragment
-        android:name="com.hunk.nobank.activity.TransactionListFragment"
+        android:name="com.hunk.nobank.activity.transaction.TransactionListFragment"
         android:id="@+id/frag_transaction_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
