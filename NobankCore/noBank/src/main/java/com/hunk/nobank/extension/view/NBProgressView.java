@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.hunk.nobank.R;
 import com.hunk.nobank.util.ViewHelper;
@@ -22,7 +24,7 @@ import java.util.TimerTask;
  *
  */
 public class NBProgressView extends View {
-    private static final long TIME_PERIOD = 60;
+    private static final long TIME_PERIOD = 24;
     private final Paint mPaint;
     private final int mForeGroundLineColor;
     private final int mBackGroundLineColor;
@@ -77,7 +79,7 @@ public class NBProgressView extends View {
                     getMeasuredWidth() - mLineWidth / 2,
                     getMeasuredHeight() - mLineWidth / 2);
         }
-        startMyAnimation(false);
+
         // draw background line
         mPaint.setColor(mBackGroundLineColor);
         canvas.drawArc(mRectF, 0, 360, false, mPaint);
@@ -88,20 +90,38 @@ public class NBProgressView extends View {
         mStart += 8;
     }
 
-    public void startMyAnimation(boolean forceStart) {
-        if (forceStart) {
-            postInvalidate();
-        }
+    public void startMyAnimation() {
         mTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 mHandler.sendMessage(Message.obtain());
             }
         }, TIME_PERIOD, TIME_PERIOD);
+
+        // fade in and scale animation
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.progress_in);
+        this.startAnimation(animation);
     }
 
     public void stopAnimation() {
-        mTimer.cancel();
+        Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.progress_out);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mTimer.cancel();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        this.startAnimation(animation);
     }
 
     private static class MyHandler extends Handler {

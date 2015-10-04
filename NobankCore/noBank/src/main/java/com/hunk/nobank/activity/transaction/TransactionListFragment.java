@@ -87,6 +87,7 @@ public class TransactionListFragment extends Fragment {
         if (mIsFirstTime) {
             mIsFirstTime = false;
             mLoadingState = LoadingState.INIT_REFRESH;
+            mLoadingView.startMyAnimation();
             mTransactionDataMgr.fetchTransactions(false, mManagerListener);
         }
     }
