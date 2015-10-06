@@ -6,14 +6,26 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
-    <TextView
-        style="@style/TextMedium"
+    <FrameLayout
         android:id="@+id/money"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="600000.00"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true">
+        <TextView
+            style="@style/TextMedium"
+            android:id="@+id/money_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/primary"
+            android:text="600000.00RMB"/>
 
+        <TextView
+            style="@style/TextMedium"
+            android:id="@+id/money_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="900000.00RMB"/>
+    </FrameLayout>
     <TextView
         style="@style/TextMedium"
         android:id="@+id/title"
