@@ -80,17 +80,16 @@ public class PullToRefreshListView extends ListView {
                 public void onGlobalLayout() {
                     ViewTreeObserver obs = mHeader.getViewTreeObserver();
 
-                    mHeaderHeight = mHeader.getMeasuredHeight();
-
-                    setHeaderHeight(0);
-                    setHeaderPadding(-mHeaderHeight);
-
-
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                         obs.removeOnGlobalLayoutListener(this);
                     } else {
                         obs.removeGlobalOnLayoutListener(this);
                     }
+
+                    mHeaderHeight = mHeader.getMeasuredHeight();
+
+                    setHeaderHeight(0);
+                    setHeaderPadding(-mHeaderHeight);
                 }
 
             });
