@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
@@ -29,6 +30,7 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
             ViewHelper.updateFontsStyle((ViewGroup) convertView);
 
             viewHolder = new ViewHolder();
+            viewHolder.mIcon = (ImageView) convertView.findViewById(R.id.transaction_item_icon);
             viewHolder.mTitle = (TextView) convertView.findViewById(R.id.title);
             viewHolder.mMoney1 = (TextView) convertView.findViewById(R.id.money_1);
             viewHolder.mMoney2 = (TextView) convertView.findViewById(R.id.money_2);
@@ -38,7 +40,7 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-
+        viewHolder.mIcon.setImageResource(getIconSource());
         viewHolder.mTitle.setText(getTransactionFields().getTitle());
         if (TransactionCategory.Debit == getTransactionFields().getCategory()) {
             viewHolder.mMoney2.setVisibility(View.VISIBLE);
@@ -52,6 +54,10 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
         return convertView;
     }
 
+    public int getIconSource() {
+        return R.drawable.ic_hello;
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -59,6 +65,7 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
 
 
     static class ViewHolder {
+        ImageView mIcon;
         TextView mTitle;
         TextView mMoney2;
         TextView mMoney1;

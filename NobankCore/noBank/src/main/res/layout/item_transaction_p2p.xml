@@ -6,16 +6,23 @@
     android:layout_height="wrap_content"
     android:padding="5dp">
 
-    <ImageView
+    <TextView
+        style="@style/TextTitle"
         android:id="@+id/transaction_item_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/ic_hello"
         android:layout_marginRight="10dp"
         android:layout_centerVertical="true"
-        android:tint="@color/white"
         android:background="@drawable/ic_circle"
-        android:padding="6dp"/>
+        android:gravity="center"
+        android:text="S"
+        android:textColor="@color/white"/>
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignBottom="@id/transaction_item_icon"
+        android:src="@drawable/ic_pay_cash"
+        android:layout_marginLeft="25dp"/>
     <FrameLayout
         android:id="@+id/money"
         android:layout_width="wrap_content"
