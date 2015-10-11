@@ -4,13 +4,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
 import com.hunk.nobank.contract.TransactionCategory;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.util.ViewHelper;
+
+import java.util.Locale;
 
 /**
  *
@@ -40,7 +41,11 @@ public class PayView extends NormalViewTransactionFields {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.mIcon.setText("F");
+        String object = getTransactionFields().getObject();
+        if (object != null && object.toCharArray().length >= 1) {
+            String firstChar = String.valueOf(object.toUpperCase(Locale.US).charAt(0));
+            viewHolder.mIcon.setText(firstChar);
+        }
         viewHolder.mTitle.setText(getTransactionFields().getTitle());
         if (TransactionCategory.Debit == getTransactionFields().getCategory()) {
             viewHolder.mMoney2.setVisibility(View.VISIBLE);
