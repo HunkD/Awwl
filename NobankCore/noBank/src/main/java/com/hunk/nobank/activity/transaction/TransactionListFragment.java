@@ -1,4 +1,4 @@
-package com.hunk.nobank.activity;
+package com.hunk.nobank.activity.transaction;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,11 +11,8 @@ import android.widget.ArrayAdapter;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
-import com.hunk.nobank.activity.transaction.MoreView;
-import com.hunk.nobank.activity.transaction.TransactionViewFactory;
-import com.hunk.nobank.activity.transaction.ViewTransactionFields;
-import com.hunk.nobank.activity.transaction.ViewTransactionType;
 import com.hunk.nobank.contract.TransactionFields;
+import com.hunk.nobank.extension.view.NBProgressView;
 import com.hunk.nobank.manager.ManagerListener;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;
@@ -32,6 +29,9 @@ public class TransactionListFragment extends Fragment {
     private UserManager mUserManager;
     private TransactionDataManager mTransactionDataMgr;
     private TransactionListAdapter mTransactionListAdapter;
+    private LoadingState mLoadingState;
+    private boolean mIsFirstTime = true;
+    private NBProgressView mLoadingView;
 
     public TransactionListFragment() {
         super();
@@ -60,6 +60,8 @@ public class TransactionListFragment extends Fragment {
         mTransactionList.setListListener(new PullToRefreshListView.ListListener() {
             @Override
             public void refresh() {
+                mLoadingState = LoadingState.PULL_TO_REFRESH;
+                mMoreView.setDisable(true);
                 // Force fetch when pull the list view
                 TransactionReqPackage.cache.expire();
                 mTransactionDataMgr.fetchTransactions(false, mManagerListener);
@@ -76,13 +78,18 @@ public class TransactionListFragment extends Fragment {
                 viewTransactionFields.onClick(view);
             }
         });
+        mLoadingView = (NBProgressView) root.findViewById(R.id.loading_view);
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-        mTransactionDataMgr.fetchTransactions(false, mManagerListener);
+    public void onResume() {
+        super.onResume();
+        if (mIsFirstTime) {
+            mIsFirstTime = false;
+            mLoadingState = LoadingState.INIT_REFRESH;
+            mLoadingView.startMyAnimation();
+            mTransactionDataMgr.fetchTransactions(false, mManagerListener);
+        }
     }
 
     ManagerListener mManagerListener = new ViewManagerListener(this) {
@@ -90,16 +97,34 @@ public class TransactionListFragment extends Fragment {
         public void onSuccess(String managerId, String messageId, Object data) {
             if (managerId.equals(mTransactionDataMgr.getManagerId())) {
                 if (messageId.equals(TransactionDataManager.METHOD_TRANSACTION)) {
-                    mMoreView.reset();
-                    mTransactionListAdapter.clear();
-                    List<ViewTransactionFields> newList = addRawTransactionFields(TransactionReqPackage.cache.get().Response);
-                    for (ViewTransactionFields fields : newList) {
-                        mTransactionListAdapter.add(fields);
+                    switch (mLoadingState) {
+                        case MORE_REFRESH:
+                            mMoreView.reset();
+                            mTransactionList.setPullable(true);
+                            break;
+                        case PULL_TO_REFRESH:
+                            mMoreView.setDisable(false);
+                            break;
+                        case INIT_REFRESH:
+                            mLoadingView.stopAnimation();
+                            mLoadingView.setVisibility(View.GONE);
+                            mTransactionList.setVisibility(View.VISIBLE);
+                            break;
                     }
-                    mTransactionListAdapter.notifyDataSetChanged();
-                    mTransactionList.hideHeaderView();
+                    mLoadingState = LoadingState.UNKNOWN;
+                    refreshListData();
                 }
             }
+        }
+
+        private void refreshListData() {
+            mTransactionListAdapter.clear();
+            List<ViewTransactionFields> newList = addRawTransactionFields(TransactionReqPackage.cache.get().Response);
+            for (ViewTransactionFields fields : newList) {
+                mTransactionListAdapter.add(fields);
+            }
+            mTransactionListAdapter.notifyDataSetChanged();
+            mTransactionList.hideHeaderView();
         }
 
         @Override
@@ -141,10 +166,14 @@ public class TransactionListFragment extends Fragment {
     private MoreView mMoreView = new MoreView(ViewTransactionType.MORE, null) {
         @Override
         public void onClick(View v) {
-            if (!isFetching()) {
-                mTransactionDataMgr.fetchTransactions(true, mManagerListener);
+            if (!getDisable()) {
+                if (!isFetching()) {
+                    mLoadingState = LoadingState.MORE_REFRESH;
+                    mTransactionList.setPullable(false);
+                    mTransactionDataMgr.fetchTransactions(true, mManagerListener);
+                }
+                super.onClick(v);
             }
-            super.onClick(v);
         }
     };
 

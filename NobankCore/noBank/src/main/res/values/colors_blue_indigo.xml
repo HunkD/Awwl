@@ -11,4 +11,6 @@
     <color name="icons">#FFFFFF</color>
     <color name="divider">#B6B6B6</color>
     <color name="dark_divider">#212121</color>
+    <color name="primary_progress_background">@color/secondary_text</color>
+    <color name="primary_progress_foreground">@color/primary</color>
 </resources>

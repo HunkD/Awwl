@@ -2,12 +2,24 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.hunk.nobank.views.PullToRefreshListView
         android:id="@+id/transaction_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/divider"
-        android:dividerHeight="1dp"/>
+        android:dividerHeight="1dp"
+        android:visibility="gone"
+        />
+
+    <com.hunk.nobank.extension.view.NBProgressView
+        android:id="@+id/loading_view"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_centerInParent="true"
+        app:backgroundLine="@color/primary_progress_background"
+        app:foregroundLine="@color/primary_progress_foreground"
+        app:lineWidth="@dimen/progress_line_width"/>
 </RelativeLayout>

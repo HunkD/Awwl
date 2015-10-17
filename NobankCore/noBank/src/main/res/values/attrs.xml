@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NBProgressView">
+        <attr name="backgroundLine" format="reference|color"/>
+        <attr name="foregroundLine" format="reference|color"/>
+        <attr name="lineWidth" format="reference|dimension"/>
+    </declare-styleable>
+</resources>

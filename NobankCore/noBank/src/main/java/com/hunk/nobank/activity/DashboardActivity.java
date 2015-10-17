@@ -64,4 +64,8 @@ public class DashboardActivity extends AccountBaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onBackPressed() {
+        BaseActivity.unrollActivity(this);
+    }
 }
