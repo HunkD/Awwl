@@ -1,0 +1,16 @@
+// Inject build variables
+project.ext.set("buildNumber", getEnvWithDefaultValue("BUILD_NUMBER", "NoNumber"))
+project.ext.set("branchName", getEnvWithDefaultValue("GIT_BRANCH", "NoBranch"))
+// Signing Prepare
+//project.ext.set("signingStoreFile", getEnvWithDefaultValue("KSTOREPATH", "build.gradle")) // give it a fake file, so we can pass compile.
+//project.ext.set("signingStorePassword", getEnvWithDefaultValue("KSTOREPWD", ""))
+//project.ext.set("signingKeyAlias", getEnvWithDefaultValue("KSTOREALIAS", ""))
+//project.ext.set("signingKeyPassword", getEnvWithDefaultValue("KEYPWD", ""))
+
+def getEnvWithDefaultValue(String name, String defaultValue) {
+    if (System.getenv(name) != null) {
+        return System.getenv(name)
+    } else {
+        return defaultValue
+    }
+}

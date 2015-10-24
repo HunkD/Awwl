@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'jacoco'
+apply from: '../build-common.gradle'
 
 jacoco {
     toolVersion = "0.7.1.201405082137"
@@ -30,6 +31,14 @@ android {
             debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt')
             testCoverageEnabled true
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    "noBank-${project.branchName}-v${variant.versionName}-b${project.buildNumber}-${variant.buildType.name}.apk".replaceAll("/", "-"))
         }
     }
 

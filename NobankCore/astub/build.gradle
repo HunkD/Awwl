@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply from: '../build-common.gradle'
 
 android {
     compileSdkVersion 22
@@ -15,6 +16,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    "astub-${project.branchName}-v${variant.versionName}-b${project.buildNumber}-${variant.buildType.name}.apk".replaceAll("/", "-"))
         }
     }
 }
