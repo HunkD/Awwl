@@ -26,7 +26,8 @@ import java.util.Date;
 @RunWith(RobolectricGradleTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
 @Config(constants = BuildConfig.class,
-        application = TestNoBankApplication.class)
+        application = TestNoBankApplication.class,
+        sdk = 21)
 public class GsonSerializeTest {
 
     private NetworkHandlerStub mNetworkHandlerStub;
