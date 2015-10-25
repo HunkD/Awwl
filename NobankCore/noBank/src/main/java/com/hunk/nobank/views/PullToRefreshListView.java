@@ -175,9 +175,11 @@ public class PullToRefreshListView extends ListView {
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
                     Logging.d("pull to refresh : ACTION_DOWN first item = " + mFistItem);
-                    if (mFistItem == 0 && mState == State.None && mPullable) {
-                        mIsActionOnFirstItem = true;
-                        mStartY = ev.getY();
+                    if (mState == State.None && mPullable) {
+                        if (mFistItem == 0 && mListView.getChildAt(0).getTop() == 0) {
+                            mIsActionOnFirstItem = true;
+                            mStartY = ev.getY();
+                        }
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
@@ -222,7 +224,6 @@ public class PullToRefreshListView extends ListView {
                     break;
                 case MotionEvent.ACTION_UP:
                     if (!mIsPulling) { // in case when we reset head, moving event has been triggered.
-                        return;
                     } else {
                         switch (mState) {
                             case Pull:
