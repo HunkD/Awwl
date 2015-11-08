@@ -10,4 +10,8 @@
         <attr name="labelTitle" format="string|reference"/>
         <attr name="labelDetail" format="string|reference"/>
     </declare-styleable>
+    <declare-styleable name="PersonalInfoItemView">
+        <attr name="piilabelTitle" format="string|reference"/>
+        <attr name="piilabelDetail" format="string|reference"/>
+    </declare-styleable>
 </resources>

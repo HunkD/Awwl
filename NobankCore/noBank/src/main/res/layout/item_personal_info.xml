@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/label_verify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:minWidth="60dp"
+        tools:text="Verify"
+        android:visibility="gone"/>
+    <TextView
+        android:id="@+id/label_title"
+        style="@style/TextLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/label_verify"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="2dp"
+        tools:text="Label Title"/>
+    <TextView
+        android:id="@+id/label_detail"
+        style="@style/TextSmallMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/label_verify"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/label_title"
+        tools:text="Label Detail"
+        android:layout_marginBottom="5dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider"
+        android:layout_below="@id/label_detail"
+        android:layout_alignLeft="@id/label_detail"/>
+</RelativeLayout>

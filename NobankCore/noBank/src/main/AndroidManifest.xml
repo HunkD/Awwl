@@ -68,6 +68,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.settings.PersonalInfoActivity"
+            android:screenOrientation="sensorPortrait"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="action.personal_info.open_main"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activity.CardInfoActivity"
             android:screenOrientation="sensorPortrait"
             android:exported="false"

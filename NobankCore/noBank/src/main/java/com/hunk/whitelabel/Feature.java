@@ -5,6 +5,7 @@ public enum Feature {
     login,
     registration,
     dashboard,
-    settings
+    settings,
+    personal_info
 }
 
