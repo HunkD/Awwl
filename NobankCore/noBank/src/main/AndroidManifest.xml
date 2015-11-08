@@ -57,6 +57,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".activity.settings.SettingsHomeActivity"
+            android:screenOrientation="sensorPortrait"
+            android:exported="false"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="action.settings.open_main"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".activity.CardInfoActivity"
             android:screenOrientation="sensorPortrait"
             android:exported="false"

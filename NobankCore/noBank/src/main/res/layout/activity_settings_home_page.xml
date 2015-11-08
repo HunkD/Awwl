@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <com.hunk.nobank.extension.view.IconLabelDetailView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelIcon="@drawable/ic_dashboard"
+            app:labelTitle="@string/personal_info"
+            app:labelDetail="@string/personal_info_detail"/>
+        <com.hunk.nobank.extension.view.IconLabelDetailView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelIcon="@drawable/ic_dashboard"
+            app:labelTitle="@string/security_setting"
+            app:labelDetail="@string/security_setting_detail"/>
+        <com.hunk.nobank.extension.view.IconLabelDetailView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelIcon="@drawable/ic_dashboard"
+            app:labelTitle="@string/monthly_charge_fee"
+            app:labelDetail="@string/monthly_charge_fee_detail"/>
+    </LinearLayout>
+</ScrollView>

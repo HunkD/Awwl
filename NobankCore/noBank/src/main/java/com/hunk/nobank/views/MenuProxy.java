@@ -3,6 +3,7 @@ package com.hunk.nobank.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -12,10 +13,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
+import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
 import com.hunk.whitelabel.Feature;
 
@@ -59,7 +62,10 @@ public class MenuProxy {
             }
         });
 
-        mMenuListAdapter.add(new MenuButton(R.drawable.ic_dashboard, R.string.dashboard, BaseActivity.generateAction(Feature.dashboard, NConstants.OPEN_MAIN)));
+        mMenuListAdapter.add(new MenuButton(R.drawable.ic_dashboard, R.string.dashboard,
+                BaseActivity.generateAction(Feature.dashboard, NConstants.OPEN_MAIN)));
+        mMenuListAdapter.add(new MenuButton(R.drawable.ic_settings, R.string.settings,
+                BaseActivity.generateAction(Feature.settings, NConstants.OPEN_MAIN)));
     }
 
     /**
@@ -124,7 +130,12 @@ public class MenuProxy {
             toScreenIntent.setPackage(view.getContext().getPackageName());
             toScreenIntent.setAction(button.action);
             toScreenIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            view.getContext().startActivity(toScreenIntent);
+            PackageManager pm = view.getContext().getPackageManager();
+            if (pm.resolveActivity(toScreenIntent, 0) != null) {
+                view.getContext().startActivity(toScreenIntent);
+            } else {
+                Toast.makeText(view.getContext(), "Umm, it seems we had trouble here.", Toast.LENGTH_SHORT).show();
+            }
 
             mDrawLayout.closeDrawer(Gravity.LEFT);
         }

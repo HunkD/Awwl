@@ -5,4 +5,9 @@
         <attr name="foregroundLine" format="reference|color"/>
         <attr name="lineWidth" format="reference|dimension"/>
     </declare-styleable>
+    <declare-styleable name="IconLabelDetailView">
+        <attr name="labelIcon" format="reference"/>
+        <attr name="labelTitle" format="string|reference"/>
+        <attr name="labelDetail" format="string|reference"/>
+    </declare-styleable>
 </resources>

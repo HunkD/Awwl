@@ -24,9 +24,6 @@
     <string name="txt_example_card_cvv">123</string>
     <string name="loading_title">Loading</string>
     <string name="loading_message">Fetching your data</string>
-    <string name="menu_log_out">Log out</string>
-    <string name="dashboard">Dashboard</string>
-    <string name="hello_user">HELLO, USER!</string>
     <string name="title_activity_test">TestActivity</string>
 
     <!-- Pull To Refresh -->
@@ -41,4 +38,18 @@
     <string name="fetching">Fetching</string>
     <string name="more">More Transactions</string>
     <string name="more_fetching">Fetching more transactions...</string>
+
+    <!-- Menu -->
+    <string name="hello_user">HELLO, USER!</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="settings">Settings</string>
+    <string name="menu_log_out">Log out</string>
+
+    <!-- Setting Home -->
+    <string name="personal_info">Personal Information</string>
+    <string name="personal_info_detail">Email, Address and Phone number</string>
+    <string name="security_setting">Security Settings</string>
+    <string name="security_setting_detail">Auto logout and trust devices and so on.</string>
+    <string name="monthly_charge_fee">Monthly Charge Fee</string>
+    <string name="monthly_charge_fee_detail">How much we will charge you?</string>
 </resources>
