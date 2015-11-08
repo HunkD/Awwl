@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
+import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
 
 public class PullToRefreshListView extends ListView {
@@ -23,8 +24,7 @@ public class PullToRefreshListView extends ListView {
     private RelativeLayout mHeader;
     private int mFistItem;
 
-    private PullTouchEventState mTouchEventState = new PullTouchEventState();
-    private float mStartY;
+    private PullTouchEventState mTouchEventState = new PullTouchEventState(this);
     private int mHeaderHeight;
     private int mScrollState;
     private State mState;
@@ -148,6 +148,7 @@ public class PullToRefreshListView extends ListView {
         @Override
         public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
             PullToRefreshListView.this.mFistItem = firstVisibleItem;
+            Logging.d("pull to refresh : onScroll first item = " + mFistItem);
         }
     }
 
@@ -159,23 +160,48 @@ public class PullToRefreshListView extends ListView {
 
     private class PullTouchEventState {
 
+        private final PullToRefreshListView mListView;
+        private boolean mIsActionOnFirstItem;
         private boolean mIsPulling;
+        private float mStartY;
+
+        public PullTouchEventState(PullToRefreshListView listView) {
+            this.mListView = listView;
+        }
 
         public void onTouchEvent(MotionEvent ev) {
 
             int action = MotionEventCompat.getActionMasked(ev);
             switch (action) {
                 case MotionEvent.ACTION_DOWN:
-                    if (mFistItem == 0 && mState == State.None && mPullable) {
-                        mIsPulling = true;
-                        PullToRefreshListView.this.mStartY = ev.getY();
+                    Logging.d("pull to refresh : ACTION_DOWN first item = " + mFistItem);
+                    if (mState == State.None && mPullable) {
+                        if (mFistItem == 0 && mListView.getChildAt(0).getTop() == 0) {
+                            mIsActionOnFirstItem = true;
+                            mStartY = ev.getY();
+                        }
                     }
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if (!mIsPulling) { // in case when we reset head, moving event has been triggered.
+                    if (!mIsActionOnFirstItem) { // in case when we reset head, moving event has been triggered.
                         return;
                     }
+                    // If currently the visible first item is 0, and the move action is pulling down,
+                    // Then we can make mIsPulling flag = true.
                     int space = (int) (ev.getY() - mStartY);
+                    if (space > 0 && !mIsPulling) {
+                        mIsPulling = true;
+                    }
+                    // If user pulling down first, then pulling up. ListView will move up, refresh
+                    // header will reduce height at the same time. This isn't correct, we just need
+                    // reduce height operation, so setSelection = 0 all the time.
+                    if (mIsPulling) {
+                        mListView.setSelection(0);
+                    } else {
+                        return;
+                    }
+
+                    Logging.d("pull to refresh : ACTION_MOVE space = " + space);
                     // show Header
                     int topPadding = space - mHeaderHeight;
                     if (topPadding <= 0) {
@@ -198,7 +224,6 @@ public class PullToRefreshListView extends ListView {
                     break;
                 case MotionEvent.ACTION_UP:
                     if (!mIsPulling) { // in case when we reset head, moving event has been triggered.
-                        return;
                     } else {
                         switch (mState) {
                             case Pull:
@@ -212,7 +237,10 @@ public class PullToRefreshListView extends ListView {
                                 break;
                         }
                     }
+                    // Reset all status flags.
                     mIsPulling = false;
+                    mIsActionOnFirstItem = false;
+                    mStartY = 0;
             }
         }
     }
