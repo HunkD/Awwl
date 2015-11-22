@@ -1,4 +1,4 @@
-package com.hunk.nobank.activity;
+package com.hunk.nobank.activity.registration;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,6 +6,7 @@ import android.widget.EditText;
 
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.util.ViewHelper;
 
 public class CardInfoActivity extends BaseActivity {

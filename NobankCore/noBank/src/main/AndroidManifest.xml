@@ -57,7 +57,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.CardInfoActivity"
+            android:name=".activity.registration.CardInfoActivity"
             android:screenOrientation="sensorPortrait"
             android:exported="false"
             android:label="@string/app_name"
