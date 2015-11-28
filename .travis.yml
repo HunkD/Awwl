@@ -5,9 +5,9 @@ android:
   components:
   # Uncomment the lines below if you want to
   # use the latest revision of Android SDK Tools
-  - build-tools-21.1.1
-  - android-21
+  - build-tools-22.0.1
+  - android-22
   - extra-google-m2repository
   - extra-android-m2repository
   
-script: gradle -b "NobankCore/noBank/build.gradle" clean assembleDebug --info --stacktrace
+script: gradle -b "NobankCore/build.gradle" :astub:clean :astub:assembleDebug :noBank:clean :noBank:testDebugUnitTest :noBank:assembleDebug
