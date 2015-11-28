@@ -2,7 +2,7 @@ Awwl
 ====
 
 build status:   
-master image::https://travis-ci.org/HunkD/Awwl.svg?branch=master
+master ![travis down?](https://travis-ci.org/HunkD/Awwl.svg?branch=master)
    
 Android-White-Label-Test
 
