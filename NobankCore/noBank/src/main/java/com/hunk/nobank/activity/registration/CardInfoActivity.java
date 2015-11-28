@@ -1,5 +1,6 @@
 package com.hunk.nobank.activity.registration;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -8,15 +9,17 @@ import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.util.ViewHelper;
+import com.hunk.whitelabel.Feature;
 
 public class CardInfoActivity extends BaseActivity {
 
     private EditText mCardNumberInput;
     private EditText mCardCVVInput;
-    private EditText mCardNumberInputSufix;
+    private EditText mCardNumberInputSuffix;
     private View mCardCVVLabel;
     private int mTranslateLength;
     private State mState;
+    private View mSignUpBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +34,8 @@ public class CardInfoActivity extends BaseActivity {
         mCardCVVLabel = findViewById(R.id.card_info_page_lb_card_cvv);
         mCardNumberInput = (EditText) findViewById(R.id.card_info_page_input_card_number);
         mCardCVVInput = (EditText) findViewById(R.id.card_info_page_input_card_cvv);
-        mCardNumberInputSufix = (EditText) findViewById(R.id.card_info_page_input_card_number_sufix);
+        mCardNumberInputSuffix = (EditText) findViewById(R.id.card_info_page_input_card_number_sufix);
+        mSignUpBtn = findViewById(R.id.btn_sign_up);
 
         //---setListeners
         mCardNumberInput.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -40,7 +44,7 @@ public class CardInfoActivity extends BaseActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     // start animation for focus on CardNumber
-                    anmiateToCardNumber();
+                    animateToCardNumber();
                 }
             }
         });
@@ -56,6 +60,18 @@ public class CardInfoActivity extends BaseActivity {
         });
 
         mState = State.CardNumber;
+
+        mSignUpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Fetch validate card info
+                // If true, go to next sign up screen.
+                Intent gotoSignUpPage = new Intent();
+                gotoSignUpPage.setPackage(getApplicationContext().getPackageName());
+                gotoSignUpPage.setAction(generateAction(Feature.registration_signUp, NConstants.OPEN_MAIN));
+                startActivity(gotoSignUpPage);
+            }
+        });
     }
 
     protected void animateToCVV() {
@@ -69,7 +85,7 @@ public class CardInfoActivity extends BaseActivity {
         }
     }
 
-    protected void anmiateToCardNumber() {
+    protected void animateToCardNumber() {
         if (mState != State.CardNumber) {
             mState = State.CardNumber;
 
@@ -82,7 +98,7 @@ public class CardInfoActivity extends BaseActivity {
 
     private int getLength() {
         if (mTranslateLength == 0) {
-            mTranslateLength = mCardNumberInput.getWidth() - mCardNumberInputSufix.getWidth();
+            mTranslateLength = mCardNumberInput.getWidth() - mCardNumberInputSuffix.getWidth();
         }
         return mTranslateLength;
     }
