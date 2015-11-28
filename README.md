@@ -1,6 +1,9 @@
-Awwl
+Awwl 
 ====
 
+build status:   
+master image::https://travis-ci.org/HunkD/Awwl.svg?branch=master
+   
 Android-White-Label-Test
 
 Personal exercise project for white label development. I'm targeting to build a simple smart bank client in this project. 
