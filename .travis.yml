@@ -10,4 +10,4 @@ android:
   - extra-google-m2repository
   - extra-android-m2repository
   
-script: gradle -b "NobankCore/build.gradle" :astub:clean :astub:assembleDebug :noBank:clean :noBank:testDebugUnitTest :noBank:assembleDebug
+script: gradle -b "NobankCore/build.gradle" clean :noBank:testDebugUnitTest assembleDebug -Pproguard
