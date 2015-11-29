@@ -24,12 +24,13 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
         debug {
-            minifyEnabled false
+            minifyEnabled project.hasProperty("proguard")?true:false
             debuggable true
-            proguardFiles getDefaultProguardFile('proguard-android.txt')
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFile 'proguard.cfg'
             testCoverageEnabled true
         }
     }
