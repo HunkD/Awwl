@@ -50,7 +50,7 @@
             android:screenOrientation="sensorPortrait"
             android:exported="false"
             android:label="@string/app_name"
-            android:launchMode="singleTask">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="action.dashboard.open_main"/>
                 <category android:name="android.intent.category.DEFAULT"/>

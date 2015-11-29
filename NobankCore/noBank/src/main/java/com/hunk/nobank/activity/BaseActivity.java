@@ -73,6 +73,7 @@ public class BaseActivity extends FragmentActivity {
     @Override
     public void startActivity(Intent intent) {
         Logging.d("go to screen : " + intent.getAction());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         super.startActivity(intent);
     }
 

@@ -31,18 +31,16 @@ public class RootActivity extends BaseActivity {
         if (userManager.isLogInSuccessfully()) {
             if (FeatureConfigs.FEATURE_DASHBOARD) {
                 // go to Welcome Screen
-                Intent gotoWelcome = new Intent();
-                gotoWelcome.setPackage(getApplicationContext().getPackageName());
-                gotoWelcome.setAction(generateAction(Feature.dashboard, NConstants.OPEN_MAIN));
-                if (gotoWelcome.resolveActivity(getPackageManager()) != null) {
-                    startActivity(gotoWelcome);
+                Intent gotoDashboard = new Intent();
+                gotoDashboard.setPackage(getApplicationContext().getPackageName());
+                gotoDashboard.setAction(generateAction(Feature.dashboard, NConstants.OPEN_MAIN));
+                if (gotoDashboard.resolveActivity(getPackageManager()) != null) {
+                    startActivity(gotoDashboard);
                 } else {
                     Logging.w("No welcome feature when calling in RootActivity.");
                 }
             }
-        }
-
-        if (FeatureConfigs.FEATURE_WELCOME) {
+        } else if (FeatureConfigs.FEATURE_WELCOME) {
             // go to Welcome Screen
             Intent gotoWelcome = new Intent();
             gotoWelcome.setPackage(getApplicationContext().getPackageName());
