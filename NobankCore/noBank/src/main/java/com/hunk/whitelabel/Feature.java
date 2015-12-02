@@ -1,6 +1,7 @@
 package com.hunk.whitelabel;
 
 public enum Feature {
+    root,
     welcome,
     login,
     registration,

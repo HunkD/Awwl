@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.hunk.nobank.NConstants;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
 import com.hunk.nobank.util.HijackingNotification;
@@ -28,7 +29,6 @@ import com.hunk.whitelabel.Feature;
  */
 public class BaseActivity extends FragmentActivity {
 
-    public final static String ACTION_GOTO_ROOT = "action.root.open_main";
     private static final String DIALOG_LOADING_TAG = "DIALOG_LOADING_TAG";
 
     protected NoBankApplication application;
@@ -61,7 +61,7 @@ public class BaseActivity extends FragmentActivity {
 
         Intent unroll = new Intent();
         unroll.setPackage(packageName);
-        unroll.setAction(ACTION_GOTO_ROOT);
+        unroll.setAction(generateAction(Feature.root, NConstants.OPEN_MAIN));
         unroll.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         ctx.startActivity(unroll);
     }
