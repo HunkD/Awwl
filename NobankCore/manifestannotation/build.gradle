@@ -1,0 +1,12 @@
+apply plugin: 'java'
+
+version = '1.0'
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Manifest Annotation',
+                'Implementation-Version': version
+    }
+}
+
+dependencies {
+}

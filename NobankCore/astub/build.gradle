@@ -32,4 +32,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.nanohttpd:nanohttpd:2.1.1'
     compile project(':contract')
+    // gradle didn't link the change between AndroidManifest.xml and java class, so need use :astub:clean to force refresh.
+    compile project(':manifestannotation')
 }

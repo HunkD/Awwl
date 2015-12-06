@@ -6,11 +6,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.hunkd.annotation.manifest.model.HActivity;
+
 import java.io.IOException;
 
 /**
  * Main screen to show application description and a button which to start/pause service
  */
+@HActivity
 public class MainActivity extends Activity {
 
     private static final int SERVICE_PORT = 8466;

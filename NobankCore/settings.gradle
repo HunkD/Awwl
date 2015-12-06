@@ -1,1 +1,1 @@
-include ':noBank', ':contract', ':astub'
+include ':noBank', ':contract', ':astub', ':manifestannotation'
