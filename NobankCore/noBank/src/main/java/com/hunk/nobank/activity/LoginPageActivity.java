@@ -124,7 +124,7 @@ public class LoginPageActivity extends AccountBaseActivity {
                     }
                 } else if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
                     dismissLoading();
-                    gotoNextActivity(LoginPageActivity.this);
+                    RootActivity.unrollActivity(LoginPageActivity.this);
                 }
             } else {
 

@@ -76,10 +76,10 @@ public class LoginPageActivityTest extends NBAbstractTest {
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
 
         ShadowActivity si = Shadows.shadowOf(activity);
-        Intent gotoDashboard = new Intent();
-        gotoDashboard.setPackage(RuntimeEnvironment.application.getPackageName());
-        gotoDashboard.setAction(BaseActivity.generateAction(Feature.dashboard, NConstants.OPEN_MAIN));
-        assertThat(si.getNextStartedActivity()).isEqualTo(gotoDashboard);
+        Intent gotoRootActivity = new Intent();
+        gotoRootActivity.setPackage(RuntimeEnvironment.application.getPackageName());
+        gotoRootActivity.setAction(BaseActivity.generateAction(Feature.root, NConstants.OPEN_MAIN));
+        assertThat(si.getNextStartedActivity()).isEqualTo(gotoRootActivity);
     }
 
 //    @Test
