@@ -1,20 +1,24 @@
 package com.hunk.astub;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.hunkd.annotation.manifest.model.HActivity;
+import com.hunkd.annotation.manifest.model.Activity;
+import com.hunkd.annotation.manifest.model.IntentFilters;
+import com.hunkd.annotation.manifest.model.UsePermission;
 
 import java.io.IOException;
 
 /**
  * Main screen to show application description and a button which to start/pause service
  */
-@HActivity
-public class MainActivity extends Activity {
+@Activity
+@UsePermission(name="android.permission.INTERNET")
+@IntentFilters(actions={"android.intent.action.MAIN"},
+        categories ={"android.intent.category.LAUNCHER"})
+public class MainActivity extends android.app.Activity {
 
     private static final int SERVICE_PORT = 8466;
     private static final String TAG = "ASTUB";
