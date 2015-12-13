@@ -27,12 +27,23 @@ public class ActivityProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         Messager messager = processingEnv.getMessager();
+        messager.printMessage(Diagnostic.Kind.NOTE, "Printing: get invoke process method.");
         // collect elements and format them with data structure.
-        for (TypeElement te : annotations) {
-            messager.printMessage(Diagnostic.Kind.NOTE, "Printing: annotation = " + te.toString());
-            for (Element e : roundEnv.getElementsAnnotatedWith(te)) {
-                messager.printMessage(Diagnostic.Kind.NOTE, "Printing: element use this annotation = " + e.toString());
-            }
+        for (Element e : roundEnv.getElementsAnnotatedWith(Activity.class)) {
+            Activity annotation = e.getAnnotation(Activity.class);
+            messager.printMessage(Diagnostic.Kind.NOTE, "Printing: field 'name' of Activity = " + annotation.name());
+        }
+        for (Element e : roundEnv.getElementsAnnotatedWith(Manifest.class)) {
+            Manifest annotation = e.getAnnotation(Manifest.class);
+            messager.printMessage(Diagnostic.Kind.NOTE, "Printing: field 'name' of Manifest = " + annotation.packageName());
+        }
+        for (Element e : roundEnv.getElementsAnnotatedWith(IntentFilters.class)) {
+            IntentFilters annotation = e.getAnnotation(IntentFilters.class);
+            messager.printMessage(Diagnostic.Kind.NOTE, "Printing: field 'name' of IntentFilters = " + annotation.actions()[0]);
+        }
+        for (Element e : roundEnv.getElementsAnnotatedWith(UsePermission.class)) {
+            UsePermission annotation = e.getAnnotation(UsePermission.class);
+            messager.printMessage(Diagnostic.Kind.NOTE, "Printing: field 'name' of UsePermission = " + annotation.name()[0]);
         }
         // print elements with XML format.
         return true;

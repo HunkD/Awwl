@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Main screen to show application description and a button which to start/pause service
  */
-@Activity
+@Activity(name = "@string/app_name")
 @UsePermission(name="android.permission.INTERNET")
 @IntentFilters(actions={"android.intent.action.MAIN"},
         categories ={"android.intent.category.LAUNCHER"})
