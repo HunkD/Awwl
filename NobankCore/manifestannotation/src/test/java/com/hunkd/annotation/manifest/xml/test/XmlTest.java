@@ -1,6 +1,6 @@
 package com.hunkd.annotation.manifest.xml.test;
 
-import com.hunkd.annotation.manifest.xml.Application;
+import com.hunkd.annotation.manifest.xml.elements.Application;
 import com.hunkd.annotation.manifest.xml.Manifest;
 
 import org.junit.Assert;

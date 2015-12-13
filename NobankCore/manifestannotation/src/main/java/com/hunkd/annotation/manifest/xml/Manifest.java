@@ -1,5 +1,7 @@
 package com.hunkd.annotation.manifest.xml;
 
+import com.hunkd.annotation.manifest.xml.elements.Application;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

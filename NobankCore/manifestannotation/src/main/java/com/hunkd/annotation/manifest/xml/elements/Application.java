@@ -1,11 +1,11 @@
-package com.hunkd.annotation.manifest.xml;
+package com.hunkd.annotation.manifest.xml.elements;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
 public class Application {
     Boolean backup;
 
-    @XmlAttribute(namespace = "http://schemas.android.com/apk/res/android")
+    @XmlAttribute
     public Boolean isBackup() {
         return backup;
     }
