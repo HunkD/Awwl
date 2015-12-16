@@ -1,5 +1,6 @@
 package com.hunk.nobank.activity;
 
+import android.app.Dialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
+import com.hunk.nobank.extension.view.TestDialog;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
@@ -19,6 +21,7 @@ import com.hunk.nobank.util.StringUtils;
 
 public class LoginPageActivity extends AccountBaseActivity {
 
+    private static final int TEST_DIALOG = 1;
     private EditText mInputLoginName;
     private EditText mInputLoginPsd;
     private CheckBox mRememberMe;
@@ -143,4 +146,26 @@ public class LoginPageActivity extends AccountBaseActivity {
             }
         }
     };
+
+    @Override
+    public void showLoading() {
+        showDialog(TEST_DIALOG);
+    }
+
+    @Override
+    public void dismissLoading() {
+        dismissDialog(TEST_DIALOG);
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case TEST_DIALOG:
+                TestDialog dialog = new TestDialog(this);
+                dialog.getMsgView().setText(R.string.loading_message);
+                dialog.show();
+                return dialog;
+        }
+        return super.onCreateDialog(id);
+    }
 }

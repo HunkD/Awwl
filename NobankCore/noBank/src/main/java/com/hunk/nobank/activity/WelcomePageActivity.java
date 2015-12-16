@@ -91,4 +91,11 @@ public class WelcomePageActivity extends AccountBaseActivity {
         intent.setPackage(getApplicationContext().getPackageName());
         startActivity(intent);
     }
+
+    public void forInstrumentTest() {
+        Intent gotoLogin = new Intent();
+        gotoLogin.setPackage(getApplicationContext().getPackageName());
+        gotoLogin.setAction(generateAction(Feature.login, NConstants.OPEN_MAIN));
+        startActivity(gotoLogin);
+    }
 }

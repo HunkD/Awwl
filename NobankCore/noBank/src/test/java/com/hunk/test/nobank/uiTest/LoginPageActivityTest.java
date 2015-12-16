@@ -13,10 +13,13 @@ import com.hunk.nobank.activity.LoginPageActivity;
 import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
+import com.hunk.nobank.extension.view.TestDialog;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
 import com.hunk.whitelabel.Feature;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +30,7 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
+import org.robolectric.shadows.ShadowDialog;
 import org.robolectric.shadows.ShadowLooper;
 
 import java.util.ArrayList;
@@ -116,5 +120,21 @@ public class LoginPageActivityTest extends NBAbstractTest {
         ((EditText) activity.findViewById(R.id.login_page_input_password)).setText("psd");
 
         assertThat(activity.checkInput()).isTrue();
+    }
+
+    @Test
+    public void testDialog() {
+        // set Activity fake data
+        LoginPageActivity activity = Robolectric.setupActivity(LoginPageActivity.class);
+
+        ((EditText) activity.findViewById(R.id.login_page_input_login_name)).setText("hello");
+        ((EditText) activity.findViewById(R.id.login_page_input_password)).setText("psd");
+
+        activity.submit();
+
+        TestDialog dialog = (TestDialog) ShadowDialog.getLatestDialog();
+        Assert.assertNotNull(dialog);
+        Assert.assertEquals(activity.getString(R.string.loading_message),
+                dialog.getMsgView().getText().toString());
     }
 }
