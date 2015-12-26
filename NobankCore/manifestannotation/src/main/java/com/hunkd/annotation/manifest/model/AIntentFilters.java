@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
-public @interface Manifest {
-    String packageName() default "";
-    String location();
+public @interface AIntentFilters {
+    String[] actions();
+    String[] categories();
 }

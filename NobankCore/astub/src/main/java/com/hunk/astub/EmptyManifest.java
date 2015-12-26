@@ -1,10 +1,10 @@
 package com.hunk.astub;
 
-import com.hunkd.annotation.manifest.model.Manifest;
+import com.hunkd.annotation.manifest.model.AManifest;
 
 /**
  * Empty class to define manifest root
  */
-@Manifest(packageName = "com.hunk.astub", location="../../../../AndroidManifest.xml")
+@AManifest(packageName = "com.hunk.astub", location="../../../../AndroidManifest.xml")
 public class EmptyManifest {
 }

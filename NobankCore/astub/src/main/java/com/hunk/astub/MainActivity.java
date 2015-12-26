@@ -5,18 +5,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.hunkd.annotation.manifest.model.Activity;
-import com.hunkd.annotation.manifest.model.IntentFilters;
-import com.hunkd.annotation.manifest.model.UsePermission;
+import com.hunkd.annotation.manifest.model.AActivity;
+import com.hunkd.annotation.manifest.model.AIntentFilters;
+import com.hunkd.annotation.manifest.model.AUsePermission;
 
 import java.io.IOException;
 
 /**
  * Main screen to show application description and a button which to start/pause service
  */
-@Activity(name = "@string/app_name")
-@UsePermission(name="android.permission.INTERNET")
-@IntentFilters(actions={"android.intent.action.MAIN"},
+@AActivity(name = "@string/app_name")
+@AUsePermission(name="android.permission.INTERNET")
+@AIntentFilters(actions={"android.intent.action.MAIN"},
         categories ={"android.intent.category.LAUNCHER"})
 public class MainActivity extends android.app.Activity {
 
