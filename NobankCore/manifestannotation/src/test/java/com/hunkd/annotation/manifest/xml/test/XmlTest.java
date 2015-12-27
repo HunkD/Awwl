@@ -1,5 +1,6 @@
 package com.hunkd.annotation.manifest.xml.test;
 
+import com.hunkd.annotation.manifest.utils.Util;
 import com.hunkd.annotation.manifest.xml.elements.Activity;
 import com.hunkd.annotation.manifest.xml.elements.Application;
 import com.hunkd.annotation.manifest.xml.Manifest;
@@ -55,6 +56,36 @@ public class XmlTest {
         String expected =
                 "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\">\n" +
                         "    <application android:backup=\"true\"/>\n" +
+                        "</manifest>";
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void genIcon() throws JAXBException {
+        Manifest manifest = new Manifest();
+        Application application = new Application();
+        application.setIcon("@mipmap/ic_launcher");
+        manifest.setApplication(application);
+
+        String result = Util.genXmlStr(manifest);
+        String expected =
+                "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\">\n" +
+                        "    <application android:icon=\"@mipmap/ic_launcher\"/>\n" +
+                        "</manifest>";
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void genTheme() throws JAXBException {
+        Manifest manifest = new Manifest();
+        Application application = new Application();
+        application.setTheme("@style/AppTheme");
+        manifest.setApplication(application);
+
+        String result = Util.genXmlStr(manifest);
+        String expected =
+                "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\">\n" +
+                        "    <application android:theme=\"@style/AppTheme\"/>\n" +
                         "</manifest>";
         Assert.assertEquals(expected, result);
     }

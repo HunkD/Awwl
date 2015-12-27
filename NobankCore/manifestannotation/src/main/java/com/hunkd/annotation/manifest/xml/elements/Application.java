@@ -7,9 +7,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 public class Application {
-    Boolean backup;
-    String label;
+    private Boolean backup;
+    private String label;
     List<Activity> activities = new ArrayList<>();
+    private String icon;
+    private String theme;
 
     @XmlAttribute
     public Boolean isBackup() {
@@ -36,5 +38,23 @@ public class Application {
 
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    @XmlAttribute
+    public String getIcon() {
+        return icon;
+    }
+
+    @XmlAttribute
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 }
