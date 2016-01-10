@@ -47,6 +47,7 @@ public class ManifestCustomProcessor extends CustomProcessor<Manifest, AManifest
     }
 
     private Application findApplication(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv, Messager messager) {
+        @SuppressWarnings("unchecked")
         CustomProcessor<Application, AApplication> applicationCustomProcessor =
                 mProcessorFactory.getCustomProcessor(AApplication.class);
         return applicationCustomProcessor.process(annotations, roundEnv, messager);

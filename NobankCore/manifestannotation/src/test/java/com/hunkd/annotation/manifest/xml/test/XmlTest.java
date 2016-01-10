@@ -1,9 +1,12 @@
 package com.hunkd.annotation.manifest.xml.test;
 
 import com.hunkd.annotation.manifest.utils.Util;
+import com.hunkd.annotation.manifest.xml.elements.Action;
 import com.hunkd.annotation.manifest.xml.elements.Activity;
 import com.hunkd.annotation.manifest.xml.elements.Application;
 import com.hunkd.annotation.manifest.xml.Manifest;
+import com.hunkd.annotation.manifest.xml.elements.Category;
+import com.hunkd.annotation.manifest.xml.elements.IntentFilter;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -113,6 +116,42 @@ public class XmlTest {
                        "        <activity android:name=\"SecondActivity\"/>\n" +
                        "    </application>\n" +
                        "</manifest>";
+        Assert.assertEquals(expected, result);
+    }
+
+    @Test
+    public void genIntentFilerInActivity() throws JAXBException {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addCategory(new Category("category1"));
+        intentFilter.addCategory(new Category("category2"));
+
+        intentFilter.addAction(new Action("action1"));
+        intentFilter.addAction(new Action("action2"));
+
+        Activity activity = new Activity();
+        activity.setIntentFilter(intentFilter);
+
+        Application application = new Application();
+        application.setBackup(true);
+        application.getActivities().add(activity);
+
+        Manifest manifest = new Manifest();
+        manifest.setApplication(application);
+
+        String result = Util.genXmlStr(manifest);
+        String expected =
+                "<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\">\n" +
+                        "    <application android:backup=\"true\">\n" +
+                        "        <activity>\n" +
+                        "            <intent-filter>\n" +
+                        "                <action android:name=\"action1\"/>\n" +
+                        "                <action android:name=\"action2\"/>\n" +
+                        "                <category android:name=\"category1\"/>\n" +
+                        "                <category android:name=\"category2\"/>\n" +
+                        "            </intent-filter>\n" +
+                        "        </activity>\n" +
+                        "    </application>\n" +
+                        "</manifest>";
         Assert.assertEquals(expected, result);
     }
 }
