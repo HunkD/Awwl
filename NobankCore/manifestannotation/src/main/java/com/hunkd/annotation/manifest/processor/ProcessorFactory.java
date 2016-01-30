@@ -3,11 +3,14 @@ package com.hunkd.annotation.manifest.processor;
 import com.hunkd.annotation.manifest.model.AActivity;
 import com.hunkd.annotation.manifest.model.AApplication;
 import com.hunkd.annotation.manifest.model.AManifest;
+import com.hunkd.annotation.manifest.model.AUsePermission;
 import com.hunkd.annotation.manifest.processor.custom.ActivityCustomProcessor;
 import com.hunkd.annotation.manifest.processor.custom.ApplicationCustomProcessor;
 import com.hunkd.annotation.manifest.processor.custom.ManifestCustomProcessor;
+import com.hunkd.annotation.manifest.processor.custom.UsePermissionCustomProcessor;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.processing.Filer;
@@ -30,6 +33,7 @@ public class ProcessorFactory {
         customProcessors.put(AManifest.class, new ManifestCustomProcessor(this));
         customProcessors.put(AApplication.class, new ApplicationCustomProcessor(this));
         customProcessors.put(AActivity.class, new ActivityCustomProcessor(this));
+        customProcessors.put(AUsePermission.class, new UsePermissionCustomProcessor(this));
         //
         mHasSetup = true;
     }
@@ -38,8 +42,14 @@ public class ProcessorFactory {
         return customProcessors.values();
     }
 
-    public CustomProcessor getCustomProcessor(Class<?> annotationClass) {
-        return customProcessors.get(annotationClass);
+    public <Obj, AnnotationObj> CustomProcessor<Obj, AnnotationObj> getCustomProcessor(
+            Class<Obj> objClass, Class<AnnotationObj> annotationClass) {
+        return (CustomProcessor<Obj, AnnotationObj>) customProcessors.get(annotationClass);
+    }
+
+    public <Obj, AnnotationObj> CustomProcessor<List<Obj>, AnnotationObj> getCustomProcessorReturnList(
+            Class<Obj> objClass, Class<AnnotationObj> annotationClass) {
+        return (CustomProcessor<List<Obj>, AnnotationObj>) customProcessors.get(annotationClass);
     }
 
     public void setFiler(Filer filer) {

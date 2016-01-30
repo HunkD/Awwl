@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlElement;
 public class Application {
     private Boolean backup;
     private String label;
-    List<Activity> activities = new ArrayList<>();
+    private List<Activity> activities = new ArrayList<>();
     private String icon;
     private String theme;
 

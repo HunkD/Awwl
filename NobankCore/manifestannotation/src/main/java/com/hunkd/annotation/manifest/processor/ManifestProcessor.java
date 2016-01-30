@@ -2,6 +2,7 @@ package com.hunkd.annotation.manifest.processor;
 
 import com.hunkd.annotation.manifest.model.AManifest;
 import com.hunkd.annotation.manifest.processor.custom.ManifestCustomProcessor;
+import com.hunkd.annotation.manifest.xml.Manifest;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -51,7 +52,7 @@ public class ManifestProcessor extends AbstractProcessor {
         }
         // collect elements and format them with data structure.
         ManifestCustomProcessor manifestCustomProcessor =
-                (ManifestCustomProcessor) mProcessorFactory.getCustomProcessor(AManifest.class);
+                (ManifestCustomProcessor) mProcessorFactory.getCustomProcessor(Manifest.class, AManifest.class);
         manifestCustomProcessor.process(annotations, roundEnv, messager);
         return true;
     }

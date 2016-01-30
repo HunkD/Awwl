@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 public class UsePermission {
     String name;
 
+    public UsePermission() {
+    }
+
     public UsePermission(String name) {
         this.name = name;
     }

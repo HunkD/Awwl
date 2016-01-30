@@ -2,10 +2,12 @@ package com.hunkd.annotation.manifest.processor.custom;
 
 import com.hunkd.annotation.manifest.model.AActivity;
 import com.hunkd.annotation.manifest.model.AApplication;
+import com.hunkd.annotation.manifest.model.AUsePermission;
 import com.hunkd.annotation.manifest.processor.CustomProcessor;
 import com.hunkd.annotation.manifest.processor.ProcessorFactory;
 import com.hunkd.annotation.manifest.xml.elements.Activity;
 import com.hunkd.annotation.manifest.xml.elements.Application;
+import com.hunkd.annotation.manifest.xml.elements.UsePermission;
 
 import java.util.List;
 import java.util.Set;
@@ -40,9 +42,9 @@ public class ApplicationCustomProcessor extends CustomProcessor <Application, AA
 
     private List<Activity> findActivities(Set<? extends TypeElement> annotations,
                                           RoundEnvironment roundEnv, Messager messager) {
-        CustomProcessor activityCustomProcessor =
-                mProcessorFactory.getCustomProcessor(AActivity.class);
-        return (List<Activity>) activityCustomProcessor.process(annotations, roundEnv, messager);
+        CustomProcessor<List<Activity>, AActivity> activityCustomProcessor =
+                mProcessorFactory.getCustomProcessorReturnList(Activity.class, AActivity.class);
+        return activityCustomProcessor.process(annotations, roundEnv, messager);
     }
 
     @Override
