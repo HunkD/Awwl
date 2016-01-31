@@ -59,7 +59,12 @@ public class MenuProxy {
             }
         });
 
-        mMenuListAdapter.add(new MenuButton(R.drawable.ic_dashboard, R.string.dashboard, BaseActivity.generateAction(Feature.dashboard, NConstants.OPEN_MAIN)));
+        mMenuListAdapter.add(
+                new MenuButton(R.drawable.ic_dashboard, R.string.dashboard,
+                        BaseActivity.generateAction(Feature.dashboard, NConstants.OPEN_MAIN)));
+        mMenuListAdapter.add(
+                new MenuButton(R.drawable.ic_dashboard, R.string.pay,
+                        BaseActivity.generateAction(Feature.pay, NConstants.OPEN_MAIN)));
     }
 
     /**
@@ -120,10 +125,11 @@ public class MenuProxy {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             MenuButton button = getItem(position);
-            Intent toScreenIntent = new Intent();
-            toScreenIntent.setPackage(view.getContext().getPackageName());
-            toScreenIntent.setAction(button.action);
-            toScreenIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            Intent toScreenIntent = BaseActivity.getUnrollIntent(view.getContext().getPackageName());
+            toScreenIntent.putExtra(NConstants.INTENT_EXTRA_IS_START_MENU, true);
+            toScreenIntent.putExtra(NConstants.INTENT_EXTRA_START_MENU, button.action);
+
             view.getContext().startActivity(toScreenIntent);
 
             mDrawLayout.closeDrawer(Gravity.LEFT);

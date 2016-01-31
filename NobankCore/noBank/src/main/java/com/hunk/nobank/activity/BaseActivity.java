@@ -3,6 +3,7 @@ package com.hunk.nobank.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -59,11 +60,17 @@ public class BaseActivity extends FragmentActivity {
     public static void unrollActivity(Context ctx) {
         String packageName = ctx.getPackageName();
 
-        Intent unroll = new Intent();
-        unroll.setPackage(packageName);
-        unroll.setAction(generateAction(Feature.root, NConstants.OPEN_MAIN));
-        unroll.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        ctx.startActivity(unroll);
+        Intent unrollIntent = getUnrollIntent(packageName);
+        ctx.startActivity(unrollIntent);
+    }
+
+    @NonNull
+    public static Intent getUnrollIntent(String packageName) {
+        Intent unrollIntent = new Intent();
+        unrollIntent.setPackage(packageName);
+        unrollIntent.setAction(generateAction(Feature.root, NConstants.OPEN_MAIN));
+        unrollIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return unrollIntent;
     }
 
     public static String generateAction(Feature feature, String realAction) {
@@ -136,6 +143,23 @@ public class BaseActivity extends FragmentActivity {
                 mMenuProxy.prepareMenuButtons();
                 break;
         }
+    }
+
+    public static void exitApplication(Context ctx) {
+        String packageName = ctx.getPackageName();
+
+        Intent exitIntent = getExitApplicationIntent(packageName);
+        ctx.startActivity(exitIntent);
+    }
+
+    @NonNull
+    private static Intent getExitApplicationIntent(String packageName) {
+        Intent exitIntent = new Intent();
+        exitIntent.setPackage(packageName);
+        exitIntent.setAction(generateAction(Feature.root, NConstants.OPEN_MAIN));
+        exitIntent.putExtra(NConstants.INTENT_EXTRA_IS_EXIT, true);
+        exitIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        return exitIntent;
     }
 
     public enum Base {

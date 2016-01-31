@@ -44,4 +44,7 @@
     <string name="notify_registration_now_title">NoBank Registarion</string>
     <string name="notify_registration_now_text">Running!</string>
     <string name="notify_registration_now_explain">You\'re registring nobank now.</string>
+
+    <!-- Payment -->
+    <string name="pay">Pay</string>
 </resources>

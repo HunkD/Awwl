@@ -1,6 +1,7 @@
 package com.hunk.nobank.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
@@ -13,23 +14,36 @@ import com.hunk.whitelabel.FeatureConfigs;
  * The Root for Activity Stack of this application
  */
 public class RootActivity extends BaseActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        onNewIntent(getIntent());
+    }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         if (isExit(intent)) {
             finish();
+            return;
         }
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
         // ask Login feature if the user already login.
         UserManager userManager = Core.getInstance().getLoginManager();
 
         if (userManager.isLogInSuccessfully()) {
-            if (FeatureConfigs.FEATURE_DASHBOARD) {
+            if (isStartMenu(intent)) {
+                String action = intent.getStringExtra(NConstants.INTENT_EXTRA_START_MENU);
+                Intent gotoMenuItem = new Intent();
+                gotoMenuItem.setPackage(getApplicationContext().getPackageName());
+                gotoMenuItem.setAction(action);
+                if (gotoMenuItem.resolveActivity(getPackageManager()) != null) {
+                    startActivity(gotoMenuItem);
+                } else {
+                    Logging.w("No menu feature when calling in RootActivity : " + action);
+                }
+            } else if (FeatureConfigs.FEATURE_DASHBOARD) {
                 // go to Welcome Screen
                 Intent gotoDashboard = new Intent();
                 gotoDashboard.setPackage(getApplicationContext().getPackageName());
@@ -53,8 +67,12 @@ public class RootActivity extends BaseActivity {
         }
     }
 
+    private boolean isStartMenu(Intent intent) {
+        return intent.getBooleanExtra(NConstants.INTENT_EXTRA_IS_START_MENU, false);
+    }
+
     public boolean isExit(Intent newIntent) {
-        return newIntent.getBooleanExtra("exit", false);
+        return newIntent.getBooleanExtra(NConstants.INTENT_EXTRA_IS_EXIT, false);
     }
 
     @Override
