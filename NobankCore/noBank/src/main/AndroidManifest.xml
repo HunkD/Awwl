@@ -78,6 +78,16 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.payment.PaymentMainActivity"
+            android:screenOrientation="sensorPortrait"
+            android:exported="false"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="action.pay.open_main"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <!-- Utility -->
         <activity
             android:name=".activity.CameraCaptureActivity"

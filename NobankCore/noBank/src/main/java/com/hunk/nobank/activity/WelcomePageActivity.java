@@ -86,9 +86,8 @@ public class WelcomePageActivity extends AccountBaseActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(generateAction(Feature.root, NConstants.OPEN_MAIN));
-        intent.putExtra("exit", true);
-        intent.setPackage(getApplicationContext().getPackageName());
-        startActivity(intent);
+        super.onBackPressed();
+
+        exitApplication(this);
     }
 }

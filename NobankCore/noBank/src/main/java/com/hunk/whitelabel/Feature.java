@@ -6,6 +6,6 @@ public enum Feature {
     login,
     registration,
     dashboard,
-    registration_signUp;
+    registration_signUp, pay;
 }
 
