@@ -5,6 +5,7 @@ import android.content.Context;
 import com.hunk.nobank.extension.network.MyNetworkHandler;
 import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.manager.UserManager;
+import com.hunk.nobank.manager.flow.ScreenFlowManager;
 import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
@@ -21,6 +22,7 @@ public class Core {
     private UserManager mUserManager;
     private ViewHelper.TypefaceCache mTypefaceCache;
     private static List<Cache<?>> mCacheList = new ArrayList<>();
+    private ScreenFlowManager mScreenFlowManager;
 
     private Core(Context ctx) {
         mTypefaceCache = ViewHelper.TypefaceCache.getInstance(ctx);
@@ -28,6 +30,8 @@ public class Core {
         mNetworkHandler = new MyNetworkHandler(ctx);
 
         mUserManager = new UserManager(ctx);
+
+        mScreenFlowManager = new ScreenFlowManager();
     }
 
     public synchronized static Core getInstance() {
@@ -69,5 +73,13 @@ public class Core {
         for (Cache<?> cache : mCacheList) {
             cache.expire();
         }
+    }
+
+    public void setScreenFlowManager(ScreenFlowManager screenFlowManager) {
+        mScreenFlowManager = screenFlowManager;
+    }
+
+    public ScreenFlowManager getScreenFlowManager() {
+        return mScreenFlowManager;
     }
 }

@@ -47,4 +47,5 @@
 
     <!-- Payment -->
     <string name="pay">Pay</string>
+    <string name="pay_p2p_menu_item">Pay Your Friend</string>
 </resources>
