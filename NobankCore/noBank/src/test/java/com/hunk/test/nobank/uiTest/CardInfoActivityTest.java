@@ -3,14 +3,11 @@ package com.hunk.test.nobank.uiTest;
 import android.content.Intent;
 
 import com.hunk.nobank.BuildConfig;
-import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
-import com.hunk.nobank.activity.BaseActivity;
-import com.hunk.nobank.activity.WelcomePageActivity;
 import com.hunk.nobank.activity.registration.CardInfoActivity;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.TestNoBankApplication;
-import com.hunk.whitelabel.Feature;
+import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +30,7 @@ public class CardInfoActivityTest extends NBAbstractTest {
     public void testClickOnSignUpButton() {
         Intent gotoSignUpPage = new Intent();
         gotoSignUpPage.setPackage(RuntimeEnvironment.application.getPackageName());
-        gotoSignUpPage.setAction(BaseActivity.generateAction(Feature.registration_signUp, NConstants.OPEN_MAIN));
+        gotoSignUpPage.setAction(RetailerFeatureList.Registration.SignUp.ACTION);
 
         CardInfoActivity activity = Robolectric.setupActivity(CardInfoActivity.class);
         activity.findViewById(R.id.btn_sign_up).performClick();

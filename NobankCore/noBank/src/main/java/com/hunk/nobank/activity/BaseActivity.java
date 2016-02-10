@@ -22,7 +22,6 @@ import com.hunk.nobank.util.ViewHelper;
 import com.hunk.nobank.views.LoadingDialogFragment;
 import com.hunk.nobank.views.MenuProxy;
 import com.hunk.nobank.views.TitleBarPoxy;
-import com.hunk.whitelabel.Feature;
 
 /**
  * Base Activity to provide base function. Each Activity should extends it
@@ -68,13 +67,9 @@ public class BaseActivity extends FragmentActivity {
     public static Intent getUnrollIntent(String packageName) {
         Intent unrollIntent = new Intent();
         unrollIntent.setPackage(packageName);
-        unrollIntent.setAction(generateAction(Feature.root, NConstants.OPEN_MAIN));
+        unrollIntent.setAction(RootActivity.ACTION);
         unrollIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return unrollIntent;
-    }
-
-    public static String generateAction(Feature feature, String realAction) {
-        return String.format("action.%s.%s", feature.toString(), realAction);
     }
 
     @Override
@@ -156,7 +151,7 @@ public class BaseActivity extends FragmentActivity {
     private static Intent getExitApplicationIntent(String packageName) {
         Intent exitIntent = new Intent();
         exitIntent.setPackage(packageName);
-        exitIntent.setAction(generateAction(Feature.root, NConstants.OPEN_MAIN));
+        exitIntent.setAction(RootActivity.ACTION);
         exitIntent.putExtra(NConstants.INTENT_EXTRA_IS_EXIT, true);
         exitIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return exitIntent;

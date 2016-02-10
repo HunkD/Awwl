@@ -17,7 +17,7 @@ import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.util.ViewHelper;
-import com.hunk.whitelabel.Feature;
+import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +61,10 @@ public class MenuProxy {
 
         mMenuListAdapter.add(
                 new MenuButton(R.drawable.ic_dashboard, R.string.dashboard,
-                        BaseActivity.generateAction(Feature.dashboard, NConstants.OPEN_MAIN)));
+                        RetailerFeatureList.Dashboard.ACTION));
         mMenuListAdapter.add(
                 new MenuButton(R.drawable.ic_dashboard, R.string.pay,
-                        BaseActivity.generateAction(Feature.pay, NConstants.OPEN_MAIN)));
+                        RetailerFeatureList.Payment.ACTION));
     }
 
     /**

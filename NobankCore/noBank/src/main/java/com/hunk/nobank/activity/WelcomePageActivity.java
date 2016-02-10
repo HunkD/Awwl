@@ -5,11 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.hunk.nobank.Core;
-import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.views.SlideButtonLayout;
-import com.hunk.whitelabel.Feature;
+import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 public class WelcomePageActivity extends AccountBaseActivity {
     private View btnSignIn;
@@ -35,11 +34,11 @@ public class WelcomePageActivity extends AccountBaseActivity {
         // ---intent prepare---
         gotoLogin = new Intent();
         gotoLogin.setPackage(getApplicationContext().getPackageName());
-        gotoLogin.setAction(generateAction(Feature.login, NConstants.OPEN_MAIN));
+        gotoLogin.setAction(LoginPageActivity.ACTION);
 
         gotoRegistration = new Intent();
         gotoRegistration.setPackage(getApplicationContext().getPackageName());
-        gotoRegistration.setAction(generateAction(Feature.registration, NConstants.OPEN_MAIN));
+        gotoRegistration.setAction(RetailerFeatureList.Registration.ACTION);
         // ---findViews---
         btnSignUp = findViewById(R.id.welcome_btn_sign_up);
         btnSignIn = findViewById(R.id.welcome_btn_sign_in);
@@ -78,7 +77,7 @@ public class WelcomePageActivity extends AccountBaseActivity {
                 // go to login screen
                 Intent gotoLogin = new Intent();
                 gotoLogin.setPackage(getApplicationContext().getPackageName());
-                gotoLogin.setAction(generateAction(Feature.login, NConstants.OPEN_MAIN));
+                gotoLogin.setAction(LoginPageActivity.ACTION);
                 startActivity(gotoLogin);
             }
         }

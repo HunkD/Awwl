@@ -2,7 +2,6 @@ package com.hunk.test.nobank.utilTest;
 
 import android.app.NotificationManager;
 import android.content.Context;
-import android.os.Build;
 
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.util.HijackingNotification;
