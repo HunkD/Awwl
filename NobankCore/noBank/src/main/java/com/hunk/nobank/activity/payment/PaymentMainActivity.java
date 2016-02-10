@@ -1,9 +1,13 @@
 package com.hunk.nobank.activity.payment;
 
 import android.os.Bundle;
+import android.view.View;
 
+import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
+import com.hunk.nobank.flow.P2pScreenFlow;
+import com.hunk.nobank.manager.flow.ScreenFlow;
 
 public class PaymentMainActivity extends BaseActivity {
 
@@ -18,5 +22,12 @@ public class PaymentMainActivity extends BaseActivity {
         super.onBackPressed();
 
         unrollActivity(this);
+    }
+
+    public void onP2pClick(View view) {
+        // build p2p screen flow
+        ScreenFlow p2pScreenFlow = new P2pScreenFlow(Core.getInstance().getScreenFlowManager());
+        // start screen flow
+        p2pScreenFlow.start(this);
     }
 }
