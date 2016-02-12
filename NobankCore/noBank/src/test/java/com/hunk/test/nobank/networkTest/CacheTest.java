@@ -1,7 +1,5 @@
 package com.hunk.test.nobank.networkTest;
 
-import android.os.Build;
-
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.model.AccountSummaryPackage;

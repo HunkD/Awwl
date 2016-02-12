@@ -7,13 +7,14 @@ import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.util.Logging;
-import com.hunk.whitelabel.Feature;
-import com.hunk.whitelabel.FeatureConfigs;
+import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 /**
  * The Root for Activity Stack of this application
  */
 public class RootActivity extends BaseActivity {
+    public static final String ACTION = "action.root.open_main";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,22 +44,22 @@ public class RootActivity extends BaseActivity {
                 } else {
                     Logging.w("No menu feature when calling in RootActivity : " + action);
                 }
-            } else if (FeatureConfigs.FEATURE_DASHBOARD) {
+            } else if (RetailerFeatureList.Dashboard.ENABLE) {
                 // go to Welcome Screen
                 Intent gotoDashboard = new Intent();
                 gotoDashboard.setPackage(getApplicationContext().getPackageName());
-                gotoDashboard.setAction(generateAction(Feature.dashboard, NConstants.OPEN_MAIN));
+                gotoDashboard.setAction(RetailerFeatureList.Dashboard.ACTION);
                 if (gotoDashboard.resolveActivity(getPackageManager()) != null) {
                     startActivity(gotoDashboard);
                 } else {
                     Logging.w("No welcome feature when calling in RootActivity.");
                 }
             }
-        } else if (FeatureConfigs.FEATURE_WELCOME) {
+        } else if (RetailerFeatureList.Welcome.ENABLE) {
             // go to Welcome Screen
             Intent gotoWelcome = new Intent();
             gotoWelcome.setPackage(getApplicationContext().getPackageName());
-            gotoWelcome.setAction(generateAction(Feature.welcome, NConstants.OPEN_MAIN));
+            gotoWelcome.setAction(RetailerFeatureList.Welcome.ACTION);
             if (gotoWelcome.resolveActivity(getPackageManager()) != null) {
                 startActivity(gotoWelcome);
             } else {

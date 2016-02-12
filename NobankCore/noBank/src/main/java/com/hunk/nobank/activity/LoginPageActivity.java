@@ -1,6 +1,5 @@
 package com.hunk.nobank.activity;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +17,8 @@ import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.nobank.util.StringUtils;
 
 public class LoginPageActivity extends AccountBaseActivity {
+
+    public static final String ACTION = "action.login.open_main";
 
     private EditText mInputLoginName;
     private EditText mInputLoginPsd;

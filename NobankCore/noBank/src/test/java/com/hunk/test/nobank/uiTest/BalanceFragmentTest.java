@@ -11,10 +11,7 @@ import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.contract.Money;
 import com.hunk.nobank.contract.RealResp;
-import com.hunk.nobank.manager.AccountDataManager;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.manager.ViewManagerListener;
-import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -23,14 +20,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
-import org.robolectric.util.ReflectionHelpers;
 
 import java.util.ArrayList;
 

@@ -9,7 +9,7 @@ import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.util.ViewHelper;
-import com.hunk.whitelabel.Feature;
+import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 public class CardInfoActivity extends BaseActivity {
 
@@ -68,7 +68,7 @@ public class CardInfoActivity extends BaseActivity {
                 // If true, go to next sign up screen.
                 Intent gotoSignUpPage = new Intent();
                 gotoSignUpPage.setPackage(getApplicationContext().getPackageName());
-                gotoSignUpPage.setAction(generateAction(Feature.registration_signUp, NConstants.OPEN_MAIN));
+                gotoSignUpPage.setAction(RetailerFeatureList.Registration.SignUp.ACTION);
                 startActivity(gotoSignUpPage);
             }
         });

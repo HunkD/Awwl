@@ -1,16 +1,14 @@
 package com.hunk.test.nobank.uiTest;
 
 import android.content.Intent;
-import android.os.Build;
 
 import com.hunk.nobank.BuildConfig;
-import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
-import com.hunk.nobank.activity.BaseActivity;
+import com.hunk.nobank.activity.LoginPageActivity;
 import com.hunk.nobank.activity.WelcomePageActivity;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.TestNoBankApplication;
-import com.hunk.whitelabel.Feature;
+import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +35,7 @@ public class WelcomePageActivityTest extends NBAbstractTest {
     public void testClickOnSignInButton() {
         Intent gotoLogin = new Intent();
         gotoLogin.setPackage(RuntimeEnvironment.application.getPackageName());
-        gotoLogin.setAction(BaseActivity.generateAction(Feature.login, NConstants.OPEN_MAIN));
+        gotoLogin.setAction(LoginPageActivity.ACTION);
 
         WelcomePageActivity activity = Robolectric.setupActivity(WelcomePageActivity.class);
         activity.findViewById(R.id.welcome_btn_sign_in).performClick();
@@ -50,7 +48,7 @@ public class WelcomePageActivityTest extends NBAbstractTest {
     public void testClickOnSignOnButton() {
         Intent gotoRegistration = new Intent();
         gotoRegistration.setPackage(RuntimeEnvironment.application.getPackageName());
-        gotoRegistration.setAction(BaseActivity.generateAction(Feature.registration, NConstants.OPEN_MAIN));
+        gotoRegistration.setAction(RetailerFeatureList.Registration.ACTION);
 
         WelcomePageActivity activity = Robolectric.setupActivity(WelcomePageActivity.class);
         activity.findViewById(R.id.welcome_btn_sign_up).performClick();

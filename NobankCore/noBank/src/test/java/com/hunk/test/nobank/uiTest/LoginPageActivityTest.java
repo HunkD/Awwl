@@ -1,22 +1,19 @@
 package com.hunk.test.nobank.uiTest;
 
 import android.content.Intent;
-import android.os.Build;
 import android.widget.EditText;
 
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
-import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
-import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.activity.LoginPageActivity;
+import com.hunk.nobank.activity.RootActivity;
 import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
-import com.hunk.whitelabel.Feature;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -78,7 +75,7 @@ public class LoginPageActivityTest extends NBAbstractTest {
         ShadowActivity si = Shadows.shadowOf(activity);
         Intent gotoRootActivity = new Intent();
         gotoRootActivity.setPackage(RuntimeEnvironment.application.getPackageName());
-        gotoRootActivity.setAction(BaseActivity.generateAction(Feature.root, NConstants.OPEN_MAIN));
+        gotoRootActivity.setAction(RootActivity.ACTION);
         assertThat(si.getNextStartedActivity()).isEqualTo(gotoRootActivity);
     }
 
