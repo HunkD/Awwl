@@ -1,4 +1,4 @@
-package com.hunk.nobank.manager.flow;
+package com.hunk.nobank.manager.flowBasic;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;

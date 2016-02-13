@@ -1,4 +1,4 @@
-package com.hunk.nobank.manager;
+package com.hunk.nobank.manager.dataBasic;
 
 import java.lang.ref.WeakReference;
 

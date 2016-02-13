@@ -7,7 +7,7 @@ import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.flow.P2pScreenFlow;
-import com.hunk.nobank.manager.flow.ScreenFlow;
+import com.hunk.nobank.manager.flowBasic.ScreenFlow;
 
 public class PaymentMainActivity extends BaseActivity {
 

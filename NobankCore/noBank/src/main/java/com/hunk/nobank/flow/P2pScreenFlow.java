@@ -2,8 +2,8 @@ package com.hunk.nobank.flow;
 
 import android.app.Activity;
 
-import com.hunk.nobank.manager.flow.ScreenFlow;
-import com.hunk.nobank.manager.flow.ScreenFlowManager;
+import com.hunk.nobank.manager.flowBasic.ScreenFlow;
+import com.hunk.nobank.manager.ScreenFlowManager;
 
 /**
  * @author HunkDeng

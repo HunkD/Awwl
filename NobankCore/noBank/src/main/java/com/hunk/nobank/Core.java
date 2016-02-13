@@ -5,7 +5,7 @@ import android.content.Context;
 import com.hunk.nobank.extension.network.MyNetworkHandler;
 import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.manager.flow.ScreenFlowManager;
+import com.hunk.nobank.manager.ScreenFlowManager;
 import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;

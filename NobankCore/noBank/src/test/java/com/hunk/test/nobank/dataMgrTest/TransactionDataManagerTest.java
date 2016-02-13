@@ -2,10 +2,11 @@ package com.hunk.test.nobank.dataMgrTest;
 
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
+import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.contract.TransactionType;
-import com.hunk.nobank.manager.ManagerListener;
+import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.model.TransactionReqPackage;
 import com.hunk.test.utils.NetworkHandlerStub;
@@ -19,6 +20,7 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(RobolectricGradleTestRunner.class)
@@ -100,22 +102,8 @@ public class TransactionDataManagerTest {
         realResp.Response = new ArrayList<>();
         realResp.Response.add(transactionFields);
 
-        mNetworkHandlerStub.setNextResponse(realResp);
-
-        transactionDataManager.fetchTransactions(false, new ManagerListener() {
-            @Override
-            public void success(String managerId, String messageId, Object data) {
-                RealResp<List<TransactionFields>> realResp = (RealResp<List<TransactionFields>>) data;
-                Assert.assertEquals(1, realResp.Response.size());
-                Assert.assertEquals("XXX", realResp.Response.get(0).getTitle());
-            }
-
-            @Override
-            public void failed(String managerId, String messageId, Object data) {
-
-            }
-        });
-
+        TransactionReqPackage.cache.setCache(
+                realResp, new TransactionReqPackage(new AccountSummary(), new Date().getTime()));
 
         TransactionFields transactionFields2 = new TransactionFields("XXX2", 1000, TransactionType.DEPOSIT, 1000);
         RealResp<List<TransactionFields>> realResp2 = new RealResp<>();

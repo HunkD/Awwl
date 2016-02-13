@@ -21,6 +21,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowLooper;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 import org.robolectric.util.ReflectionHelpers;
 
@@ -69,6 +70,8 @@ public class TransactionListFragmentTest extends NBAbstractTest {
 
         Assert.assertNotNull(transactionListFragment);
         Assert.assertNotNull(transactionListFragment.getView());
+
+        ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
 
         TransactionListAdapter transactionListAdapter = ReflectionHelpers.getField(transactionListFragment, "mTransactionListAdapter");
         Assert.assertEquals("Move to vault", transactionListAdapter.getItem(0).getTransactionFields().getTitle());

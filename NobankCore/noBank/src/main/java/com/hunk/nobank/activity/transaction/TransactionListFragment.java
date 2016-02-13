@@ -13,10 +13,10 @@ import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.extension.view.NBProgressView;
-import com.hunk.nobank.manager.ManagerListener;
+import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.manager.ViewManagerListener;
+import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.TransactionReqPackage;
 import com.hunk.nobank.views.PullToRefreshListView;
 
