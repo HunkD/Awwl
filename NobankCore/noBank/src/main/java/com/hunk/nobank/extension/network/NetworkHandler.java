@@ -25,6 +25,10 @@ public class NetworkHandler {
     private RequestQueue mQueue;
 
     public NetworkHandler(Context ctx) {
+        setupVolley(ctx);
+    }
+
+    protected void setupVolley(Context ctx) {
         mQueue = Volley.newRequestQueue(ctx, null, 1024*1024);
     }
 

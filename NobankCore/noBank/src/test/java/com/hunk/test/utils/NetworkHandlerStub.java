@@ -24,6 +24,10 @@ public class NetworkHandlerStub extends NetworkHandler {
     }
 
     @Override
+    protected void setupVolley(Context ctx) {
+    }
+
+    @Override
     public void fireRequest(final ManagerListener listener, final BaseReqPackage req, final String managerId, final String messageId) {
         mHandler.postDelayed(new Runnable() {
             @Override
