@@ -13,9 +13,9 @@ import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
 import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.manager.AccountDataManager;
-import com.hunk.nobank.manager.ManagerListener;
+import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.manager.ViewManagerListener;
+import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 
 public class BalanceFragment extends Fragment {
@@ -58,8 +58,6 @@ public class BalanceFragment extends Fragment {
     private void setupUI(View view) {
         mBalance = (TextView) view.findViewById(R.id.txt_balance);
         mUserLogo = (ImageView) view.findViewById(R.id.user_logo);
-
-        mBalance.setText(R.string.loading_balance);
     }
 
     @Override
@@ -72,6 +70,8 @@ public class BalanceFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mUserManager.fetchAccountSummary(new AccountSummaryPackage(), mViewManagerListener);
+        if (mUserManager.fetchAccountSummary(new AccountSummaryPackage(), mViewManagerListener)) {
+            mBalance.setText(R.string.loading_balance);
+        }
     }
 }

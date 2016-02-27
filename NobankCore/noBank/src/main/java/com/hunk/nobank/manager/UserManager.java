@@ -9,6 +9,8 @@ import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
+import com.hunk.nobank.manager.dataBasic.DataManager;
+import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 
@@ -107,7 +109,14 @@ public class UserManager extends DataManager {
     }
 
     public static final String METHOD_ACCOUNT_SUMMARY = "METHOD_ACCOUNT_SUMMARY";
-    public void fetchAccountSummary(
+
+    /**
+     * @param req
+     * @param listener
+     * @return
+     *  Whether application call network request
+     */
+    public boolean fetchAccountSummary(
             AccountSummaryPackage req, final ManagerListener listener) {
         if (AccountSummaryPackage.cache.shouldFetch(req)) {
             Core.getInstance().getNetworkHandler()
@@ -126,8 +135,10 @@ public class UserManager extends DataManager {
                             listener.failed(managerId, messageId, data);
                         }
                     }, req, getManagerId(), METHOD_ACCOUNT_SUMMARY);
+            return true;
         } else {
             listener.success(getManagerId(), METHOD_ACCOUNT_SUMMARY, AccountSummaryPackage.cache.get());
+            return false;
         }
     }
 

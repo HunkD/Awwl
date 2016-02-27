@@ -5,9 +5,9 @@ import android.os.Build;
 
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
-import com.hunk.nobank.manager.flow.ScreenFlow;
-import com.hunk.nobank.manager.flow.ScreenFlowManager;
-import com.hunk.nobank.manager.flow.ScreenNode;
+import com.hunk.nobank.manager.flowBasic.ScreenFlow;
+import com.hunk.nobank.manager.ScreenFlowManager;
+import com.hunk.nobank.manager.flowBasic.ScreenNode;
 import com.hunk.test.utils.TestNoBankApplication;
 
 import org.junit.Test;

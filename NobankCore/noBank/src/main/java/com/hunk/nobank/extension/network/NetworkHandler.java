@@ -14,7 +14,7 @@ import com.google.gson.Gson;
 import com.hunk.nobank.contract.ContractGson;
 import com.hunk.nobank.contract.RealReq;
 import com.hunk.nobank.contract.RealResp;
-import com.hunk.nobank.manager.ManagerListener;
+import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.util.Logging;
 
 import java.io.UnsupportedEncodingException;
@@ -25,6 +25,10 @@ public class NetworkHandler {
     private RequestQueue mQueue;
 
     public NetworkHandler(Context ctx) {
+        setupVolley(ctx);
+    }
+
+    protected void setupVolley(Context ctx) {
         mQueue = Volley.newRequestQueue(ctx, null, 1024*1024);
     }
 

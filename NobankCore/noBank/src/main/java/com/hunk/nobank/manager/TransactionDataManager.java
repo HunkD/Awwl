@@ -5,6 +5,8 @@ import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.extension.network.BaseReqPackage;
+import com.hunk.nobank.manager.dataBasic.DataManager;
+import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.model.TransactionReqPackage;
 
@@ -28,7 +30,15 @@ public class TransactionDataManager extends DataManager {
     }
 
     public static final String METHOD_TRANSACTION = "METHOD_TRANSACTION";
-    public void fetchTransactions(boolean more, ManagerListener managerListener) {
+
+    /**
+     *
+     * @param more
+     * @param managerListener
+     * @return
+     *  Whether app call network request
+     */
+    public boolean fetchTransactions(boolean more, ManagerListener managerListener) {
         TransactionListCache cache = (TransactionListCache) TransactionReqPackage.cache;
         cache.setMore(more);
 
@@ -40,8 +50,10 @@ public class TransactionDataManager extends DataManager {
             Core.getInstance().getNetworkHandler()
                     .fireRequest(managerListener, transactionReqPackage,
                             getManagerId(), METHOD_TRANSACTION);
+            return true;
         } else {
             managerListener.success(getManagerId(), METHOD_TRANSACTION, TransactionReqPackage.cache.get());
+            return false;
         }
     }
 

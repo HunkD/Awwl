@@ -69,7 +69,8 @@ public class LoginPageActivityTest extends NBAbstractTest {
 
         activity.submit();
 
-        // check next started activity
+        // check next started activity. There's two API fetch will run in handler, so call twice.
+        ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
         ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
 
         ShadowActivity si = Shadows.shadowOf(activity);

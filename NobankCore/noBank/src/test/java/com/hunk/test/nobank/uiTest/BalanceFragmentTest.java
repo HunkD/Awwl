@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowLooper;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.ArrayList;
@@ -60,6 +61,8 @@ public class BalanceFragmentTest extends NBAbstractTest {
 
         BalanceFragment balanceFragment = new BalanceFragment();
         SupportFragmentTestUtil.startFragment(balanceFragment);
+
+        ShadowLooper.runUiThreadTasksIncludingDelayedTasks();
 
         Assert.assertNotNull(balanceFragment);
         Assert.assertNotNull(balanceFragment.getView());
