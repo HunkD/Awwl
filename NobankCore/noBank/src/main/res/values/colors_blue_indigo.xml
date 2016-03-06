@@ -13,4 +13,5 @@
     <color name="dark_divider">#212121</color>
     <color name="primary_progress_background">@color/secondary_text</color>
     <color name="primary_progress_foreground">@color/primary</color>
+    <color name="primary_blank_background">#FFFFFF</color>
 </resources>
