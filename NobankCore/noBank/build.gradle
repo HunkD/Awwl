@@ -46,6 +46,11 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    dexOptions {
+        maxProcessCount 4 // this is the default value
+        javaMaxHeapSize "2g"
+    }
 }
 
 def coverageSourceDirs = [
