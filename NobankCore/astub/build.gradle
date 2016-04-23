@@ -25,6 +25,11 @@ android {
                     "astub-${project.branchName}-v${variant.versionName}-b${project.buildNumber}-${variant.buildType.name}.apk".replaceAll("/", "-"))
         }
     }
+
+    dexOptions {
+        maxProcessCount 4 // this is the default value
+        javaMaxHeapSize "2g"
+    }
 }
 
 dependencies {

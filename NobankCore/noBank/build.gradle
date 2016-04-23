@@ -31,7 +31,7 @@ android {
             debuggable true
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
             proguardFile 'proguard.cfg'
-            testCoverageEnabled true
+            testCoverageEnabled project.hasProperty("testCoverage")? true : false
         }
     }
 
@@ -45,6 +45,11 @@ android {
 
     lintOptions {
         abortOnError false
+    }
+
+    dexOptions {
+        maxProcessCount 4 // this is the default value
+        javaMaxHeapSize "2g"
     }
 }
 
