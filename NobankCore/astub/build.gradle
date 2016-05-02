@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 apply from: '../build-common.gradle'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.hunk.astub"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -25,16 +25,11 @@ android {
                     "astub-${project.branchName}-v${variant.versionName}-b${project.buildNumber}-${variant.buildType.name}.apk".replaceAll("/", "-"))
         }
     }
-
-    dexOptions {
-        maxProcessCount 4 // this is the default value
-        javaMaxHeapSize "2g"
-    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.nanohttpd:nanohttpd:2.1.1'
     compile project(':contract')
 }
