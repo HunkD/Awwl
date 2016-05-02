@@ -1,28 +1,41 @@
 package com.hunk.nobank.contract.adapter;
 
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import com.hunk.nobank.contract.Money;
 
-import java.lang.reflect.Type;
+import java.io.IOException;
 
 /**
  *
  */
-public class MoneyAdapter implements JsonSerializer<Money>, JsonDeserializer<Money> {
+public class MoneyAdapter extends TypeAdapter<Money> {
     @Override
-    public Money deserialize(
-            JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return json.getAsString().length() == 0 ? null : new Money(json.getAsString());
+    public void write(JsonWriter jsonWriter, Money money) throws IOException {
+        if (money != null) {
+            jsonWriter.value(money.string());
+        } else {
+            jsonWriter.nullValue();
+        }
     }
 
     @Override
-    public JsonElement serialize(Money src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(src.string());
+    public Money read(JsonReader jsonReader) throws IOException {
+        if (jsonReader.peek() == JsonToken.NULL) {
+            jsonReader.nextNull();
+            return null;
+        } else {
+            String jsonStr = jsonReader.nextString();
+            if (jsonStr.length() != 0) {
+                try {
+                    return new Money(jsonStr);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 }
