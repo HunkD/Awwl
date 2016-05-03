@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Keep reference to all managers, services and caches.
+ * Only init the basic function service when launch app.
  */
 public class Core {
     private static Core mCore;
@@ -25,12 +26,13 @@ public class Core {
     private ScreenFlowManager mScreenFlowManager;
 
     private Core(Context ctx) {
+        // init font cache
         mTypefaceCache = ViewHelper.TypefaceCache.getInstance(ctx);
-
+        // init network handler
         mNetworkHandler = new MyNetworkHandler(ctx);
-
+        // init user manager
         mUserManager = new UserManager(ctx);
-
+        // init screen flow manager
         mScreenFlowManager = new ScreenFlowManager();
     }
 

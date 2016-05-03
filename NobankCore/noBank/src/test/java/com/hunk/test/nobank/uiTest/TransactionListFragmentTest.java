@@ -9,6 +9,7 @@ import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.contract.TransactionType;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;
+import com.hunk.nobank.manager.UserSession;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -35,8 +36,9 @@ import java.util.List;
         sdk = 21)
 public class TransactionListFragmentTest extends NBAbstractTest {
     private NetworkHandlerStub mNetworkHandlerStub;
-    private UserManager mUserManager;
-    private TransactionDataManager mTransactionDataManager;
+    private UserManager mMockedUserManager;
+    private TransactionDataManager mFakeTransactionDataManager;
+    private UserSession mMockedUserSession;
 
     @Before
     public void prepare() {
@@ -46,11 +48,12 @@ public class TransactionListFragmentTest extends NBAbstractTest {
 
         mNetworkHandlerStub.clear();
 
-        mTransactionDataManager = new TransactionDataManager(null);
-        mUserManager = Mockito.mock(UserManager.class);
-        Mockito.when(mUserManager.getTransactionDataManager())
-                .thenReturn(mTransactionDataManager);
-        Core.getInstance().setLoginManager(mUserManager);
+        mFakeTransactionDataManager = new TransactionDataManager(null);
+        mMockedUserManager = Mockito.mock(UserManager.class);
+        mMockedUserSession = Mockito.mock(UserSession.class);
+        Mockito.when(mMockedUserManager.getCurrentUserSession()).thenReturn(mMockedUserSession);
+        Mockito.when(mMockedUserSession.getTransactionDataManager()).thenReturn(mFakeTransactionDataManager);
+        Core.getInstance().setLoginManager(mMockedUserManager);
     }
 
     @Test

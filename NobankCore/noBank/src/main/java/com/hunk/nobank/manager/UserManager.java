@@ -4,22 +4,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.hunk.nobank.Core;
-import com.hunk.nobank.contract.AccountModel;
 import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
+import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.dataBasic.DataManager;
 import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- *
+ * DataManager which hold all user data and session
  */
 public class UserManager extends DataManager {
 
@@ -31,19 +27,11 @@ public class UserManager extends DataManager {
     private static final String KEY_IS_REMEMBER_ME_USERNAME = "KEY_IS_REMEMBER_ME_USERNAME";
 
     private Context mCtx;
-    // TODO:check in LoginPageActivity
-    private boolean mLoginSuccess;
-    private TransactionDataManager mTransactionDataManager;
 
-    public AccountDataManager getAccountDataManagerByType(AccountType type) {
-        return accountDataManagerMap.get(type);
-    }
-
-    private Map<AccountType, AccountDataManager> accountDataManagerMap;
+    public UserSession mCurrentUserSession;
 
     public UserManager(Context mCtx) {
         this.mCtx = mCtx;
-        this.accountDataManagerMap = new HashMap<>();
     }
 
     public boolean isRememberMe() {
@@ -68,10 +56,6 @@ public class UserManager extends DataManager {
         return mCtx.getSharedPreferences(APP_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    public boolean isLogInSuccessfully() {
-        return mLoginSuccess;
-    }
-
     public static final String METHOD_LOGIN = "METHOD_LOGIN";
     public void fetchLogin(LoginReqPackage req, final ManagerListener listener) {
         Core.getInstance().getNetworkHandler()
@@ -80,9 +64,10 @@ public class UserManager extends DataManager {
                     public void success(String managerId, String messageId, Object data) {
                         RealResp<LoginResp> realResp = (RealResp<LoginResp>) data;
                         LoginResp loginResp = realResp.Response;
-                        if (!loginResp.NeedSecurityQuestionCheck) {
-                            setLogInSuccessfully(true);
-                        }
+                        mCurrentUserSession = new UserSession();
+                        mCurrentUserSession.setLoginState(
+                                loginResp.loginState == null ?
+                                        LoginStateEnum.UnAuthorized : loginResp.loginState);
                         listener.success(managerId, messageId, data);
                     }
 
@@ -93,16 +78,6 @@ public class UserManager extends DataManager {
                 }, req, getManagerId(), METHOD_LOGIN);
     }
 
-    private void generateAccountDataManager(AccountSummary accountSummary) {
-        List<AccountModel> allAccountIds = accountSummary.Accounts;
-        for (AccountModel accountModel : allAccountIds) {
-            accountDataManagerMap.put(accountModel.Type, new AccountDataManager(accountModel));
-        }
-    }
-
-    private void setLogInSuccessfully(boolean loginSuccess) {
-        this.mLoginSuccess = loginSuccess;
-    }
 
     public final String getManagerId() {
         return MANAGER_ID;
@@ -125,9 +100,11 @@ public class UserManager extends DataManager {
                         public void success(String managerId, String messageId, Object data) {
                             RealResp<AccountSummary> realResp = (RealResp<AccountSummary>) data;
                             AccountSummary accountSummary = realResp.Response;
-                            generateAccountDataManager(accountSummary);
-                            generateTransactionDataManager(accountSummary);
-                            listener.success(managerId, messageId, data);
+                            if (UserSession.isPostLogin(mCurrentUserSession)) {
+                                mCurrentUserSession.generateAccountDataManager(accountSummary);
+                                mCurrentUserSession.generateTransactionDataManager(accountSummary);
+                                listener.success(managerId, messageId, data);
+                            }
                         }
 
                         @Override
@@ -142,11 +119,11 @@ public class UserManager extends DataManager {
         }
     }
 
-    private void generateTransactionDataManager(AccountSummary accountSummary) {
-        mTransactionDataManager = new TransactionDataManager(accountSummary);
+    public UserSession getCurrentUserSession() {
+        return mCurrentUserSession;
     }
 
-    public TransactionDataManager getTransactionDataManager() {
-        return mTransactionDataManager;
+    public void setCurrentUserSession(UserSession currentUserSession) {
+        this.mCurrentUserSession = currentUserSession;
     }
 }

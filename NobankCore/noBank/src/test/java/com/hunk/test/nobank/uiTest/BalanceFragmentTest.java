@@ -11,7 +11,9 @@ import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.contract.Money;
 import com.hunk.nobank.contract.RealResp;
+import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.UserManager;
+import com.hunk.nobank.manager.UserSession;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -47,6 +49,9 @@ public class BalanceFragmentTest extends NBAbstractTest {
     @Test
     public void testShowBalance() {
         final UserManager userManager = new UserManager(null);
+        UserSession userSession = new UserSession();
+        userSession.setLoginState(LoginStateEnum.Logined);
+        userManager.setCurrentUserSession(userSession);
         Core.getInstance().setLoginManager(userManager);
 
         AccountModel accountModel = new AccountModel();

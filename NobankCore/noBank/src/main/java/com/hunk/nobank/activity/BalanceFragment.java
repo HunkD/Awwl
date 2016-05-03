@@ -30,10 +30,14 @@ public class BalanceFragment extends Fragment {
         public void onSuccess(String managerId, String messageId, Object data) {
             if (managerId.equals(mUserManager.getManagerId())) {
                 if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
-                    mMainAccountDataManager = mUserManager.getAccountDataManagerByType(AccountType.Main);
-                    mVaultAccountDataManager = mUserManager.getAccountDataManagerByType(AccountType.Vault);
+                    if (mUserManager.getCurrentUserSession() != null) {
+                        mMainAccountDataManager = mUserManager.getCurrentUserSession().getAccountDataManagerByType(AccountType.Main);
+                        mVaultAccountDataManager = mUserManager.getCurrentUserSession().getAccountDataManagerByType(AccountType.Vault);
 
-                    mBalance.setText(mMainAccountDataManager.getAccountModel().Balance.string());
+                        mBalance.setText(mMainAccountDataManager.getAccountModel().Balance.string());
+                    } else {
+                        // TODO: throw exception in debug mode, or clean listener after session expire.
+                    }
                 }
             } else {
 

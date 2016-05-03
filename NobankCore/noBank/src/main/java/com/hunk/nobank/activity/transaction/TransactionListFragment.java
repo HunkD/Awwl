@@ -49,7 +49,7 @@ public class TransactionListFragment extends Fragment {
 
     private void bindingListener() {
         mUserManager = Core.getInstance().getLoginManager();
-        mTransactionDataMgr = mUserManager.getTransactionDataManager();
+        mTransactionDataMgr = mUserManager.getCurrentUserSession().getTransactionDataManager();
     }
 
     private void setupUI(View root) {

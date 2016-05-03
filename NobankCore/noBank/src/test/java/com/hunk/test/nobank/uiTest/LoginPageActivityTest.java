@@ -11,6 +11,7 @@ import com.hunk.nobank.activity.RootActivity;
 import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
+import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -29,6 +30,7 @@ import org.robolectric.shadows.ShadowLooper;
 import java.util.ArrayList;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricGradleTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
@@ -56,7 +58,7 @@ public class LoginPageActivityTest extends NBAbstractTest {
         ((EditText) activity.findViewById(R.id.login_page_input_password)).setText("psd");
 
         LoginResp loginResp = new LoginResp();
-        loginResp.NeedSecurityQuestionCheck = false;
+        loginResp.loginState = LoginStateEnum.Logined;
         RealResp<LoginResp> realResp = new RealResp<>();
         realResp.Response = loginResp;
         mNetworkHandlerStub.setNextResponse(realResp);
