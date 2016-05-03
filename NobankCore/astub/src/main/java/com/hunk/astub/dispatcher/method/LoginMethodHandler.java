@@ -3,6 +3,7 @@ package com.hunk.astub.dispatcher.method;
 import com.hunk.nobank.contract.ContractGson;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
+import com.hunk.nobank.contract.type.LoginStateEnum;
 
 import java.util.Arrays;
 
@@ -18,7 +19,7 @@ public class LoginMethodHandler implements MethodHandler {
         RealResp<LoginResp> loginRespRealResp = new RealResp<>();
         LoginResp loginResp = new LoginResp();
         loginResp.AllAccountIds = Arrays.asList("123", "456");
-        loginResp.NeedSecurityQuestionCheck = false;
+        loginResp.loginState = LoginStateEnum.UnAuthorized;
         loginRespRealResp.Response = loginResp;
         return ContractGson.getInstance().toJson(loginRespRealResp);
     }

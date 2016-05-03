@@ -17,6 +17,7 @@ import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.Money;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.adapter.DateAdapter;
+import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -36,6 +37,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricGradleTestRunner.class)
@@ -73,15 +75,20 @@ public class GsonSerializeTest {
 
         LoginResp resp = new LoginResp();
         resp.AllAccountIds = Arrays.asList("123", "456");
-        resp.NeedSecurityQuestionCheck = true;
+        resp.loginState = LoginStateEnum.NeedVerifySecurityQuestion;
         RealResp<LoginResp> realResp = new RealResp<>();
         realResp.Response = resp;
         String json = mNetworkHandlerStub.getGson().toJson(realResp);
 
         RealResp<LoginResp> realResp1 = mNetworkHandlerStub.getRealResponse(json, loginReqPackage);
 
-        assertEquals(realResp.Response, realResp1.Response);
-        assertEquals(realResp, realResp1);
+        assertNotNull(realResp1);
+        assertNotNull(realResp1.Response);
+        assertEquals(LoginStateEnum.NeedVerifySecurityQuestion, realResp1.Response.loginState);
+        assertNotNull(realResp1.Response.AllAccountIds);
+        assertEquals(2, realResp1.Response.AllAccountIds.size());
+        assertEquals("123", realResp1.Response.AllAccountIds.get(0));
+        assertEquals("456", realResp1.Response.AllAccountIds.get(1));
     }
 
     @Test

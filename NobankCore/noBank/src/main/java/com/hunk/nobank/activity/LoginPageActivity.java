@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
+import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
@@ -116,12 +117,16 @@ public class LoginPageActivity extends AccountBaseActivity {
         public void onSuccess(String managerId, String messageId, Object data) {
             if (managerId.equals(mUserManager.getManagerId())) {
                 if (messageId.equals(UserManager.METHOD_LOGIN)) {
-                    if (mUserManager.isLogInSuccessfully()) {
-                        AccountSummaryPackage accountSummaryPackage = new AccountSummaryPackage();
-                        mUserManager.fetchAccountSummary(accountSummaryPackage, this);
+                    if (mUserManager.getCurrentUserSession() != null) {
+                        if (mUserManager.getCurrentUserSession().getLoginState() == LoginStateEnum.Logined) {
+                            AccountSummaryPackage accountSummaryPackage = new AccountSummaryPackage();
+                            mUserManager.fetchAccountSummary(accountSummaryPackage, this);
+                        } else if (mUserManager.getCurrentUserSession().getLoginState() == LoginStateEnum.NeedVerifySecurityQuestion) {
+                            dismissLoading();
+                            Toast.makeText(LoginPageActivity.this, "verifySecurityQuestion", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        dismissLoading();
-                        Toast.makeText(LoginPageActivity.this, "verifySecurityQuestion", Toast.LENGTH_SHORT).show();
+                        //  TODO: throw exception in debug mode
                     }
                 } else if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
                     dismissLoading();
@@ -138,9 +143,12 @@ public class LoginPageActivity extends AccountBaseActivity {
                 if (messageId.equals(UserManager.METHOD_LOGIN)) {
                     dismissLoading();
                     Toast.makeText(LoginPageActivity.this, "failed", Toast.LENGTH_SHORT).show();
+                } else if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
+                    dismissLoading();
+                    Toast.makeText(LoginPageActivity.this, "sorry, we can't load your balance.", Toast.LENGTH_SHORT).show();
+                    // logout and clear session
+                    mUserManager.setCurrentUserSession(null);
                 }
-            } else {
-
             }
         }
     };

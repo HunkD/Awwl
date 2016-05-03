@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.manager.UserManager;
+import com.hunk.nobank.manager.UserSession;
 import com.hunk.nobank.util.Logging;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
@@ -33,7 +34,7 @@ public class RootActivity extends BaseActivity {
         // ask Login feature if the user already login.
         UserManager userManager = Core.getInstance().getLoginManager();
 
-        if (userManager.isLogInSuccessfully()) {
+        if (UserSession.isPostLogin(userManager.getCurrentUserSession())) {
             if (isStartMenu(intent)) {
                 String action = intent.getStringExtra(NConstants.INTENT_EXTRA_START_MENU);
                 Intent gotoMenuItem = new Intent();
