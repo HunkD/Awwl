@@ -14,8 +14,12 @@ import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.manifest.IntentFilterData;
 import org.robolectric.res.builder.RobolectricPackageManager;
 import org.robolectric.shadows.ShadowApplication;
+import org.robolectric.shadows.ShadowResourceManager;
+import org.robolectric.shadows.ShadowResources;
 
 import java.util.Map;
+
+import static org.robolectric.Shadows.shadowOf;
 
 public abstract class NBAbstractTest {
     /**
@@ -33,7 +37,8 @@ public abstract class NBAbstractTest {
         RobolectricPackageManager rpm =
                 (RobolectricPackageManager) RuntimeEnvironment.application.getPackageManager();
 
-        rpm.addManifest(ShadowApplication.getInstance().getAppManifest(), ShadowApplication.getInstance().getResourceLoader());
+        rpm.addManifest(ShadowApplication.getInstance().getAppManifest(),
+                shadowOf(RuntimeEnvironment.application.getResources().getAssets()).getResourceLoader());
 
         AndroidManifest appManifest = ShadowApplication.getInstance().getAppManifest();
         for (Map.Entry<String, ActivityData> activity : appManifest.getActivityDatas().entrySet()) {

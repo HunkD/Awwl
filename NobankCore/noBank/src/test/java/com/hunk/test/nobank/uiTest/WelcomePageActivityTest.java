@@ -6,6 +6,7 @@ import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.LoginPageActivity;
 import com.hunk.nobank.activity.WelcomePageActivity;
+import com.hunk.test.utils.EqualHelper;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.TestNoBankApplication;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
@@ -19,7 +20,7 @@ import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Please set the working directory for this unit test configuration is 'NobankCore/nobank'
@@ -36,12 +37,13 @@ public class WelcomePageActivityTest extends NBAbstractTest {
         Intent gotoLogin = new Intent();
         gotoLogin.setPackage(RuntimeEnvironment.application.getPackageName());
         gotoLogin.setAction(LoginPageActivity.ACTION);
+        gotoLogin.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         WelcomePageActivity activity = Robolectric.setupActivity(WelcomePageActivity.class);
         activity.findViewById(R.id.welcome_btn_sign_in).performClick();
 
         ShadowActivity si = Shadows.shadowOf(activity);
-        assertThat(si.getNextStartedActivity()).isEqualTo(gotoLogin);
+        EqualHelper.assertIntentEquals(gotoLogin, si.getNextStartedActivity());
     }
 
     @Test
@@ -49,11 +51,12 @@ public class WelcomePageActivityTest extends NBAbstractTest {
         Intent gotoRegistration = new Intent();
         gotoRegistration.setPackage(RuntimeEnvironment.application.getPackageName());
         gotoRegistration.setAction(RetailerFeatureList.Registration.ACTION);
+        gotoRegistration.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         WelcomePageActivity activity = Robolectric.setupActivity(WelcomePageActivity.class);
         activity.findViewById(R.id.welcome_btn_sign_up).performClick();
 
         ShadowActivity si = Shadows.shadowOf(activity);
-        assertThat(si.getNextStartedActivity()).isEqualTo(gotoRegistration);
+        EqualHelper.assertIntentEquals(gotoRegistration, si.getNextStartedActivity());
     }
 }

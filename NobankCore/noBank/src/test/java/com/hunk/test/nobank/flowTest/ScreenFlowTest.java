@@ -18,6 +18,7 @@ import org.robolectric.shadows.ShadowActivity;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.robolectric.Robolectric.buildActivity;
 import static org.robolectric.Shadows.shadowOf;
 
 /**
@@ -50,7 +51,7 @@ public class ScreenFlowTest {
         };
 
         // test next started screen from FirstActivity
-        FirstActivity firstActivity = new FirstActivity();
+        FirstActivity firstActivity = buildActivity(FirstActivity.class).setup().get();
         ShadowActivity shadowFirstActivity = shadowOf(firstActivity);
         screenFlow.start(firstActivity);
 
@@ -58,7 +59,7 @@ public class ScreenFlowTest {
         assertEquals(SecondActivity.class.getName(), shadowFirstActivity.getNextStartedActivity().getComponent().getClassName());
 
         // test next started screen from SecondActivity
-        SecondActivity secondActivity = new SecondActivity();
+        SecondActivity secondActivity = buildActivity(SecondActivity.class).setup().get();
         ShadowActivity shadowSecondActivity = shadowOf(secondActivity);
         screenFlow.next(secondActivity);
 
@@ -72,7 +73,8 @@ public class ScreenFlowTest {
         ScreenFlow screenFlow = new FakeScreenFlow1(Core.getInstance().getScreenFlowManager());
 
         // test next started screen from FirstActivity
-        FirstActivity firstActivity = new FirstActivity();
+        FirstActivity firstActivity = buildActivity(FirstActivity.class).setup().get();
+
         ShadowActivity shadowFirstActivity = shadowOf(firstActivity);
         screenFlow.start(firstActivity, FakeScreenFlow1.THIRD_CONDITION);
 
@@ -102,14 +104,14 @@ public class ScreenFlowTest {
         ScreenFlow screenFlow = new FakeScreenFlow2(Core.getInstance().getScreenFlowManager());
 
         // test next started screen from FirstActivity
-        FirstActivity firstActivity = new FirstActivity();
+        FirstActivity firstActivity = buildActivity(FirstActivity.class).setup().get();
         ShadowActivity shadowFirstActivity = shadowOf(firstActivity);
         screenFlow.start(firstActivity, ScreenNode.NORMAL_COMPLETE);
 
         assertEquals(SecondActivity.class.getName(), shadowFirstActivity.getNextStartedActivity().getComponent().getClassName());
 
         // 
-        SecondActivity secondActivity = new SecondActivity();
+        SecondActivity secondActivity = buildActivity(SecondActivity.class).setup().get();
         ShadowActivity shadowSecondActivity = shadowOf(secondActivity);
         screenFlow.next(secondActivity, FakeScreenFlow2.THIRD_CONDITION);
 
