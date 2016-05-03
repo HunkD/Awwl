@@ -12,6 +12,7 @@ import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.type.LoginStateEnum;
+import com.hunk.test.utils.EqualHelper;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -79,7 +80,9 @@ public class LoginPageActivityTest extends NBAbstractTest {
         Intent gotoRootActivity = new Intent();
         gotoRootActivity.setPackage(RuntimeEnvironment.application.getPackageName());
         gotoRootActivity.setAction(RootActivity.ACTION);
-        assertThat(si.getNextStartedActivity()).isEqualTo(gotoRootActivity);
+        gotoRootActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        EqualHelper.assertIntentEquals(gotoRootActivity, si.getNextStartedActivity());
     }
 
 //    @Test
