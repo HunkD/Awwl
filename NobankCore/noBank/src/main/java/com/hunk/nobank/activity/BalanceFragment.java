@@ -68,7 +68,7 @@ public class BalanceFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mUserManager = Core.getInstance().getLoginManager();
+        mUserManager = Core.getInstance().getUserManager();
     }
 
     @Override

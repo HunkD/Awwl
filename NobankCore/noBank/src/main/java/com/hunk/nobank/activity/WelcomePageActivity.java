@@ -72,7 +72,7 @@ public class WelcomePageActivity extends AccountBaseActivity {
         if (checkRememberMe) {
             checkRememberMe = false;
 
-            UserManager userManager = Core.getInstance().getLoginManager();
+            UserManager userManager = Core.getInstance().getUserManager();
             if (userManager.isRememberMe()) {
                 // go to login screen
                 Intent gotoLogin = new Intent();

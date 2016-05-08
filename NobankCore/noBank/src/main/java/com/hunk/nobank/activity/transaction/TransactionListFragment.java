@@ -48,7 +48,7 @@ public class TransactionListFragment extends Fragment {
     }
 
     private void bindingListener() {
-        mUserManager = Core.getInstance().getLoginManager();
+        mUserManager = Core.getInstance().getUserManager();
         mTransactionDataMgr = mUserManager.getCurrentUserSession().getTransactionDataManager();
     }
 

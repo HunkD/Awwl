@@ -34,7 +34,7 @@ public class LoginPageActivity extends AccountBaseActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_login, Base.NO_DRAW_LAYOUT);
         application = (NoBankApplication) getApplication();
-        mUserManager = Core.getInstance().getLoginManager();
+        mUserManager = Core.getInstance().getUserManager();
         setupUI();
     }
 
