@@ -17,7 +17,7 @@ import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.nobank.util.StringUtils;
 
-public class LoginPageActivity extends AccountBaseActivity {
+public class LoginPageActivity extends BaseActivity {
 
     public static final String ACTION = "action.login.open_main";
 

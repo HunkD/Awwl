@@ -34,7 +34,7 @@ public class RootActivity extends BaseActivity {
         // ask Login feature if the user already login.
         UserManager userManager = Core.getInstance().getUserManager();
 
-        if (UserSession.isPostLogin(userManager.getCurrentUserSession())) {
+        if (UserManager.isPostLogin(userManager)) {
             if (isStartMenu(intent)) {
                 String action = intent.getStringExtra(NConstants.INTENT_EXTRA_START_MENU);
                 Intent gotoMenuItem = new Intent();

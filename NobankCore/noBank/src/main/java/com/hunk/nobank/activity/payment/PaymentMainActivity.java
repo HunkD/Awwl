@@ -12,6 +12,11 @@ import com.hunk.nobank.manager.flowBasic.ScreenFlow;
 public class PaymentMainActivity extends BaseActivity {
 
     @Override
+    protected boolean isRequiredLoginedUserSession() {
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_main, Base.NORMAL);

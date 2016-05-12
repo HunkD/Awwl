@@ -10,7 +10,7 @@ import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.views.SlideButtonLayout;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
-public class WelcomePageActivity extends AccountBaseActivity {
+public class WelcomePageActivity extends BaseActivity {
     private View btnSignIn;
     private View btnSignUp;
     private SlideButtonLayout slideBtn;
