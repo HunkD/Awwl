@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.manager.UserSession;
 import com.hunk.nobank.util.Logging;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 

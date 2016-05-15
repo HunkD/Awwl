@@ -36,6 +36,7 @@ public class LoginPageActivity extends BaseActivity {
         application = (NoBankApplication) getApplication();
         mUserManager = Core.getInstance().getUserManager();
         setupUI();
+        mUserManager.registerViewManagerListener(mManagerListener);
     }
 
     private void setupUI() {
@@ -110,6 +111,12 @@ public class LoginPageActivity extends BaseActivity {
         } else {
             mUserManager.setRememberMe(false, null);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mUserManager.unregisterViewManagerListener(mManagerListener);
+        super.onDestroy();
     }
 
     private ViewManagerListener mManagerListener = new ViewManagerListener(this) {

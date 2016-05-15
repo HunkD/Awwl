@@ -5,12 +5,12 @@ import android.content.SharedPreferences;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.contract.AccountSummary;
-import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.dataBasic.DataManager;
 import com.hunk.nobank.manager.dataBasic.ManagerListener;
+import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 
@@ -57,7 +57,8 @@ public class UserManager extends DataManager {
     }
 
     public static final String METHOD_LOGIN = "METHOD_LOGIN";
-    public void fetchLogin(LoginReqPackage req, final ManagerListener listener) {
+    public void fetchLogin(LoginReqPackage req, final ViewManagerListener listener) {
+        final String id = listener.getId();
         Core.getInstance().getNetworkHandler()
                 .fireRequest(new ManagerListener() {
                     @Override
@@ -68,12 +69,12 @@ public class UserManager extends DataManager {
                         mCurrentUserSession.setLoginState(
                                 loginResp.loginState == null ?
                                         LoginStateEnum.UnAuthorized : loginResp.loginState);
-                        listener.success(managerId, messageId, data);
+                        triggerSuccess(id, managerId, messageId, data);
                     }
 
                     @Override
                     public void failed(String managerId, String messageId, Object data) {
-                        listener.failed(managerId, messageId, data);
+                        triggerFailed(id, managerId, messageId, data);
                     }
                 }, req, getManagerId(), METHOD_LOGIN);
     }
