@@ -19,7 +19,7 @@ public class LoginMethodHandler implements MethodHandler {
         RealResp<LoginResp> loginRespRealResp = new RealResp<>();
         LoginResp loginResp = new LoginResp();
         loginResp.AllAccountIds = Arrays.asList("123", "456");
-        loginResp.loginState = LoginStateEnum.UnAuthorized;
+        loginResp.loginState = LoginStateEnum.Logined;
         loginRespRealResp.Response = loginResp;
         return ContractGson.getInstance().toJson(loginRespRealResp);
     }

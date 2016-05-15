@@ -46,6 +46,12 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    testOptions {
+        unitTests.all {
+            maxParallelForks 4
+        }
+    }
 }
 
 def coverageSourceDirs = [

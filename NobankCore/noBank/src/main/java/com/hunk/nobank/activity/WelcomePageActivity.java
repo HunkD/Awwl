@@ -10,7 +10,7 @@ import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.views.SlideButtonLayout;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
-public class WelcomePageActivity extends AccountBaseActivity {
+public class WelcomePageActivity extends BaseActivity {
     private View btnSignIn;
     private View btnSignUp;
     private SlideButtonLayout slideBtn;
@@ -72,7 +72,7 @@ public class WelcomePageActivity extends AccountBaseActivity {
         if (checkRememberMe) {
             checkRememberMe = false;
 
-            UserManager userManager = Core.getInstance().getLoginManager();
+            UserManager userManager = Core.getInstance().getUserManager();
             if (userManager.isRememberMe()) {
                 // go to login screen
                 Intent gotoLogin = new Intent();

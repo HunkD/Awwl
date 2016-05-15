@@ -100,7 +100,7 @@ public class UserManager extends DataManager {
                         public void success(String managerId, String messageId, Object data) {
                             RealResp<AccountSummary> realResp = (RealResp<AccountSummary>) data;
                             AccountSummary accountSummary = realResp.Response;
-                            if (UserSession.isPostLogin(mCurrentUserSession)) {
+                            if (UserManager.isPostLogin(UserManager.this)) {
                                 mCurrentUserSession.generateAccountDataManager(accountSummary);
                                 mCurrentUserSession.generateTransactionDataManager(accountSummary);
                                 listener.success(managerId, messageId, data);
@@ -117,6 +117,24 @@ public class UserManager extends DataManager {
             listener.success(getManagerId(), METHOD_ACCOUNT_SUMMARY, AccountSummaryPackage.cache.get());
             return false;
         }
+    }
+
+    /**
+     * Check if current user session has passed login.
+     * @param userManager
+     *          application's user manager
+     * @return
+     *          current user session has login or not
+     */
+    public static boolean isPostLogin(UserManager userManager) {
+        if (userManager != null) {
+            UserSession currentUserSession = userManager.getCurrentUserSession();
+            if (currentUserSession != null
+                        && currentUserSession.getLoginState() == LoginStateEnum.Logined) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public UserSession getCurrentUserSession() {

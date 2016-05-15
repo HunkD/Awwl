@@ -197,4 +197,15 @@ public class GsonSerializeTest {
         Money genMoney = ContractGson.getInstance().fromJson(json, Money.class);
         assertTrue(genMoney == null);
     }
+
+    @Test
+    public void testSerializeLoginStateEnumHappyPath() {
+        LoginResp loginResp = new LoginResp();
+        loginResp.loginState = LoginStateEnum.Logined;
+        String json = ContractGson.getInstance().toJson(loginResp);
+        assertEquals("{\"loginState\":\"Logined\"}", json);
+
+        LoginResp deSerializeObj = ContractGson.getInstance().fromJson(json, LoginResp.class);
+        assertEquals(LoginStateEnum.Logined, deSerializeObj.loginState);
+    }
 }

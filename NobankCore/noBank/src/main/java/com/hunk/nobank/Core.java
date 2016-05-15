@@ -47,7 +47,7 @@ public class Core {
         mCore = new Core(ctx);
     }
 
-    public UserManager getLoginManager() {
+    public UserManager getUserManager() {
         return mUserManager;
     }
 

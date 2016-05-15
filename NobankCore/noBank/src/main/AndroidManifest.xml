@@ -100,7 +100,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name="com.hunk.nobank.service.registration.RegistrationForegroundService"
-            />
+        <service android:name="com.hunk.nobank.service.registration.RegistrationForegroundService" />
+        <service android:name="com.hunk.nobank.service.session.SessionTimeoutService" />
     </application>
 </manifest>

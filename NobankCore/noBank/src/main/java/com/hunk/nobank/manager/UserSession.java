@@ -17,7 +17,6 @@ import java.util.Map;
  */
 public class UserSession {
 
-    private boolean mLoginSuccess;
     private Map<AccountType, AccountDataManager> accountDataManagerMap;
     private LoginStateEnum mLoginState;
     private TransactionDataManager mTransactionDataManager;
@@ -37,16 +36,6 @@ public class UserSession {
         return accountDataManagerMap.get(type);
     }
 
-    /**
-     * Whether user has bypass login
-     * @param currentUserSession
-     * @return
-     */
-    public static boolean isPostLogin(UserSession currentUserSession) {
-        return currentUserSession != null &&
-                currentUserSession.getLoginState() == LoginStateEnum.Logined;
-    }
-
     public LoginStateEnum getLoginState() {
         return mLoginState;
     }
@@ -62,4 +51,5 @@ public class UserSession {
     public TransactionDataManager getTransactionDataManager() {
         return mTransactionDataManager;
     }
+
 }

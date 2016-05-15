@@ -10,9 +10,14 @@ import com.hunk.nobank.R;
 
 import java.io.FileNotFoundException;
 
-public class DashboardActivity extends AccountBaseActivity {
+public class DashboardActivity extends BaseActivity {
     final int CAMERA_REQUEST = 30;
     private ImageView mCaptured;
+
+    @Override
+    protected boolean isRequiredLoginedUserSession() {
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

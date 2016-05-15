@@ -13,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
+import com.hunk.nobank.manager.UserManager;
+import com.hunk.nobank.service.session.SessionTimeoutService;
 import com.hunk.nobank.util.HijackingNotification;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
@@ -27,7 +30,7 @@ import com.hunk.nobank.views.TitleBarPoxy;
  * Base Activity to provide base function. Each Activity should extends it
  * such as custom title bar, left slide menu, unrollActivity
  */
-public class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends FragmentActivity {
 
     private static final String DIALOG_LOADING_TAG = "DIALOG_LOADING_TAG";
 
@@ -39,6 +42,15 @@ public class BaseActivity extends FragmentActivity {
 
     private HijackingNotification mHijackingNotification;
 
+    /**
+     * Is this subclass activity need a logined user session
+     * @return
+     *      need : true, vise versa
+     */
+    protected boolean isRequiredLoginedUserSession() {
+        return false;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +59,8 @@ public class BaseActivity extends FragmentActivity {
         super.setContentView(R.layout.activity_base_with_titlebar);
         mHijackingNotification = new HijackingNotification(this);
         setupUI();
+
+        unrollActivityIfSessionTimeout();
     }
 
     private void setupUI() {
@@ -160,7 +174,7 @@ public class BaseActivity extends FragmentActivity {
     public enum Base {
         NO_DRAW_LAYOUT,
         NO_TITLE_BAR,
-        NORMAL;
+        NORMAL
     }
 
     public TitleBarPoxy getTitleBarPoxy() {
@@ -170,18 +184,48 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        ViewHelper.isAppForeGround = true;
         mHijackingNotification.dismiss();
+
+        unrollActivityIfSessionTimeout();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
+        ViewHelper.isAppForeGround = false;
         mHijackingNotification.show();
     }
 
     public HijackingNotification getHijackingNotification() {
         return mHijackingNotification;
+    }
+
+    @Override
+    public void onUserInteraction() {
+        super.onUserInteraction();
+        setupSessionTimeoutServiceIfNeed();
+    }
+
+    /**
+     * setup Session Timeout Service
+     * when user session is login state.
+     */
+    private void setupSessionTimeoutServiceIfNeed() {
+        UserManager userManager = Core.getInstance().getUserManager();
+        if (UserManager.isPostLogin(userManager)) {
+            SessionTimeoutService.setAlarm(this, SessionTimeoutService.DEFAULT_TIMEOUT_STAMP);
+        }
+    }
+
+    /**
+     * Unroll activity if current user session has timeout
+     */
+    private void unrollActivityIfSessionTimeout() {
+        UserManager userManager = Core.getInstance().getUserManager();
+        if (isRequiredLoginedUserSession()
+                && !UserManager.isPostLogin(userManager)) {
+            unrollActivity(this);
+        }
     }
 }

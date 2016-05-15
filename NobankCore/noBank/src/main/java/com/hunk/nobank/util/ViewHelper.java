@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hunk.nobank.Core;
+import com.hunk.nobank.activity.BaseActivity;
 
 import java.io.FileNotFoundException;
 
@@ -243,4 +244,11 @@ public class ViewHelper {
             return instance;
         }
     }
+
+    /**
+     * Flag to record whether app is running in the foreground
+     * we will set this to true when {@link BaseActivity#onResume()},
+     * and set false when {@link BaseActivity#onPause()}
+     */
+    public static volatile boolean isAppForeGround = false;
 }

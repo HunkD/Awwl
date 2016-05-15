@@ -30,7 +30,7 @@ public class BalanceFragment extends Fragment {
         public void onSuccess(String managerId, String messageId, Object data) {
             if (managerId.equals(mUserManager.getManagerId())) {
                 if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
-                    if (mUserManager.getCurrentUserSession() != null) {
+                    if (UserManager.isPostLogin(mUserManager)) {
                         mMainAccountDataManager = mUserManager.getCurrentUserSession().getAccountDataManagerByType(AccountType.Main);
                         mVaultAccountDataManager = mUserManager.getCurrentUserSession().getAccountDataManagerByType(AccountType.Vault);
 
@@ -68,7 +68,7 @@ public class BalanceFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mUserManager = Core.getInstance().getLoginManager();
+        mUserManager = Core.getInstance().getUserManager();
     }
 
     @Override

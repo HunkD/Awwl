@@ -17,7 +17,7 @@ import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.nobank.util.StringUtils;
 
-public class LoginPageActivity extends AccountBaseActivity {
+public class LoginPageActivity extends BaseActivity {
 
     public static final String ACTION = "action.login.open_main";
 
@@ -34,7 +34,7 @@ public class LoginPageActivity extends AccountBaseActivity {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_login, Base.NO_DRAW_LAYOUT);
         application = (NoBankApplication) getApplication();
-        mUserManager = Core.getInstance().getLoginManager();
+        mUserManager = Core.getInstance().getUserManager();
         setupUI();
     }
 
