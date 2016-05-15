@@ -5,6 +5,7 @@ import android.app.Application;
 import com.hunk.nobank.util.Hunk;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.util.UUID;
 
@@ -26,6 +27,10 @@ public class NoBankApplication extends Application {
         Logging.i(info != null ? info.toString() : "HUNK INFO IS NULL");
 
         Core.start(this.getApplicationContext());
+
+        if (NBuildConstants.DEBUG) {
+            LeakCanary.install(this);
+        }
     }
 
     public static NoBankApplication getInstance() {
