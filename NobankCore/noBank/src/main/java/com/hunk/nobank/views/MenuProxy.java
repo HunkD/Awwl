@@ -13,9 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
+import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.util.ViewHelper;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
@@ -55,6 +57,10 @@ public class MenuProxy {
         mLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UserManager userManager = Core.getInstance().getUserManager();
+                if (UserManager.isPostLogin(userManager)) {
+                    userManager.setCurrentUserSession(null);
+                }
                 BaseActivity.unrollActivity(v.getContext());
             }
         });
