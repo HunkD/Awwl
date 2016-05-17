@@ -8,11 +8,12 @@ import java.lang.ref.WeakReference;
  * if call any method like 'dismissDialog' in callback method, it will provoke NullPointerException.
  */
 public abstract class ViewManagerListener implements ManagerListener {
-
+    private final String id;
     private final WeakReference<Object> weakRefer;
 
     public ViewManagerListener(Object o) {
         this.weakRefer = new WeakReference<>(o);
+        this.id = o.getClass().getName();
     }
 
     @Override
@@ -32,4 +33,8 @@ public abstract class ViewManagerListener implements ManagerListener {
     public abstract void onSuccess(String managerId, String messageId, Object data);
 
     public abstract void onFailed(String managerId, String messageId, Object data);
+
+    public String getId() {
+        return id;
+    }
 }

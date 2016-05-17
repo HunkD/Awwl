@@ -7,6 +7,7 @@ import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.extension.network.BaseReqPackage;
 import com.hunk.nobank.manager.dataBasic.DataManager;
 import com.hunk.nobank.manager.dataBasic.ManagerListener;
+import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.model.TransactionReqPackage;
 
@@ -38,7 +39,8 @@ public class TransactionDataManager extends DataManager {
      * @return
      *  Whether app call network request
      */
-    public boolean fetchTransactions(boolean more, ManagerListener managerListener) {
+    public boolean fetchTransactions(boolean more, ViewManagerListener managerListener) {
+        final String id = managerListener.getId();
         TransactionListCache cache = (TransactionListCache) TransactionReqPackage.cache;
         cache.setMore(more);
 
@@ -48,11 +50,24 @@ public class TransactionDataManager extends DataManager {
         TransactionReqPackage transactionReqPackage = new TransactionReqPackage(mAccountSummary, timestamp);
         if (more || TransactionReqPackage.cache.shouldFetch(transactionReqPackage)) {
             Core.getInstance().getNetworkHandler()
-                    .fireRequest(managerListener, transactionReqPackage,
-                            getManagerId(), METHOD_TRANSACTION);
+                    .fireRequest(
+                            new ManagerListener() {
+                                 @Override
+                                 public void success(String managerId, String messageId, Object data) {
+                                     triggerSuccess(id, managerId, messageId, data);
+                                 }
+
+                                 @Override
+                                 public void failed(String managerId, String messageId, Object data) {
+                                     triggerFailed(id, managerId, messageId, data);
+                                 }
+                            },
+                            transactionReqPackage,
+                            getManagerId(),
+                            METHOD_TRANSACTION);
             return true;
         } else {
-            managerListener.success(getManagerId(), METHOD_TRANSACTION, TransactionReqPackage.cache.get());
+            triggerSuccess(id, getManagerId(), METHOD_TRANSACTION, TransactionReqPackage.cache.get());
             return false;
         }
     }
