@@ -2,6 +2,7 @@ package com.hunk.nobank.activity.transaction;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,18 +39,28 @@ public class TransactionListFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mUserManager = Core.getInstance().getUserManager();
+        mTransactionDataMgr = mUserManager.getCurrentUserSession().getTransactionDataManager();
+
+        mTransactionDataMgr.registerViewManagerListener(mManagerListener);
+    }
+
+    @Override
+    public void onDestroy() {
+        mTransactionDataMgr.unregisterViewManagerListener(mManagerListener);
+        super.onDestroy();
+    }
+
+    @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_transaction_list, container, false);
-        bindingListener();
         setupUI(view);
         return view;
-    }
-
-    private void bindingListener() {
-        mUserManager = Core.getInstance().getUserManager();
-        mTransactionDataMgr = mUserManager.getCurrentUserSession().getTransactionDataManager();
     }
 
     private void setupUI(View root) {
@@ -92,7 +103,7 @@ public class TransactionListFragment extends Fragment {
         }
     }
 
-    ManagerListener mManagerListener = new ViewManagerListener(this) {
+    ViewManagerListener mManagerListener = new ViewManagerListener(this) {
         @Override
         public void onSuccess(String managerId, String messageId, Object data) {
             if (managerId.equals(mTransactionDataMgr.getManagerId())) {

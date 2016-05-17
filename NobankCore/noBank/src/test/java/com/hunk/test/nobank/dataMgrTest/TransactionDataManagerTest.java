@@ -8,6 +8,7 @@ import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.contract.TransactionType;
 import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.manager.TransactionDataManager;
+import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.TransactionReqPackage;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -52,19 +53,24 @@ public class TransactionDataManagerTest {
 
         mNetworkHandlerStub.setNextResponse(realResp);
 
-        transactionDataManager.fetchTransactions(false, new ManagerListener() {
+        Object key = new Object();
+        ViewManagerListener viewManagerListener = new ViewManagerListener(key) {
             @Override
-            public void success(String managerId, String messageId, Object data) {
+            public void onSuccess(String managerId, String messageId, Object data) {
                 RealResp<List<TransactionFields>> realResp = (RealResp<List<TransactionFields>>) data;
                 Assert.assertEquals(1, realResp.Response.size());
                 Assert.assertEquals("XXX", realResp.Response.get(0).getTitle());
             }
 
             @Override
-            public void failed(String managerId, String messageId, Object data) {
+            public void onFailed(String managerId, String messageId, Object data) {
 
             }
-        });
+        };
+
+        transactionDataManager.registerViewManagerListener(viewManagerListener);
+        transactionDataManager.fetchTransactions(false, viewManagerListener);
+        transactionDataManager.unregisterViewManagerListener(viewManagerListener);
     }
 
     @Test
@@ -77,20 +83,24 @@ public class TransactionDataManagerTest {
         realResp.Response.add(transactionFields);
 
         TransactionReqPackage.cache.setCache(realResp, null);
-
-        transactionDataManager.fetchTransactions(false, new ManagerListener() {
+        Object key = new Object();
+        ViewManagerListener viewManagerListener = new ViewManagerListener(key) {
             @Override
-            public void success(String managerId, String messageId, Object data) {
+            public void onSuccess(String managerId, String messageId, Object data) {
                 RealResp<List<TransactionFields>> realResp = (RealResp<List<TransactionFields>>) data;
                 Assert.assertEquals(1, realResp.Response.size());
                 Assert.assertEquals("XXX", realResp.Response.get(0).getTitle());
             }
 
             @Override
-            public void failed(String managerId, String messageId, Object data) {
+            public void onFailed(String managerId, String messageId, Object data) {
 
             }
-        });
+        };
+
+        transactionDataManager.registerViewManagerListener(viewManagerListener);
+        transactionDataManager.fetchTransactions(false, viewManagerListener);
+        transactionDataManager.unregisterViewManagerListener(viewManagerListener);
     }
 
     @Test
@@ -112,9 +122,11 @@ public class TransactionDataManagerTest {
 
         mNetworkHandlerStub.setNextResponse(realResp2);
 
-        transactionDataManager.fetchTransactions(true, new ManagerListener() {
+        Object key = new Object();
+        ViewManagerListener viewManagerListener = new ViewManagerListener(key) {
+
             @Override
-            public void success(String managerId, String messageId, Object data) {
+            public void onSuccess(String managerId, String messageId, Object data) {
                 RealResp<List<TransactionFields>> realResp = (RealResp<List<TransactionFields>>) data;
                 Assert.assertEquals(2, realResp.Response.size());
                 Assert.assertEquals("XXX", realResp.Response.get(0).getTitle());
@@ -122,9 +134,12 @@ public class TransactionDataManagerTest {
             }
 
             @Override
-            public void failed(String managerId, String messageId, Object data) {
+            public void onFailed(String managerId, String messageId, Object data) {
 
             }
-        });
+        };
+        transactionDataManager.registerViewManagerListener(viewManagerListener);
+        transactionDataManager.fetchTransactions(true, viewManagerListener);
+        transactionDataManager.unregisterViewManagerListener(viewManagerListener);
     }
 }

@@ -93,7 +93,8 @@ public class UserManager extends DataManager {
      *  Whether application call network request
      */
     public boolean fetchAccountSummary(
-            AccountSummaryPackage req, final ManagerListener listener) {
+            AccountSummaryPackage req, final ViewManagerListener listener) {
+        final String id = listener.getId();
         if (AccountSummaryPackage.cache.shouldFetch(req)) {
             Core.getInstance().getNetworkHandler()
                     .fireRequest(new ManagerListener() {
@@ -104,13 +105,13 @@ public class UserManager extends DataManager {
                             if (UserManager.isPostLogin(UserManager.this)) {
                                 mCurrentUserSession.generateAccountDataManager(accountSummary);
                                 mCurrentUserSession.generateTransactionDataManager(accountSummary);
-                                listener.success(managerId, messageId, data);
+                                triggerSuccess(id, managerId, messageId, data);
                             }
                         }
 
                         @Override
                         public void failed(String managerId, String messageId, Object data) {
-                            listener.failed(managerId, messageId, data);
+                            triggerFailed(id, managerId, messageId, data);
                         }
                     }, req, getManagerId(), METHOD_ACCOUNT_SUMMARY);
             return true;
