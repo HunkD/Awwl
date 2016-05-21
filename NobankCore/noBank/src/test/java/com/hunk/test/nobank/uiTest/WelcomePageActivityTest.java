@@ -5,7 +5,7 @@ import android.content.Intent;
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.LoginPageActivity;
-import com.hunk.nobank.activity.WelcomePageActivity;
+import com.hunk.nobank.activity.welcome.WelcomePageActivity;
 import com.hunk.test.utils.EqualHelper;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.TestNoBankApplication;

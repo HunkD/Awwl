@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.WelcomePageActivity"
+            android:name=".activity.welcome.WelcomePageActivity"
             android:screenOrientation="sensorPortrait"
             android:exported="false"
             android:label="@string/app_name">
