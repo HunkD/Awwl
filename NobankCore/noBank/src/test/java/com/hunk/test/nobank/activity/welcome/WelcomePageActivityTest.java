@@ -1,4 +1,4 @@
-package com.hunk.test.nobank.uiTest;
+package com.hunk.test.nobank.activity.welcome;
 
 import android.content.Intent;
 
