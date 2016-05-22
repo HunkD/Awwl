@@ -107,7 +107,11 @@ public class GsonSerializeTest {
         assertTrue(genDate == null);
     }
 
-    @Test
+    /**
+     * After test several times, it turns out there's no difference between two ways on performance.
+     * So disable this test.
+     */
+    //@Test
     public void testSerializeDateClassPerformance() {
         // warm up start
         // If we don't setup this code in here, then the test result won't be accurate.
