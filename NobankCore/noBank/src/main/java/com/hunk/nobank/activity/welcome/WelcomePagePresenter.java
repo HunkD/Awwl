@@ -1,5 +1,7 @@
 package com.hunk.nobank.activity.welcome;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.hunk.nobank.Core;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
@@ -9,8 +11,9 @@ import com.hunk.whitelabel.retailer.RetailerFeatureList;
  * @since 2016/5/21
  */
 public class WelcomePagePresenter {
+    @VisibleForTesting
     private WelcomeView mView;
-
+    @VisibleForTesting
     private boolean mCheckRememberMe = true;
 
     public WelcomePagePresenter(WelcomeView welcomeView) {

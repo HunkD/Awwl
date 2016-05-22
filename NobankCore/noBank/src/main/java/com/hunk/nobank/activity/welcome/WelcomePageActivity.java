@@ -59,11 +59,6 @@ public class WelcomePageActivity extends BaseActivity implements WelcomeView {
         ViewHelper.showView(findViewById(R.id.welcome_btn_sign_up), show);
     }
 
-    @Override
-    public void showSignIn(boolean show) {
-        ViewHelper.showView(findViewById(R.id.welcome_btn_sign_in), show);
-    }
-
     public void onClickSignIn(View view) {
         Intent gotoLogin = new Intent();
         gotoLogin.setPackage(getApplicationContext().getPackageName());

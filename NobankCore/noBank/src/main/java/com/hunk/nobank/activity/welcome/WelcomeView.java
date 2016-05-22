@@ -24,10 +24,4 @@ public interface WelcomeView {
      * @param show
      */
     void showSignUp(boolean show);
-
-    /**
-     *
-     * @param show
-     */
-    void showSignIn(boolean show);
 }
