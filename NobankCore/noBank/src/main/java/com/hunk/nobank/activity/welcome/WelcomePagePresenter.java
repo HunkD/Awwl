@@ -2,6 +2,7 @@ package com.hunk.nobank.activity.welcome;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.manager.UserManager;
+import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 /**
  * @author HunkDeng
@@ -14,6 +15,10 @@ public class WelcomePagePresenter {
 
     public WelcomePagePresenter(WelcomeView welcomeView) {
         this.mView = welcomeView;
+    }
+
+    public void onCreate() {
+        mView.showSignUp(RetailerFeatureList.Registration.ENABLE);
     }
 
     public void onResume() {
@@ -32,4 +37,5 @@ public class WelcomePagePresenter {
     public void onDestroy() {
         mView = null;
     }
+
 }

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hunk.nobank.Core;
+import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 
 import java.io.FileNotFoundException;
@@ -222,6 +223,14 @@ public class ViewHelper {
             tv.setTypeface(cache.ITALIC);
         } else if (style == Typeface.NORMAL) {
             tv.setTypeface(cache.NORMAL);
+        }
+    }
+
+    public static void showView(View view, boolean show) {
+        if (show) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.GONE);
         }
     }
 

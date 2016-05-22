@@ -6,5 +6,6 @@ package com.hunk.whitelabel.basic;
  */
 public class FeatureBasic {
     public static final String ACTION = "";
+
     public static final boolean ENABLE = true;
 }

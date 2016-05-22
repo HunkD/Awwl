@@ -18,4 +18,16 @@ public interface WelcomeView {
      * @param view
      */
     void onClickSignUp(View view);
+
+    /**
+     *
+     * @param show
+     */
+    void showSignUp(boolean show);
+
+    /**
+     *
+     * @param show
+     */
+    void showSignIn(boolean show);
 }

@@ -50,7 +50,7 @@ public class WelcomePageActivityTest extends NBAbstractTest {
     public void testClickOnSignOnButton() {
         Intent gotoRegistration = new Intent();
         gotoRegistration.setPackage(RuntimeEnvironment.application.getPackageName());
-        gotoRegistration.setAction(RetailerFeatureList.Registration.ACTION);
+        gotoRegistration.setAction(RetailerFeatureList.Registration.CardInfo.ACTION);
         gotoRegistration.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         WelcomePageActivity activity = Robolectric.setupActivity(WelcomePageActivity.class);

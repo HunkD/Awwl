@@ -11,7 +11,10 @@ public class NoBankFeatureList {
     }
 
     public static class Registration extends FeatureBasic {
-        public static final String ACTION = "action.registration.open_main";
+
+        public static class CardInfo extends FeatureBasic{
+            public static final String ACTION = "action.registration.open_main";
+        }
 
         public static class SignUp extends FeatureBasic {
             public static final String ACTION = "action.registration.signUp";

@@ -9,6 +9,7 @@ import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.activity.LoginPageActivity;
 import com.hunk.nobank.manager.UserManager;
+import com.hunk.nobank.util.ViewHelper;
 import com.hunk.nobank.views.SlideButtonLayout;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
@@ -23,6 +24,7 @@ public class WelcomePageActivity extends BaseActivity implements WelcomeView {
         setBaseStyle(Base.NO_TITLE_BAR);
 
         mPresenter = new WelcomePagePresenter(this);
+        mPresenter.onCreate();
     }
 
     @Override
@@ -47,9 +49,19 @@ public class WelcomePageActivity extends BaseActivity implements WelcomeView {
     public void onClickSignUp(View view) {
         Intent gotoRegistration = new Intent();
         gotoRegistration.setPackage(getApplicationContext().getPackageName());
-        gotoRegistration.setAction(RetailerFeatureList.Registration.ACTION);
+        gotoRegistration.setAction(RetailerFeatureList.Registration.CardInfo.ACTION);
 
         startActivity(gotoRegistration);
+    }
+
+    @Override
+    public void showSignUp(boolean show) {
+        ViewHelper.showView(findViewById(R.id.welcome_btn_sign_up), show);
+    }
+
+    @Override
+    public void showSignIn(boolean show) {
+        ViewHelper.showView(findViewById(R.id.welcome_btn_sign_in), show);
     }
 
     public void onClickSignIn(View view) {
