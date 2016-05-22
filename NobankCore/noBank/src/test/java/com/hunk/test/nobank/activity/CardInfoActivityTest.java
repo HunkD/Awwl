@@ -5,7 +5,6 @@ import android.content.Intent;
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.registration.CardInfoActivity;
-import com.hunk.test.utils.EqualHelper;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.TestNoBankApplication;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
@@ -19,8 +18,7 @@ import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricGradleTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
@@ -39,6 +37,6 @@ public class CardInfoActivityTest extends NBAbstractTest {
         activity.findViewById(R.id.btn_sign_up).performClick();
 
         ShadowActivity si = Shadows.shadowOf(activity);
-        EqualHelper.assertIntentEquals(gotoSignUpPage, si.getNextStartedActivity());
+        assertTrue(gotoSignUpPage.filterEquals(si.getNextStartedActivity()));
     }
 }

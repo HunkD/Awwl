@@ -5,9 +5,8 @@ import android.view.View;
 
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.R;
-import com.hunk.nobank.activity.LoginPageActivity;
+import com.hunk.nobank.activity.login.LoginPageActivity;
 import com.hunk.nobank.activity.welcome.WelcomePageActivity;
-import com.hunk.test.utils.EqualHelper;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.TestNoBankApplication;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
@@ -22,6 +21,7 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Please set the working directory for this unit test configuration is 'NobankCore/nobank'
@@ -44,7 +44,7 @@ public class WelcomePageActivityTest extends NBAbstractTest {
         activity.onClickSignIn(null);
 
         ShadowActivity si = Shadows.shadowOf(activity);
-        EqualHelper.assertIntentEquals(gotoLogin, si.getNextStartedActivity());
+        assertTrue(gotoLogin.filterEquals(si.getNextStartedActivity()));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class WelcomePageActivityTest extends NBAbstractTest {
         activity.onClickSignUp(null);
 
         ShadowActivity si = Shadows.shadowOf(activity);
-        EqualHelper.assertIntentEquals(gotoRegistration, si.getNextStartedActivity());
+        assertTrue(gotoRegistration.filterEquals(si.getNextStartedActivity()));
     }
 
     @Test

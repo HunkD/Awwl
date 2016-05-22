@@ -19,7 +19,8 @@
         android:background="@drawable/raised_button"
         android:layout_margin="4dp"
         android:textAllCaps="false"
-        android:layout_above="@id/slide_button"/>
+        android:layout_above="@id/slide_button"
+        android:onClick="onClickLogin"/>
 
     <ScrollView
         android:layout_width="match_parent"

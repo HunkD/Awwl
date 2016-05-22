@@ -4,13 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
-import com.hunk.nobank.activity.LoginPageActivity;
-import com.hunk.nobank.manager.UserManager;
+import com.hunk.nobank.activity.login.LoginPageActivity;
 import com.hunk.nobank.util.ViewHelper;
-import com.hunk.nobank.views.SlideButtonLayout;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 public class WelcomePageActivity extends BaseActivity implements WelcomeView {
