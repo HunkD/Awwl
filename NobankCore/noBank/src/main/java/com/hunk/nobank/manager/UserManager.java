@@ -19,7 +19,7 @@ import com.hunk.nobank.model.LoginReqPackage;
  */
 public class UserManager extends DataManager {
 
-    private static final String MANAGER_ID = "LoginManager";
+    public static final String MANAGER_ID = "LoginManager";
 
     private static final String APP_SHARED_PREFERENCES_NAME = "NobankSharedPref";
 
@@ -78,7 +78,6 @@ public class UserManager extends DataManager {
                     }
                 }, req, getManagerId(), METHOD_LOGIN);
     }
-
 
     public final String getManagerId() {
         return MANAGER_ID;

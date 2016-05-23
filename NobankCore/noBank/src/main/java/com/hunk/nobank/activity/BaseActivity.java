@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
@@ -87,10 +88,12 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     @Override
-    public void startActivity(Intent intent) {
+    public void startActivity(@NonNull Intent intent) {
         Logging.d("go to screen : " + intent.getAction());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        super.startActivity(intent);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            super.startActivity(intent);
+        }
     }
 
     public void showLoading() {
@@ -227,5 +230,9 @@ public abstract class BaseActivity extends FragmentActivity {
                 && !UserManager.isPostLogin(userManager)) {
             unrollActivity(this);
         }
+    }
+
+    public void showErrorMessage(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
 }

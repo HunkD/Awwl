@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:text="@string/sign_up"
             android:layout_weight="1"
-            android:visibility="gone"/>
+            android:onClick="onClickSignUp"/>
 
         <Button
             android:id="@+id/welcome_btn_sign_in"
@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:text="@string/sign_in"
             android:layout_weight="1"
-            android:visibility="gone"/>
+            android:onClick="onClickSignIn"/>
     </LinearLayout>
 
     <ScrollView
