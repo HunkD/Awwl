@@ -1,4 +1,4 @@
-package com.hunk.nobank.activity.transaction;
+package com.hunk.nobank.activity.dashboard.transaction;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,9 +12,9 @@ import android.widget.ArrayAdapter;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.dashboard.transaction.view.MoreView;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.extension.view.NBProgressView;
-import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.dataBasic.ViewManagerListener;

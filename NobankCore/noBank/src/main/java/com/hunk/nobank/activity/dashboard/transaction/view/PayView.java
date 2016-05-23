@@ -1,23 +1,26 @@
-package com.hunk.nobank.activity.transaction;
+package com.hunk.nobank.activity.dashboard.transaction.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.dashboard.transaction.NormalViewTransactionFields;
+import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionType;
 import com.hunk.nobank.contract.TransactionCategory;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.util.ViewHelper;
 
+import java.util.Locale;
+
 /**
  *
  */
-public class NormalViewTransactionFields extends ViewTransactionFields  {
-    public NormalViewTransactionFields(ViewTransactionType viewType, TransactionFields transactionFields) {
-        super(viewType, transactionFields);
+public class PayView extends NormalViewTransactionFields {
+    public PayView(ViewTransactionType type, TransactionFields raw) {
+        super(type, raw);
     }
 
     @Override
@@ -25,12 +28,12 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
         ViewHolder viewHolder;
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.item_transaction, parent, false);
+            convertView = inflater.inflate(R.layout.item_transaction_p2p, parent, false);
 
             ViewHelper.updateFontsStyle((ViewGroup) convertView);
 
             viewHolder = new ViewHolder();
-            viewHolder.mIcon = (ImageView) convertView.findViewById(R.id.transaction_item_icon);
+            viewHolder.mIcon = (TextView) convertView.findViewById(R.id.transaction_item_icon);
             viewHolder.mTitle = (TextView) convertView.findViewById(R.id.title);
             viewHolder.mMoney1 = (TextView) convertView.findViewById(R.id.money_1);
             viewHolder.mMoney2 = (TextView) convertView.findViewById(R.id.money_2);
@@ -40,7 +43,11 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.mIcon.setImageResource(getIconSource());
+        String object = getTransactionFields().getObject();
+        if (object != null && object.toCharArray().length >= 1) {
+            String firstChar = String.valueOf(object.toUpperCase(Locale.US).charAt(0));
+            viewHolder.mIcon.setText(firstChar);
+        }
         viewHolder.mTitle.setText(getTransactionFields().getTitle());
         if (TransactionCategory.Debit == getTransactionFields().getCategory()) {
             viewHolder.mMoney2.setVisibility(View.VISIBLE);
@@ -54,18 +61,8 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
         return convertView;
     }
 
-    public int getIconSource() {
-        return R.drawable.ic_hello;
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-
     static class ViewHolder {
-        ImageView mIcon;
+        TextView mIcon;
         TextView mTitle;
         TextView mMoney2;
         TextView mMoney1;

@@ -1,20 +1,17 @@
 package com.hunk.nobank.activity.dashboard;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
-import com.hunk.nobank.activity.CameraCaptureActivity;
+import com.hunk.nobank.contract.Money;
 
-import java.io.FileNotFoundException;
+public class DashboardActivity extends BaseActivity implements DashboardView {
+    private DashboardPresenter mPresenter;
 
-public class DashboardActivity extends BaseActivity {
-    final int CAMERA_REQUEST = 30;
-    private ImageView mCaptured;
+    private TextView mBalance;
 
     @Override
     protected boolean isRequiredLoginedUserSession() {
@@ -25,50 +22,23 @@ public class DashboardActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_page, Base.NORMAL);
-
-        setupUI();
-    }
-
-    private void setupUI() {
         // set Title
         getTitleBarPoxy().getTitle().setText(R.string.dashboard);
-        // set Main Content
-//		findViewById(R.id.capture).setOnClickListener(new View.OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				String packageName = getApplication().getPackageName();
-//
-//				Intent gotoCapture = new Intent();
-//				gotoCapture.setAction(packageName + ".action.goto.base.capture.picture");
-//				startActivityForResult(gotoCapture, CAMERA_REQUEST);
-//			}
-//		});
-//
-//		mCaptured = (ImageView) findViewById(R.id.captured);
-
-
+        mBalance = (TextView) findViewById(R.id.txt_balance);
+        //
+        mPresenter = new DashboardPresenter(this);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CAMERA_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                String path = data.getStringExtra(CameraCaptureActivity.RESULT_IMAGE);
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                Bitmap img;
-                try {
-                    img = BitmapFactory.decodeStream(
-                            openFileInput(path), null,
-                            options);
-                    mCaptured.setImageBitmap(img);
-                } catch (FileNotFoundException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data);
+    protected void onResume() {
+        super.onResume();
+        mPresenter.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mPresenter.onDestroy();
+        super.onDestroy();
     }
 
     @Override
@@ -76,5 +46,20 @@ public class DashboardActivity extends BaseActivity {
         super.onBackPressed();
 
         BaseActivity.exitApplication(this);
+    }
+
+    @Override
+    public void showBalance(Money balance) {
+        mBalance.setText(balance.string());
+    }
+
+    @Override
+    public void showLoadingBalance() {
+        mBalance.setText(R.string.loading_balance);
+    }
+
+    @Override
+    public ListView getListView() {
+        return null;
     }
 }

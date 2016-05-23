@@ -5,7 +5,7 @@ import android.widget.TextView;
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.R;
-import com.hunk.nobank.activity.BalanceFragment;
+import com.hunk.nobank.activity.dashboard.BalanceFragment;
 import com.hunk.nobank.contract.AccountModel;
 import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.AccountType;

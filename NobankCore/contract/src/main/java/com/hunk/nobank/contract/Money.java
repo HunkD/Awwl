@@ -18,6 +18,7 @@ public class Money {
     }
 
     public String string() {
+        // TODO: apply pattern $####.##
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(2);

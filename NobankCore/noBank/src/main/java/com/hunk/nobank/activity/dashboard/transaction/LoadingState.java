@@ -1,4 +1,4 @@
-package com.hunk.nobank.activity.transaction;
+package com.hunk.nobank.activity.dashboard.transaction;
 
 /**
  *
