@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hunk.nobank.activity.DashboardActivity">
+    tools:context=".activity.dashboard.DashboardActivity">
 
     <fragment
         android:id="@+id/frag_balance"

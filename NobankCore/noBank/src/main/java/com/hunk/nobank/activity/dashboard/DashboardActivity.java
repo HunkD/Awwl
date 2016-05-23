@@ -1,4 +1,4 @@
-package com.hunk.nobank.activity;
+package com.hunk.nobank.activity.dashboard;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.BaseActivity;
+import com.hunk.nobank.activity.CameraCaptureActivity;
 
 import java.io.FileNotFoundException;
 
