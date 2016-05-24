@@ -1,7 +1,7 @@
 package com.hunk.nobank.activity.dashboard;
 
 import android.os.Bundle;
-import android.widget.ListView;
+import android.support.annotation.VisibleForTesting;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
@@ -10,7 +10,7 @@ import com.hunk.nobank.contract.Money;
 
 public class DashboardActivity extends BaseActivity implements DashboardView {
     private DashboardPresenter mPresenter;
-
+    @VisibleForTesting
     private TextView mBalance;
 
     @Override
@@ -58,8 +58,4 @@ public class DashboardActivity extends BaseActivity implements DashboardView {
         mBalance.setText(R.string.loading_balance);
     }
 
-    @Override
-    public ListView getListView() {
-        return null;
-    }
 }

@@ -1,7 +1,5 @@
 package com.hunk.nobank.activity.dashboard;
 
-import android.widget.ListView;
-
 import com.hunk.nobank.contract.Money;
 
 /**
@@ -11,5 +9,4 @@ import com.hunk.nobank.contract.Money;
 public interface DashboardView {
     void showBalance(Money balance);
     void showLoadingBalance();
-    ListView getListView();
 }

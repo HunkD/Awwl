@@ -1,5 +1,7 @@
 package com.hunk.nobank.activity.dashboard;
 
+import android.support.annotation.VisibleForTesting;
+
 import com.hunk.nobank.Core;
 import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.manager.AccountDataManager;
@@ -12,12 +14,14 @@ import com.hunk.nobank.model.AccountSummaryPackage;
  * @since 2016/5/23
  */
 public class DashboardPresenter {
+    @VisibleForTesting
     private DashboardView mView;
 
     private UserManager mUserManager;
     private AccountDataManager mMainAccountDataManager;
     private AccountDataManager mVaultAccountDataManager;
 
+    @VisibleForTesting
     private ViewManagerListener mViewManagerListener = new ViewManagerListener(this) {
         @Override
         public void onSuccess(String managerId, String messageId, Object data) {

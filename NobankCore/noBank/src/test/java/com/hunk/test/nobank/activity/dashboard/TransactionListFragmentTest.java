@@ -1,4 +1,4 @@
-package com.hunk.test.nobank.activity;
+package com.hunk.test.nobank.activity.dashboard;
 
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
