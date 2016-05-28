@@ -1,4 +1,4 @@
-package com.hunk.nobank.activity.transaction;
+package com.hunk.nobank.activity.dashboard.transaction.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionFields;
+import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionType;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.util.ViewHelper;
 

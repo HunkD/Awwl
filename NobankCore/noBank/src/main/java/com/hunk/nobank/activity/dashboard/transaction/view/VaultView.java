@@ -1,6 +1,8 @@
-package com.hunk.nobank.activity.transaction;
+package com.hunk.nobank.activity.dashboard.transaction.view;
 
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.dashboard.transaction.NormalViewTransactionFields;
+import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionType;
 import com.hunk.nobank.contract.TransactionFields;
 
 /**

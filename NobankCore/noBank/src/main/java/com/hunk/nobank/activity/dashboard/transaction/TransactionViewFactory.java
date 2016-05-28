@@ -1,5 +1,10 @@
-package com.hunk.nobank.activity.transaction;
+package com.hunk.nobank.activity.dashboard.transaction;
 
+import com.hunk.nobank.activity.dashboard.transaction.view.DateView;
+import com.hunk.nobank.activity.dashboard.transaction.view.DepositView;
+import com.hunk.nobank.activity.dashboard.transaction.view.MoreView;
+import com.hunk.nobank.activity.dashboard.transaction.view.PayView;
+import com.hunk.nobank.activity.dashboard.transaction.view.VaultView;
 import com.hunk.nobank.contract.TransactionFields;
 
 /**

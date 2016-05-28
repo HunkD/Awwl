@@ -1,9 +1,11 @@
-package com.hunk.nobank.activity.transaction;
+package com.hunk.nobank.activity.dashboard.transaction.view;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionFields;
+import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionType;
 import com.hunk.nobank.contract.TransactionFields;
 
 /**

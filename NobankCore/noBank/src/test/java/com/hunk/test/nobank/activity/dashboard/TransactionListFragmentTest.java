@@ -1,9 +1,9 @@
-package com.hunk.test.nobank.activity;
+package com.hunk.test.nobank.activity.dashboard;
 
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
-import com.hunk.nobank.activity.transaction.TransactionListFragment;
-import com.hunk.nobank.activity.transaction.TransactionListFragment.TransactionListAdapter;
+import com.hunk.nobank.activity.dashboard.transaction.TransactionListFragment;
+import com.hunk.nobank.activity.dashboard.transaction.TransactionListFragment.TransactionListAdapter;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.contract.TransactionType;
