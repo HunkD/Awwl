@@ -19,6 +19,7 @@ import com.hunk.nobank.R;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
 
+@Deprecated
 public class PullToRefreshListView extends ListView {
 
     private RelativeLayout mHeader;
