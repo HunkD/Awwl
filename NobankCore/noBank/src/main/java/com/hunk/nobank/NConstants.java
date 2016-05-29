@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.hunk.nobank.activity.dashboard.DashboardActivity;
+import com.hunk.nobank.activity.dashboard.DashboardViewImplActivity;
 
 public class NConstants {
     public final static int ANIMATION_DURATION_MEDIUM = 2000;
@@ -35,7 +35,7 @@ public class NConstants {
      *  @see
      *  com.hunk.nobank.activity.RootActivity#onNewIntent(Intent)
      *  @see
-     *  DashboardActivity#onBackPressed()
+     *  DashboardViewImplActivity#onBackPressed()
      */
     public static final String INTENT_EXTRA_IS_EXIT = "INTENT_EXTRA_IS_EXIT";
 }

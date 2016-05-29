@@ -1,6 +1,9 @@
 package com.hunk.nobank.activity.dashboard;
 
 import com.hunk.nobank.contract.Money;
+import com.hunk.nobank.contract.TransactionFields;
+
+import java.util.List;
 
 /**
  * @author HunkDeng
@@ -9,4 +12,6 @@ import com.hunk.nobank.contract.Money;
 public interface DashboardView {
     void showBalance(Money balance);
     void showLoadingBalance();
+    void showTransactionList(List<TransactionFields> mTransactionList);
+    void showLoadingTransaction();
 }

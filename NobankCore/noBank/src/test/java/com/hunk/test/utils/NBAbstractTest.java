@@ -4,11 +4,18 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
+import android.support.annotation.StringRes;
 
+import com.google.gson.Gson;
+import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
+import com.hunk.nobank.contract.ContractGson;
 
 import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 import org.robolectric.manifest.ActivityData;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.manifest.IntentFilterData;
@@ -19,8 +26,14 @@ import org.robolectric.shadows.ShadowResources;
 
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.robolectric.Shadows.shadowOf;
 
+@RunWith(RobolectricGradleTestRunner.class)
+/**Only support JELLY_BEAN and above isn't good :( **/
+@Config(constants = BuildConfig.class,
+        application = TestNoBankApplication.class,
+        sdk = 21)
 public abstract class NBAbstractTest {
     /**
      * This is for add all implicit intent to Package Manager,
@@ -64,5 +77,16 @@ public abstract class NBAbstractTest {
                 }
             }
         }
+    }
+
+    public static <T> void compareObj(T obj1, T obj2) {
+        Gson contractGson = ContractGson.getInstance();
+        String str1 = contractGson.toJson(obj1);
+        String str2 = contractGson.toJson(obj2);
+        assertEquals(str1, str2);
+    }
+
+    public static CharSequence getString(@StringRes int resId) {
+        return RuntimeEnvironment.application.getString(resId);
     }
 }

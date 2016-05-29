@@ -1,9 +1,10 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.dashboard.DashboardActivity">
+    android:orientation="vertical"
+    tools:context=".activity.dashboard.DashboardViewImplActivity">
 
     <RelativeLayout
         android:id="@+id/frag_balance"
@@ -38,13 +39,18 @@
             android:textColor="@color/third_text"/>
     </RelativeLayout>
 
-    <fragment
-        android:name="com.hunk.nobank.activity.dashboard.transaction.TransactionListFragment"
-        android:id="@+id/frag_transaction_list"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/frag_balance"
-        android:layout_alignParentBottom="true"
-        tools:layout="@layout/fragment_transaction_list"
-        />
-</RelativeLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/transaction_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@color/divider"
+            android:dividerHeight="1dp"
+            />
+    </android.support.v4.widget.SwipeRefreshLayout>
+</LinearLayout>
