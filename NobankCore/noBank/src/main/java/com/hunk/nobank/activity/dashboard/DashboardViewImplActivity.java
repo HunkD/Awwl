@@ -35,11 +35,13 @@ import java.util.List;
  * Scenario 3:
  *
  */
-public class DashboardActivity extends BaseActivity implements DashboardView {
-    private DashboardPresenter mPresenter;
+public class DashboardViewImplActivity extends BaseActivity implements DashboardView {
+    private DashboardPresenterImpl mPresenter;
     @VisibleForTesting
     private TextView mBalance;
+    @VisibleForTesting
     private SwipeRefreshLayout mSwipeContainer;
+    @VisibleForTesting
     private ListView mListView;
     private TransactionListAdapter mTransactionListAdapter;
 
@@ -81,7 +83,7 @@ public class DashboardActivity extends BaseActivity implements DashboardView {
             }
         });
         //
-        mPresenter = new DashboardPresenter(this);
+        mPresenter = new DashboardPresenterImpl(this);
     }
 
     @Override

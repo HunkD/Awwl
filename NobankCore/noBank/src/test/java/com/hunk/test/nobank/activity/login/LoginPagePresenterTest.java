@@ -9,7 +9,7 @@ import com.hunk.nobank.manager.UserSession;
 import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
-import com.hunk.test.utils.MockCore;
+import com.hunk.test.utils.mock.MockCore;
 import com.hunk.test.utils.TestNoBankApplication;
 
 import org.junit.Before;

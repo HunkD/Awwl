@@ -46,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.dashboard.DashboardActivity"
+            android:name=".activity.dashboard.DashboardViewImplActivity"
             android:screenOrientation="sensorPortrait"
             android:exported="false"
             android:label="@string/app_name"

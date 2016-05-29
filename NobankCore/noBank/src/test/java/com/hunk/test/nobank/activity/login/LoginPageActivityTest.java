@@ -10,7 +10,7 @@ import com.hunk.nobank.activity.login.LoginPageActivity;
 import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.UserSession;
-import com.hunk.test.utils.MockCore;
+import com.hunk.test.utils.mock.MockCore;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;

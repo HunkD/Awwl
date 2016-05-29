@@ -1,4 +1,4 @@
-package com.hunk.test.utils;
+package com.hunk.test.utils.mock;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.manager.UserManager;

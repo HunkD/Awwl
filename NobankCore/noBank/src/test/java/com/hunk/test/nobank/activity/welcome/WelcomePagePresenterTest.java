@@ -4,7 +4,7 @@ import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.activity.welcome.WelcomePagePresenter;
 import com.hunk.nobank.activity.welcome.WelcomeView;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.test.utils.MockCore;
+import com.hunk.test.utils.mock.MockCore;
 import com.hunk.test.utils.TestNoBankApplication;
 
 import org.junit.Before;
