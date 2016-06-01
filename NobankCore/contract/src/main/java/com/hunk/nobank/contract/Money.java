@@ -2,6 +2,8 @@ package com.hunk.nobank.contract;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  *
@@ -19,10 +21,14 @@ public class Money {
 
     public String string() {
         // TODO: apply pattern $####.##
-        DecimalFormat df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        df.setMinimumFractionDigits(2);
-        df.setGroupingUsed(false);
-        return df.format(value);
+        NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
+        if (numberFormat instanceof DecimalFormat) {
+            DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
+            decimalFormat.setMinimumFractionDigits(2);
+            decimalFormat.setMaximumFractionDigits(2);
+            decimalFormat.setGroupingUsed(false);
+            return decimalFormat.format(value);
+        }
+        return "";
     }
 }
