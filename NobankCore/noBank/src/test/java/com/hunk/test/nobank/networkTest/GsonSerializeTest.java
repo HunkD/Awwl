@@ -181,16 +181,16 @@ public class GsonSerializeTest {
 
     @Test
     public void testSerializeMoneyClassHappyPath() {
-        Money originalMoney = new Money("50");
-        assertEquals("50.00", originalMoney.string());
+        Money originalMoney = new Money("50000.00");
+        assertEquals("50000.00", originalMoney.string());
 
-        String expectedJson = "\"50.00\"";
+        String expectedJson = "\"50000.00\"";
         String json = ContractGson.getInstance().toJson(originalMoney);
         assertEquals(expectedJson, json);
 
         Money genMoney = ContractGson.getInstance().fromJson(json, Money.class);
         assertEquals(0, originalMoney.getValue().compareTo(genMoney.getValue()));
-        assertEquals("50.00", genMoney.string());
+        assertEquals("50000.00", genMoney.string());
     }
 
 
