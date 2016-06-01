@@ -84,6 +84,7 @@ public abstract class BaseActivity extends FragmentActivity {
         unrollIntent.setPackage(packageName);
         unrollIntent.setAction(RootActivity.ACTION);
         unrollIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        unrollIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return unrollIntent;
     }
 
