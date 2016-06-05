@@ -16,8 +16,10 @@ public abstract class DataManager {
     }
 
     public void unregisterViewManagerListener(ViewManagerListener viewManagerListener) {
-        if (listeners.containsKey(viewManagerListener.getId())) {
-            listeners.remove(viewManagerListener.getId());
+        synchronized (listeners) {
+            if (listeners.containsKey(viewManagerListener.getId())) {
+                listeners.remove(viewManagerListener.getId());
+            }
         }
     }
 
