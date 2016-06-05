@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.hunk.nobank.Core;
+import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.RealResp;
@@ -12,7 +13,9 @@ import com.hunk.nobank.manager.dataBasic.DataManager;
 import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
+import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.model.LoginReqPackage;
+import com.hunk.nobank.util.ViewHelper;
 
 /**
  * DataManager which hold all user data and session
@@ -94,30 +97,22 @@ public class UserManager extends DataManager {
     public boolean fetchAccountSummary(
             AccountSummaryPackage req, final ViewManagerListener listener) {
         final String id = listener.getId();
-        if (AccountSummaryPackage.cache.shouldFetch(req)) {
-            Core.getInstance().getNetworkHandler()
-                    .fireRequest(new ManagerListener() {
-                        @Override
-                        public void success(String managerId, String messageId, Object data) {
-                            RealResp<AccountSummary> realResp = (RealResp<AccountSummary>) data;
-                            AccountSummary accountSummary = realResp.Response;
-                            if (UserManager.isPostLogin(UserManager.this)) {
-                                mCurrentUserSession.generateAccountDataManager(accountSummary);
-                                mCurrentUserSession.generateTransactionDataManager(accountSummary);
-                                triggerSuccess(id, managerId, messageId, data);
-                            }
-                        }
-
-                        @Override
-                        public void failed(String managerId, String messageId, Object data) {
-                            triggerFailed(id, managerId, messageId, data);
-                        }
-                    }, req, getManagerId(), METHOD_ACCOUNT_SUMMARY);
-            return true;
-        } else {
-            listener.success(getManagerId(), METHOD_ACCOUNT_SUMMARY, AccountSummaryPackage.cache.get());
-            return false;
-        }
+        return invokeNetwork(id,
+                AccountSummaryPackage.cache, req,
+                MANAGER_ID, METHOD_ACCOUNT_SUMMARY, new SuccessCallBack() {
+            @Override
+            public boolean success(String managerId, String messageId, Object data) {
+                RealResp<AccountSummary> realResp = (RealResp<AccountSummary>) data;
+                AccountSummary accountSummary = realResp.Response;
+                if (UserManager.isPostLogin(UserManager.this)) {
+                    mCurrentUserSession.generateAccountDataManager(accountSummary);
+                    mCurrentUserSession.generateTransactionDataManager(accountSummary);
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 
     /**
@@ -144,5 +139,23 @@ public class UserManager extends DataManager {
 
     public void setCurrentUserSession(UserSession currentUserSession) {
         this.mCurrentUserSession = currentUserSession;
+    }
+
+    /**
+     * Logout method
+     * @param context
+     *    context which can start activity
+     */
+    public void logout(Context context) {
+        // reset current user session
+        setCurrentUserSession(null);
+        // clean call back
+        cleanViewManagerListener();
+        // clean session object cache
+        Core.clearCache();
+        // Unroll activity if it's foreground
+        if (ViewHelper.isAppForeGround) {
+            BaseActivity.unrollActivity(context);
+        }
     }
 }
