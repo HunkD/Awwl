@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class TransactionDataManager extends DataManager {
 
-    public static final String MANAGER_ID = "TransactionDataManager";
+    public static final String MANAGER_ID = TransactionDataManager.class.getName();
     private final AccountSummary mAccountSummary;
 
     public TransactionDataManager(AccountSummary accountSummary) {
@@ -63,17 +63,13 @@ public class TransactionDataManager extends DataManager {
                                  }
                             },
                             transactionReqPackage,
-                            getManagerId(),
+                            MANAGER_ID,
                             METHOD_TRANSACTION);
             return true;
         } else {
-            triggerSuccess(id, getManagerId(), METHOD_TRANSACTION, TransactionReqPackage.cache.get());
+            triggerSuccess(id, MANAGER_ID, METHOD_TRANSACTION, TransactionReqPackage.cache.get());
             return false;
         }
-    }
-
-    public final String getManagerId() {
-        return MANAGER_ID;
     }
 
     private class TransactionListCache extends Cache<RealResp<List<TransactionFields>>> {

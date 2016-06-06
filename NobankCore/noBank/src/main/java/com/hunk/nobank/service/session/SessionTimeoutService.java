@@ -58,12 +58,7 @@ public class SessionTimeoutService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Logging.d("SessionTimeoutService has been triggered. Execute timeout operation!");
         UserManager userManager = Core.getInstance().getUserManager();
-        if (UserManager.isPostLogin(userManager)) {
-            userManager.setCurrentUserSession(null);
-            if (ViewHelper.isAppForeGround) { // Unroll activity if it's foreground.
-                BaseActivity.unrollActivity(getApplicationContext());
-            }
-        }
+        userManager.logout(getApplicationContext());
         return super.onStartCommand(intent, flags, startId);
     }
 

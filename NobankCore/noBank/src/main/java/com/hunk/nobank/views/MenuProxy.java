@@ -58,10 +58,7 @@ public class MenuProxy {
             @Override
             public void onClick(View v) {
                 UserManager userManager = Core.getInstance().getUserManager();
-                if (UserManager.isPostLogin(userManager)) {
-                    userManager.setCurrentUserSession(null);
-                }
-                BaseActivity.unrollActivity(v.getContext());
+                userManager.logout(v.getContext());
             }
         });
 

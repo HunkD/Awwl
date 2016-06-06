@@ -1,23 +1,17 @@
 package com.hunk.nobank.activity.dashboard;
 
 import android.support.annotation.VisibleForTesting;
-import android.view.View;
 
 import com.hunk.nobank.Core;
-import com.hunk.nobank.activity.dashboard.transaction.LoadingState;
-import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionFields;
 import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.manager.AccountDataManager;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.UserSession;
+import com.hunk.nobank.manager.VaultDataManager;
 import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.TransactionReqPackage;
-import com.hunk.nobank.views.PullToRefreshListView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author HunkDeng
@@ -30,8 +24,8 @@ public class DashboardPresenterImpl implements DashboardPresenter {
 
     private UserManager mUserManager;
     private TransactionDataManager mTransactionDataManager;
-    private AccountDataManager mMainAccountDataManager;
-    private AccountDataManager mVaultAccountDataManager;
+    private AccountDataManager mAccountDataManager;
+    private VaultDataManager mVaultDataManager;
 
     @VisibleForTesting
     private ViewManagerListener mViewManagerListener = new ViewManagerListener(this) {
@@ -40,10 +34,10 @@ public class DashboardPresenterImpl implements DashboardPresenter {
             if (managerId.equals(UserManager.MANAGER_ID)) {
                 if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
                     if (UserManager.isPostLogin(mUserManager)) { // TODO: AOC
-                        mMainAccountDataManager = mUserManager.getCurrentUserSession().getAccountDataManagerByType(AccountType.Main);
-                        mVaultAccountDataManager = mUserManager.getCurrentUserSession().getAccountDataManagerByType(AccountType.Vault);
+                        mAccountDataManager = mUserManager.getCurrentUserSession().getAccountDataManager();
+                        mVaultDataManager = mUserManager.getCurrentUserSession().getVaultDataManager();
 
-                        mView.showBalance(mMainAccountDataManager.getAccountModel().Balance);
+                        mView.showBalance(mAccountDataManager.getAccountModel().Balance);
                     } else {
                         // TODO: throw exception in debug mode, or clean listener after session expire.
                     }
