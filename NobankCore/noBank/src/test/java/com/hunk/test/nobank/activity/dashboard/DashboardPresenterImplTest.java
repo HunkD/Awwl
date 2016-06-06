@@ -84,7 +84,7 @@ public class DashboardPresenterImplTest extends AfterLoginTest implements Dashbo
     public void accountSummaryActionSuccess() {
         AccountModel accountModel = new AccountModel();
         accountModel.Balance = new Money("20");
-        when(getMockedUS().getAccountDataManagerByType(AccountType.Main))
+        when(getMockedUS().getAccountDataManager())
                 .thenReturn(new AccountDataManager(accountModel));
         //
         DashboardPresenter presenter = getTestObj();

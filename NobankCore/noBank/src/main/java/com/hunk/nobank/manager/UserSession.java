@@ -17,23 +17,32 @@ import java.util.Map;
  */
 public class UserSession {
 
-    private Map<AccountType, AccountDataManager> accountDataManagerMap;
     private LoginStateEnum mLoginState;
+    /**
+     * Transaction data related
+     */
     private TransactionDataManager mTransactionDataManager;
+    /**
+     * Account data related
+     */
+    private AccountDataManager mAccountDataManager;
+    /**
+     * Vault data related
+     */
+    private VaultDataManager mVaultDataManager;
 
     public UserSession() {
-        this.accountDataManagerMap = new HashMap<>();
     }
 
     public void generateAccountDataManager(AccountSummary accountSummary) {
         List<AccountModel> allAccountIds = accountSummary.Accounts;
         for (AccountModel accountModel : allAccountIds) {
-            accountDataManagerMap.put(accountModel.Type, new AccountDataManager(accountModel));
+            if (AccountType.Main == accountModel.Type) {
+                mAccountDataManager = new AccountDataManager(accountModel);
+            } else if (AccountType.Vault == accountModel.Type) {
+                mVaultDataManager = new VaultDataManager(accountModel);
+            }
         }
-    }
-
-    public AccountDataManager getAccountDataManagerByType(AccountType type) {
-        return accountDataManagerMap.get(type);
     }
 
     public LoginStateEnum getLoginState() {
@@ -52,4 +61,11 @@ public class UserSession {
         return mTransactionDataManager;
     }
 
+    public VaultDataManager getVaultDataManager() {
+        return mVaultDataManager;
+    }
+
+    public AccountDataManager getAccountDataManager() {
+        return mAccountDataManager;
+    }
 }

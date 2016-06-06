@@ -22,7 +22,7 @@ import com.hunk.nobank.util.ViewHelper;
  */
 public class UserManager extends DataManager {
 
-    public static final String MANAGER_ID = "LoginManager";
+    public static final String MANAGER_ID = UserManager.class.getName();
 
     private static final String APP_SHARED_PREFERENCES_NAME = "NobankSharedPref";
 

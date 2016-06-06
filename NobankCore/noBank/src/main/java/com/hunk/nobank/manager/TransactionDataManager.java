@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class TransactionDataManager extends DataManager {
 
-    public static final String MANAGER_ID = "TransactionDataManager";
+    public static final String MANAGER_ID = TransactionDataManager.class.getName();
     private final AccountSummary mAccountSummary;
 
     public TransactionDataManager(AccountSummary accountSummary) {
