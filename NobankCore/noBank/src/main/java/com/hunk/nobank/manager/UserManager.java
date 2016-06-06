@@ -79,11 +79,7 @@ public class UserManager extends DataManager {
                     public void failed(String managerId, String messageId, Object data) {
                         triggerFailed(id, managerId, messageId, data);
                     }
-                }, req, getManagerId(), METHOD_LOGIN);
-    }
-
-    public final String getManagerId() {
-        return MANAGER_ID;
+                }, req, MANAGER_ID, METHOD_LOGIN);
     }
 
     public static final String METHOD_ACCOUNT_SUMMARY = "METHOD_ACCOUNT_SUMMARY";

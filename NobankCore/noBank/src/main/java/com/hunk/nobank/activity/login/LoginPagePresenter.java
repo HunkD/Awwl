@@ -54,7 +54,7 @@ public class LoginPagePresenter {
 
         @Override
         public void onFailed(String managerId, String messageId, Object data) {
-            if (managerId.equals(mUserManager.getManagerId())) {
+            if (managerId.equals(UserManager.MANAGER_ID)) {
                 if (messageId.equals(UserManager.METHOD_LOGIN)) {
                     mView.dismissLoading();
                     mView.showErrorMessage("failed");

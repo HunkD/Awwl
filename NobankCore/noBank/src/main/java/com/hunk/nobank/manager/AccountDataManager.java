@@ -18,7 +18,6 @@ public class AccountDataManager extends DataManager {
         this.accountModel = accountModel;
     }
 
-    @Override
     public String getManagerId() {
         return accountModel.Type.toString();
     }

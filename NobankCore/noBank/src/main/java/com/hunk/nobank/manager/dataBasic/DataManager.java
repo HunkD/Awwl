@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class DataManager {
-    // TODO: Remove this method
-    public abstract String getManagerId();
 
     private final Map<String, ViewManagerListener> listeners = new HashMap<>();
 
