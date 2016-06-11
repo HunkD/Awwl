@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
-import com.hunk.nobank.activity.RootActivity;
+import com.hunk.nobank.activity.root.RootActivity;
 import com.hunk.nobank.activity.login.LoginPageActivity;
 import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.UserManager;

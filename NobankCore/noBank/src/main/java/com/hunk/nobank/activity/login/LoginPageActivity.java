@@ -9,9 +9,11 @@ import android.widget.EditText;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
-import com.hunk.nobank.activity.RootActivity;
+import com.hunk.nobank.activity.root.RootActivity;
 
-public class LoginPageActivity extends BaseActivity implements LoginView {
+public class LoginPageActivity
+        extends BaseActivity<LoginPagePresenter>
+        implements LoginView<LoginPagePresenter> {
 
     public static final String ACTION = "action.login.open_main";
 
@@ -20,7 +22,9 @@ public class LoginPageActivity extends BaseActivity implements LoginView {
     private EditText mInputLoginPsd;
     private CheckBox mRememberMe;
 
-    private LoginPagePresenter mPresenter;
+    {
+        setPresenter(new LoginPagePresenter());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +32,6 @@ public class LoginPageActivity extends BaseActivity implements LoginView {
         this.setContentView(R.layout.activity_login, Base.NO_DRAW_LAYOUT);
         application = (NoBankApplication) getApplication();
         setupUI();
-
-        mPresenter = new LoginPagePresenter(this);
     }
 
     private void setupUI() {
@@ -53,12 +55,6 @@ public class LoginPageActivity extends BaseActivity implements LoginView {
     protected void onPause() {
         super.onPause();
         mPresenter.onPause();
-    }
-
-    @Override
-    protected void onDestroy() {
-        mPresenter.onDestroy();
-        super.onDestroy();
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -18,6 +17,9 @@ import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.base.BasePresenter;
+import com.hunk.nobank.activity.base.AbstractViewActivity;
+import com.hunk.nobank.activity.root.RootActivity;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.service.session.SessionTimeoutService;
 import com.hunk.nobank.util.HijackingNotification;
@@ -31,7 +33,7 @@ import com.hunk.nobank.views.TitleBarPoxy;
  * Base Activity to provide base function. Each Activity should extends it
  * such as custom title bar, left slide menu, unrollActivity
  */
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity<P extends BasePresenter> extends AbstractViewActivity<P> {
 
     private static final String DIALOG_LOADING_TAG = "DIALOG_LOADING_TAG";
 

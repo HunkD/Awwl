@@ -11,7 +11,14 @@ import com.hunk.nobank.service.registration.RegistrationForegroundService;
 /**
  *
  */
-public class SignUpActivity extends BaseActivity {
+public class SignUpActivity
+        extends BaseActivity<SignUpPresenter>
+        implements SignUpView<SignUpPresenter> {
+
+    {
+        setPresenter(new SignUpPresenterImpl());
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

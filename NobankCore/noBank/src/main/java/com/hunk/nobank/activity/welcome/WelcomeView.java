@@ -2,11 +2,14 @@ package com.hunk.nobank.activity.welcome;
 
 import android.view.View;
 
+import com.hunk.nobank.activity.base.BasePresenter;
+import com.hunk.nobank.activity.base.BaseView;
+
 /**
  * @author HunkDeng
  * @since 2016/5/21
  */
-public interface WelcomeView {
+public interface WelcomeView<P extends BasePresenter> extends BaseView<P> {
     /**
      * sign in action
      * @param view

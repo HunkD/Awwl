@@ -10,8 +10,12 @@ import com.hunk.nobank.activity.login.LoginPageActivity;
 import com.hunk.nobank.util.ViewHelper;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
-public class WelcomePageActivity extends BaseActivity implements WelcomeView {
-    private WelcomePagePresenter mPresenter;
+public class WelcomePageActivity
+        extends BaseActivity<WelcomePagePresenter>
+        implements WelcomeView<WelcomePagePresenter> {
+    {
+        setPresenter(new WelcomePagePresenter());
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +24,6 @@ public class WelcomePageActivity extends BaseActivity implements WelcomeView {
         setBaseStyle(Base.NO_DRAW_LAYOUT);
         setBaseStyle(Base.NO_TITLE_BAR);
 
-        mPresenter = new WelcomePagePresenter(this);
         mPresenter.onCreate();
     }
 
@@ -28,12 +31,6 @@ public class WelcomePageActivity extends BaseActivity implements WelcomeView {
     protected void onResume() {
         super.onResume();
         mPresenter.onResume();
-    }
-
-    @Override
-    protected void onDestroy() {
-        mPresenter.onDestroy();
-        super.onDestroy();
     }
 
     @Override

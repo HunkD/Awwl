@@ -11,7 +11,9 @@ import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.util.ViewHelper;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
-public class CardInfoActivity extends BaseActivity {
+public class CardInfoActivity
+        extends BaseActivity<CardInfoPresenter>
+        implements CardInfoView<CardInfoPresenter> {
 
     private EditText mCardNumberInput;
     private EditText mCardCVVInput;
@@ -21,6 +23,9 @@ public class CardInfoActivity extends BaseActivity {
     private State mState;
     private View mSignUpBtn;
 
+    {
+        setPresenter(new CardInfoPresenterImpl());
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

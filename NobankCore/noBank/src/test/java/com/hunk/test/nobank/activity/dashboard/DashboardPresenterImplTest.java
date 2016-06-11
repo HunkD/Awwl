@@ -4,7 +4,6 @@ import com.hunk.nobank.activity.dashboard.DashboardPresenter;
 import com.hunk.nobank.activity.dashboard.DashboardPresenterImpl;
 import com.hunk.nobank.activity.dashboard.DashboardView;
 import com.hunk.nobank.contract.AccountModel;
-import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.contract.Money;
 import com.hunk.nobank.manager.AccountDataManager;
 import com.hunk.nobank.manager.TransactionDataManager;
@@ -14,10 +13,10 @@ import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.Cache;
 import com.hunk.test.utils.AfterLoginTest;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.util.ReflectionHelpers;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -30,23 +29,17 @@ import static org.mockito.Mockito.when;
  * @author HunkDeng
  * @since 2016/5/24
  */
-public class DashboardPresenterImplTest extends AfterLoginTest implements DashboardPresenter {
-    
+public class DashboardPresenterImplTest extends AfterLoginTest implements DashboardPresenter<DashboardView> {
+
     interface ReflectionId {
         String view = "mView";
         String viewManagerListener = "mViewManagerListener";
     }
     
-    private DashboardView mMockedView;
-
-    @Before
-    public void setup() {
-        super.setup();
-        mMockedView = mock(DashboardView.class);
-    }
-    
-    public DashboardPresenter getTestObj() {
-        return new DashboardPresenterImpl(mMockedView);
+    private DashboardPresenter<DashboardView> getTestObj() {
+        DashboardPresenter<DashboardView> presenter = new DashboardPresenterImpl();
+        presenter.attach(getView());
+        return presenter;
     }
 
     /**
@@ -62,10 +55,10 @@ public class DashboardPresenterImplTest extends AfterLoginTest implements Dashbo
         when(getMockedUM().fetchAccountSummary(
                 any(AccountSummaryPackage.class), any(ViewManagerListener.class))).thenReturn(true);
 
-        DashboardPresenter presenter = getTestObj();
+        DashboardPresenter<DashboardView> presenter = getTestObj();
         presenter.onResume();
 
-        verify(mMockedView, times(1)).showLoadingBalance();
+        verify(presenter.getView(), times(1)).showLoadingBalance();
     }
     
     @Test
@@ -74,10 +67,10 @@ public class DashboardPresenterImplTest extends AfterLoginTest implements Dashbo
         AccountSummaryPackage.cache = new Cache<>();
         AccountSummaryPackage.cache.expire();
         //
-        DashboardPresenter presenter = getTestObj();
+        DashboardPresenter<DashboardView> presenter = getTestObj();
         presenter.onResume();
         //
-        verify(mMockedView, times(0)).showLoadingBalance();
+        verify(presenter.getView(), times(0)).showLoadingBalance();
     }
 
     @Test
@@ -87,39 +80,32 @@ public class DashboardPresenterImplTest extends AfterLoginTest implements Dashbo
         when(getMockedUS().getAccountDataManager())
                 .thenReturn(new AccountDataManager(accountModel));
         //
-        DashboardPresenter presenter = getTestObj();
+        DashboardPresenter<DashboardView> presenter = getTestObj();
         ViewManagerListener viewManagerListener =
                 ReflectionHelpers.getField(presenter, ReflectionId.viewManagerListener);
 
         viewManagerListener.onSuccess(UserManager.MANAGER_ID, UserManager.METHOD_ACCOUNT_SUMMARY, null);
         //
-        verify(mMockedView, times(1)).showBalance(accountModel.Balance);
+        verify(presenter.getView(), times(1)).showBalance(accountModel.Balance);
     }
 
     @Test
     public void accountSummaryActionFailed() {
-        DashboardPresenter presenter = getTestObj();
-        presenter.onDestroy();
+        DashboardPresenter<DashboardView> presenter = getTestObj();
+        DashboardView mockedView = presenter.getView();
+        presenter.detach();
         ViewManagerListener viewManagerListener =
                 ReflectionHelpers.getField(presenter, ReflectionId.viewManagerListener);
 
         viewManagerListener.onFailed(UserManager.MANAGER_ID, UserManager.METHOD_ACCOUNT_SUMMARY, null);
         //
-        verify(mMockedView, times(0)).showBalance(any(Money.class));
-    }
-
-    @Test
-    @Override
-    public void onDestroy() {
-        DashboardPresenter presenter = getTestObj();
-        presenter.onDestroy();
-        assertNull(ReflectionHelpers.getField(presenter, ReflectionId.view));
+        verify(mockedView, times(0)).showBalance(any(Money.class));
     }
 
     @Test
     @Override
     public void forceRefreshAction() {
-        DashboardPresenter presenter = getTestObj();
+        DashboardPresenter<DashboardView> presenter = getTestObj();
         presenter.forceRefreshAction();
 
         TransactionDataManager mockedTM = getMockedTM();
@@ -129,10 +115,43 @@ public class DashboardPresenterImplTest extends AfterLoginTest implements Dashbo
     @Test
     @Override
     public void firstTimeResume() {
-        DashboardPresenter presenter = getTestObj();
+        DashboardPresenter<DashboardView> presenter = getTestObj();
         presenter.firstTimeResume();
 
         TransactionDataManager mockedTM = getMockedTM();
         verify(mockedTM, times(1)).fetchTransactions(eq(false), any(ViewManagerListener.class));
+    }
+
+    @Override
+    public void showMoreTransactionsAction() {
+        DashboardPresenter<DashboardView> presenter = getTestObj();
+        presenter.showMoreTransactionsAction();
+
+        TransactionDataManager mockedTM = getMockedTM();
+        verify(mockedTM, times(1)).fetchTransactions(eq(true), any(ViewManagerListener.class));
+    }
+
+    @Override
+    public void attach(DashboardView view) {
+        DashboardPresenter<DashboardView> presenter = getTestObj();
+        DashboardView dashboardView = presenter.getView();
+        presenter.detach();
+        assertNull(presenter.getView());
+
+        presenter.attach(dashboardView);
+        assertNotNull(presenter.getView());
+    }
+
+    @Test
+    @Override
+    public void detach() {
+        DashboardPresenter<DashboardView> presenter = getTestObj();
+        presenter.detach();
+        assertNull(presenter.getView());
+    }
+
+    @Override
+    public DashboardView getView() {
+        return mock(DashboardView.class);
     }
 }

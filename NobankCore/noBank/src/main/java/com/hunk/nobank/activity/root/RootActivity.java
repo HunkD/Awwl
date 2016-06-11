@@ -1,10 +1,11 @@
-package com.hunk.nobank.activity;
+package com.hunk.nobank.activity.root;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
+import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.util.Logging;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
@@ -12,9 +13,14 @@ import com.hunk.whitelabel.retailer.RetailerFeatureList;
 /**
  * The Root for Activity Stack of this application
  */
-public class RootActivity extends BaseActivity {
+public class RootActivity
+        extends BaseActivity<RootPresenter>
+        implements RootView<RootPresenter> {
     public static final String ACTION = "action.root.open_main";
 
+    {
+        setPresenter(new RootPresenterImpl());
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

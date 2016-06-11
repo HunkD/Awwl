@@ -9,7 +9,13 @@ import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.flow.P2pScreenFlow;
 import com.hunk.nobank.manager.flowBasic.ScreenFlow;
 
-public class PaymentMainActivity extends BaseActivity {
+public class PayMainViewImplActivity
+        extends BaseActivity<PayMainPresenter>
+        implements PayMainView<PayMainPresenter> {
+
+    {
+        setPresenter(new PayMainPresenterImpl());
+    }
 
     @Override
     protected boolean isRequiredLoginedUserSession() {
