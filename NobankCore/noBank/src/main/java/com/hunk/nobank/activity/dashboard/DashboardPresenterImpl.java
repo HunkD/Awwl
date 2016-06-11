@@ -3,6 +3,8 @@ package com.hunk.nobank.activity.dashboard;
 import android.support.annotation.VisibleForTesting;
 
 import com.hunk.nobank.Core;
+import com.hunk.nobank.activity.base.AbstractPresenter;
+import com.hunk.nobank.activity.base.BaseView;
 import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.manager.AccountDataManager;
 import com.hunk.nobank.manager.TransactionDataManager;
@@ -17,10 +19,9 @@ import com.hunk.nobank.model.TransactionReqPackage;
  * @author HunkDeng
  * @since 2016/5/23
  */
-public class DashboardPresenterImpl implements DashboardPresenter {
-
-    @VisibleForTesting
-    private DashboardView mView;
+public class DashboardPresenterImpl
+        extends AbstractPresenter<DashboardView>
+        implements DashboardPresenter<DashboardView> {
 
     private UserManager mUserManager;
     private TransactionDataManager mTransactionDataManager;
@@ -55,9 +56,7 @@ public class DashboardPresenterImpl implements DashboardPresenter {
         }
     };
 
-    public DashboardPresenterImpl(DashboardView view) {
-        mView = view;
-
+    public DashboardPresenterImpl() {
         mUserManager = Core.getInstance().getUserManager();
         mUserManager.registerViewManagerListener(mViewManagerListener);
         UserSession currentUserSession = mUserManager.getCurrentUserSession();
@@ -69,8 +68,8 @@ public class DashboardPresenterImpl implements DashboardPresenter {
     }
 
     @Override
-    public void onDestroy() {
-        mView = null;
+    public void detach() {
+        super.detach();
         // TODO: remove this
         mUserManager.unregisterViewManagerListener(mViewManagerListener);
         if (mTransactionDataManager != null) {

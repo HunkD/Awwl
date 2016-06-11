@@ -1,4 +1,4 @@
-package com.hunk.test.nobank.activity;
+package com.hunk.test.nobank.activity.registration;
 
 import android.content.Intent;
 

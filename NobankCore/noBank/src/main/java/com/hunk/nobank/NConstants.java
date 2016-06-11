@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.hunk.nobank.activity.dashboard.DashboardViewImplActivity;
+import com.hunk.nobank.activity.root.RootActivity;
 
 public class NConstants {
     public final static int ANIMATION_DURATION_MEDIUM = 2000;
@@ -17,7 +18,7 @@ public class NConstants {
      *  @see
      *  com.hunk.nobank.views.MenuProxy.MenuBaseAdapter#onItemClick(AdapterView, View, int, long)
      *  @see
-     *  com.hunk.nobank.activity.RootActivity#onNewIntent(Intent)
+     *  RootActivity#onNewIntent(Intent)
      */
     public final static String INTENT_EXTRA_START_MENU = "INTENT_EXTRA_START_MENU";
     /**
@@ -26,14 +27,14 @@ public class NConstants {
      *  @see
      *  com.hunk.nobank.views.MenuProxy.MenuBaseAdapter#onItemClick(AdapterView, View, int, long)
      *  @see
-     *  com.hunk.nobank.activity.RootActivity#onNewIntent(Intent)
+     *  RootActivity#onNewIntent(Intent)
      */
     public final static String INTENT_EXTRA_IS_START_MENU = "INTENT_EXTRA_IS_START_MENU";
     /**
      * Flag intent key:
      *  Pass true, so RootActivity will handle it as exit action, vice versa
      *  @see
-     *  com.hunk.nobank.activity.RootActivity#onNewIntent(Intent)
+     *  RootActivity#onNewIntent(Intent)
      *  @see
      *  DashboardViewImplActivity#onBackPressed()
      */

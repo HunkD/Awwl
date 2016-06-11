@@ -6,6 +6,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
+import com.hunk.nobank.activity.base.BasePresenter;
 import com.hunk.nobank.activity.dashboard.DashboardViewImplActivity;
 import com.hunk.nobank.activity.dashboard.DashboardView;
 import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionFields;
@@ -64,8 +65,12 @@ public class DashboardViewImplActivityTest
         assertEquals(getString(R.string.loading_balance), balanceView.getText());
     }
 
+    /**
+     * test interface redirect {@link #showTransactionList()}
+     * @param mTransactionList
+     */
     @Override
-    public void showTransactionList(List<TransactionFields> mTransactionList) {
+    public void showTransactionList(List mTransactionList) {
         // prepare
         List<TransactionFields> list = MockTransaction.fakeTransactionList();
         // test
@@ -98,5 +103,16 @@ public class DashboardViewImplActivityTest
                 getField(dashboardView, ReflectionId.swipeContainer);
 
         assertTrue(swipeContainer.isRefreshing());
+    }
+
+
+    @Override
+    public void setPresenter(BasePresenter presenter) {
+
+    }
+
+    @Override
+    public BasePresenter getPresenter() {
+        return null;
     }
 }

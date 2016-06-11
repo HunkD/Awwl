@@ -49,7 +49,7 @@ public class LoginPagePresenterTest {
 
     @Test
     public void testLoginActionWithInValidInput() {
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
+        LoginPagePresenter presenter = getTestObj();
         when(mMockView.getUserName()).thenReturn("");
         when(mMockView.getPsd()).thenReturn("");
         when(mMockView.isCheckedRememberMe()).thenReturn(false);
@@ -60,7 +60,7 @@ public class LoginPagePresenterTest {
 
     @Test
     public void testLoginActionWithValidInput() {
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
+        LoginPagePresenter presenter = getTestObj();
         when(mMockView.getUserName()).thenReturn("1");
         when(mMockView.getPsd()).thenReturn("2");
         when(mMockView.isCheckedRememberMe()).thenReturn(false);
@@ -76,7 +76,7 @@ public class LoginPagePresenterTest {
         userSession.setLoginState(LoginStateEnum.Logined);
         when(mMockUM.getCurrentUserSession()).thenReturn(userSession);
         // execute test
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
+        LoginPagePresenter presenter = getTestObj();
         ViewManagerListener viewManagerListener =
                 ReflectionHelpers.getField(presenter, "mManagerListener");
 
@@ -93,7 +93,7 @@ public class LoginPagePresenterTest {
     public void testLoginActionWithSuccessAccountSummaryCallback() {
         // mock
         // execute test
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
+        LoginPagePresenter presenter = getTestObj();
         ViewManagerListener viewManagerListener =
                 ReflectionHelpers.getField(presenter, "mManagerListener");
 
@@ -113,7 +113,7 @@ public class LoginPagePresenterTest {
         userSession.setLoginState(LoginStateEnum.Logined);
         when(mMockUM.getCurrentUserSession()).thenReturn(userSession);
         // execute test
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
+        LoginPagePresenter presenter = getTestObj();
         ViewManagerListener viewManagerListener =
                 ReflectionHelpers.getField(presenter, "mManagerListener");
 
@@ -133,7 +133,7 @@ public class LoginPagePresenterTest {
         userSession.setLoginState(LoginStateEnum.Logined);
         when(mMockUM.getCurrentUserSession()).thenReturn(userSession);
         // execute test
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
+        LoginPagePresenter presenter = getTestObj();
         ViewManagerListener viewManagerListener =
                 ReflectionHelpers.getField(presenter, "mManagerListener");
 
@@ -154,7 +154,7 @@ public class LoginPagePresenterTest {
         when(mMockUM.isRememberMe()).thenReturn(true);
         when(mMockUM.getRememberMeUserName()).thenReturn(expectedUsername);
         // execute
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
+        LoginPagePresenter presenter = getTestObj();
         presenter.onResume();
         // verify
         verify(mMockView, times(1)).showRememberedUserName(expectedUsername);
@@ -165,7 +165,7 @@ public class LoginPagePresenterTest {
         // mock
         when(mMockUM.isRememberMe()).thenReturn(false);
         // execute
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
+        LoginPagePresenter presenter = getTestObj();
         presenter.onResume();
         // verify
         verify(mMockView, times(0)).showRememberedUserName(anyString());
@@ -178,7 +178,7 @@ public class LoginPagePresenterTest {
         when(mMockView.isCheckedRememberMe()).thenReturn(true);
         when(mMockView.getUserName()).thenReturn(expectedUsername);
         // execute
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
+        LoginPagePresenter presenter = getTestObj();
         presenter.onPause();
         // verify
         verify(mMockUM, times(1)).setRememberMe(true, expectedUsername);
@@ -189,7 +189,7 @@ public class LoginPagePresenterTest {
         // mock
         when(mMockView.isCheckedRememberMe()).thenReturn(false);
         // execute
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
+        LoginPagePresenter presenter = getTestObj();
         presenter.onPause();
         // verify
         verify(mMockUM, times(1)).setRememberMe(false, null);
@@ -197,8 +197,14 @@ public class LoginPagePresenterTest {
 
     @Test
     public void testOnDestroy() {
-        LoginPagePresenter presenter = new LoginPagePresenter(mMockView);
-        presenter.onDestroy();
+        LoginPagePresenter presenter = getTestObj();
+        presenter.detach();
         assertNull(ReflectionHelpers.getField(presenter, "mView"));
+    }
+    
+    private LoginPagePresenter getTestObj() {
+        LoginPagePresenter presenter = new LoginPagePresenter();
+        presenter.attach(mMockView);
+        return presenter;
     }
 }

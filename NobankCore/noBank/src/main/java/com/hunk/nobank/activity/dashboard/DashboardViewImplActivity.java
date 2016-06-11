@@ -35,8 +35,10 @@ import java.util.List;
  * Scenario 3:
  *
  */
-public class DashboardViewImplActivity extends BaseActivity implements DashboardView {
-    private DashboardPresenterImpl mPresenter;
+public class DashboardViewImplActivity
+        extends BaseActivity<DashboardPresenter>
+        implements DashboardView<DashboardPresenter> {
+
     @VisibleForTesting
     private TextView mBalance;
     @VisibleForTesting
@@ -46,6 +48,10 @@ public class DashboardViewImplActivity extends BaseActivity implements Dashboard
     private TransactionListAdapter mTransactionListAdapter;
 
     private boolean mInit = true;
+
+    {
+        setPresenter(new DashboardPresenterImpl());
+    }
 
     @Override
     protected boolean isRequiredLoginedUserSession() {
@@ -82,8 +88,6 @@ public class DashboardViewImplActivity extends BaseActivity implements Dashboard
                 mPresenter.forceRefreshAction();
             }
         });
-        //
-        mPresenter = new DashboardPresenterImpl(this);
     }
 
     @Override
@@ -102,12 +106,6 @@ public class DashboardViewImplActivity extends BaseActivity implements Dashboard
             //
             mPresenter.firstTimeResume();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        mPresenter.onDestroy();
-        super.onDestroy();
     }
 
     @Override

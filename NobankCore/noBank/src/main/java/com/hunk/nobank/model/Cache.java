@@ -7,7 +7,7 @@ import com.hunk.nobank.extension.network.BaseReqPackage;
  *
  */
 public class Cache<Resp> {
-    private static final long SHORT_TIMEOUT = 60 * 1000;
+    private static final long SHORT_TIMEOUT = 3 * 60 * 1000;
     private static final long LONG_TIMEOUT = 5 * 60 * 1000;
     private Resp cache;
     private long cacheTimestamp;

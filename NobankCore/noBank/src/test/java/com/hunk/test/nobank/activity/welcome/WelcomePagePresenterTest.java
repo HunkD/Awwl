@@ -1,5 +1,7 @@
 package com.hunk.test.nobank.activity.welcome;
 
+import android.support.annotation.NonNull;
+
 import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.activity.welcome.WelcomePagePresenter;
 import com.hunk.nobank.activity.welcome.WelcomeView;
@@ -48,9 +50,16 @@ public class WelcomePagePresenterTest {
     @Test
     public void testOnResumeFirstTimeCheckRememberMe() {
         when(mMockUDM.isRememberMe()).thenReturn(true);
-        WelcomePagePresenter presenter = new WelcomePagePresenter(mMockView);
+        WelcomePagePresenter presenter = getTestObj();
         presenter.onResume();
         verify(mMockView, times(1)).onClickSignIn(null);
+    }
+
+    @NonNull
+    private WelcomePagePresenter getTestObj() {
+        WelcomePagePresenter presenter = new WelcomePagePresenter();
+        presenter.attach(mMockView);
+        return presenter;
     }
 
     /**
@@ -60,7 +69,7 @@ public class WelcomePagePresenterTest {
     @Test
     public void testOnResumeFirstTimeCheckRememberMe2() {
         when(mMockUDM.isRememberMe()).thenReturn(false);
-        WelcomePagePresenter presenter = new WelcomePagePresenter(mMockView);
+        WelcomePagePresenter presenter = getTestObj();
         presenter.onResume();
         verify(mMockView, times(0)).onClickSignIn(null);
     }
@@ -72,7 +81,7 @@ public class WelcomePagePresenterTest {
     @Test
     public void testOnResumeSecondTimeCheckRememberMe() {
         when(mMockUDM.isRememberMe()).thenReturn(true);
-        WelcomePagePresenter presenter = new WelcomePagePresenter(mMockView);
+        WelcomePagePresenter presenter = getTestObj();
         ReflectionHelpers.setField(presenter, "mCheckRememberMe", false);
         presenter.onResume();
         verify(mMockView, times(0)).onClickSignIn(null);
@@ -85,7 +94,7 @@ public class WelcomePagePresenterTest {
     @Test
     public void testOnResumeSecondTimeCheckRememberMe2() {
         when(mMockUDM.isRememberMe()).thenReturn(false);
-        WelcomePagePresenter presenter = new WelcomePagePresenter(mMockView);
+        WelcomePagePresenter presenter = getTestObj();
         ReflectionHelpers.setField(presenter, "mCheckRememberMe", false);
         presenter.onResume();
         verify(mMockView, times(0)).onClickSignIn(null);
@@ -93,8 +102,8 @@ public class WelcomePagePresenterTest {
 
     @Test
     public void testOnDestroy() {
-        WelcomePagePresenter presenter = new WelcomePagePresenter(mMockView);
-        presenter.onDestroy();
+        WelcomePagePresenter presenter = getTestObj();
+        presenter.detach();
         assertNull(ReflectionHelpers.getField(presenter, "mView"));
     }
 }

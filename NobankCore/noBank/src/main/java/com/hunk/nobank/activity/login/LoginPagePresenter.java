@@ -3,6 +3,7 @@ package com.hunk.nobank.activity.login;
 import android.support.annotation.VisibleForTesting;
 
 import com.hunk.nobank.Core;
+import com.hunk.nobank.activity.base.AbstractPresenter;
 import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
@@ -14,14 +15,10 @@ import com.hunk.nobank.util.StringUtils;
  * @author HunkDeng
  * @since 2016/5/22
  */
-public class LoginPagePresenter {
-    @VisibleForTesting
-    private LoginView mView;
+public class LoginPagePresenter extends AbstractPresenter<LoginView>{
     private final UserManager mUserManager;
 
-    public LoginPagePresenter(LoginView view) {
-        mView = view;
-
+    public LoginPagePresenter() {
         mUserManager = Core.getInstance().getUserManager();
         mUserManager.registerViewManagerListener(mManagerListener);
     }
@@ -99,8 +96,8 @@ public class LoginPagePresenter {
         return pass;
     }
 
-    public void onDestroy() {
-        mView = null;
+    public void detach() {
+        super.detach();
         // TODO: remove this
         mUserManager.unregisterViewManagerListener(mManagerListener);
     }
