@@ -16,6 +16,7 @@ import com.hunk.whitelabel.retailer.RetailerFeatureList;
 public class RootActivity
         extends BaseActivity<RootPresenter>
         implements RootView<RootPresenter> {
+
     public static final String ACTION = "action.root.open_main";
 
     {
@@ -25,6 +26,11 @@ public class RootActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /**
+         * call the common logic in onNewIntent()
+         * because we use singleTop for RootActivity,
+         * it will call onNewIntent() when we unroll to root activity.
+         */
         onNewIntent(getIntent());
     }
 

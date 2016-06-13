@@ -14,6 +14,10 @@ import com.hunk.nobank.model.Cacheable;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
+/**
+ * Stub to mock network layer.
+ * You can prepare fake response in this class, we will return them in the sequence you put them.
+ */
 public class NetworkHandlerStub extends NetworkHandler {
     private final Handler mHandler;
     private Queue<RealResp<?>> prepareList = new ArrayBlockingQueue<>(50);

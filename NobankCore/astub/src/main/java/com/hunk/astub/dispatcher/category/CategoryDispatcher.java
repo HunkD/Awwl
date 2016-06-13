@@ -8,6 +8,9 @@ import java.util.HashMap;
 
 import fi.iki.elonen.NanoHTTPD;
 
+/**
+ * First level dispatcher to handle category part
+ */
 public class CategoryDispatcher implements Dispatcher {
 
     private HashMap<String, Dispatcher> categoryDispatcherMap;
@@ -22,7 +25,9 @@ public class CategoryDispatcher implements Dispatcher {
 
     public String dispatch(NanoHTTPD.IHTTPSession session) {
         Uri uri = Uri.parse(session.getUri());
+        // API format Category/Method
         String category = uri.getPathSegments().get(0);
+        // Pass this session to specific Category dispatcher
         return categoryDispatcherMap.get(category).dispatch(session);
     }
 }

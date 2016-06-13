@@ -64,7 +64,11 @@ public class LoginPagePresenter extends AbstractPresenter<LoginView>{
             }
         }
     };
-    
+
+    /**
+     * login interface
+     * will trigger communication with server to login
+     */
     public void loginAction() {
         String name = mView.getUserName();
         String psd = mView.getPsd();
@@ -110,6 +114,10 @@ public class LoginPagePresenter extends AbstractPresenter<LoginView>{
         }
     }
 
+    /**
+     * Save persistent data
+     * TODO: change name
+     */
     public void onPause() {
         // save Remember Me Status
         if (mView.isCheckedRememberMe()) {

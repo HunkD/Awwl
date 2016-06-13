@@ -26,7 +26,9 @@ public class NormalCategoryDispatcher implements Dispatcher {
     @Override
     public String dispatch(NanoHTTPD.IHTTPSession session) {
         Uri uri = Uri.parse(session.getUri());
+        // find out which method
         String method = uri.getPathSegments().get(1);
+        // Let Method handler to handle the request
         return methodDispatcherMap.get(method).handle(session);
     }
 }

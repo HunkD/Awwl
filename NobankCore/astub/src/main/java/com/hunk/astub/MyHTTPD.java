@@ -17,9 +17,16 @@ public class MyHTTPD extends NanoHTTPD {
         mRandom = new Random();
     }
 
+    /**
+     * Entrance of each request
+     * @param session
+     * @return
+     */
     @Override
     public Response serve(IHTTPSession session) {
         waitForRandomTime();
+        // API format Category/Method
+        // let category dispatcher to handle the session.
         String resp = mCategoryDispatcher.dispatch(session);
 
         return newFixedLengthResponse(resp);
