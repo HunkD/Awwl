@@ -22,7 +22,10 @@ public class Core {
     public void copyImgFolder(Context context) {
         String targetPath = context.getFilesDir() + "/" + IMG_PATH + "/";
         // if exist this folder, we think it has been done last time.
-        if (new File(targetPath).exists()) {return;}
+        if (new File(targetPath).exists()) {
+            mImgFolderPath = targetPath;
+            return;
+        }
         if (FileUtil.copyAssetFolder(context, IMG_PATH, targetPath)) {
             mImgFolderPath = targetPath;
         }
