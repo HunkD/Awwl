@@ -17,6 +17,7 @@ public class MainActivity extends Activity {
     private static final String TAG = "ASTUB";
     private Button mServiceBtn;
     private MyHTTPD mMyHTTPD;
+    private static Core mCore = Core.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,12 @@ public class MainActivity extends Activity {
 
         mMyHTTPD = new MyHTTPD(SERVICE_PORT);
         setupUI();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mCore.copyImgFolder(this);
     }
 
     private void setupUI() {

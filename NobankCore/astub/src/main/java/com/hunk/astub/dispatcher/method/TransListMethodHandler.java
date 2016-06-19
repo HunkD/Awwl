@@ -6,7 +6,9 @@ import com.hunk.nobank.contract.TransactionCategory;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.contract.TransactionType;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import fi.iki.elonen.NanoHTTPD;
@@ -15,6 +17,9 @@ import fi.iki.elonen.NanoHTTPD;
  *
  */
 public class TransListMethodHandler implements MethodHandler {
+
+    private static final int NEXT_INT_RANGE = 1000;
+    SecureRandom random = new SecureRandom();
     @Override
     public String handle(NanoHTTPD.IHTTPSession session) {
         RealResp<List<TransactionFields>> realResp = new RealResp<>();
@@ -25,12 +30,34 @@ public class TransListMethodHandler implements MethodHandler {
     }
 
     private List<TransactionFields> getData() {
+        long timestamp = new Date().getTime();
         List<TransactionFields> list = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            list.add(new TransactionFields("Move to vault" + i, 15.5, TransactionType.VAULT, 1000));
-            list.add(new TransactionFields("Pay to Fancy" + i, 19.5, TransactionType.PAY, 1000, TransactionCategory.Debit, "Fancy"));
-            list.add(new TransactionFields("Deposit from check" + i, 25.5, TransactionType.DEPOSIT, 1000, TransactionCategory.Credit));
-        }
+        list.add(new TransactionFields("Move to vault 1", 15.5,
+                TransactionType.VAULT, getRandomTimestamp(timestamp), null, "1.png"));
+        list.add(new TransactionFields("Pay to Fancy 3", 19.5,
+                TransactionType.PAY, getRandomTimestamp(timestamp), TransactionCategory.Debit, "Fancy", "3.png"));
+        list.add(new TransactionFields("Deposit from check 4", 25.5,
+                TransactionType.DEPOSIT, getRandomTimestamp(timestamp), TransactionCategory.Credit, "Check", "4.png"));
+        list.add(new TransactionFields("Deposit from cash 2", 92.3,
+                TransactionType.DEPOSIT, getRandomTimestamp(timestamp), TransactionCategory.Credit, "Cash", "2.png"));
+        list.add(new TransactionFields("Pay to Hunk 3", 119.5,
+                TransactionType.PAY, getRandomTimestamp(timestamp), TransactionCategory.Debit, "Fancy", "3.png"));
+        list.add(new TransactionFields("Move to vault 10", 5.2,
+                TransactionType.VAULT, getRandomTimestamp(timestamp), null, "10.png"));
+        list.add(new TransactionFields("Deposit from check 9", 47.9,
+                TransactionType.DEPOSIT, getRandomTimestamp(timestamp), TransactionCategory.Credit, "Check", "9.png"));
+        list.add(new TransactionFields("Deposit from cash 6", 92.3,
+                TransactionType.DEPOSIT, getRandomTimestamp(timestamp), TransactionCategory.Credit, "Cash", "6.png"));
+        list.add(new TransactionFields("Deposit from cash 8", 92.3,
+                TransactionType.DEPOSIT, getRandomTimestamp(timestamp), TransactionCategory.Credit, "Cash", "8.png"));
+        list.add(new TransactionFields("Move to vault 7", 12.2,
+                TransactionType.VAULT, getRandomTimestamp(timestamp), null, "7.png"));
+        list.add(new TransactionFields("Pay to Fancy 5", 119.5,
+                TransactionType.PAY, getRandomTimestamp(timestamp), TransactionCategory.Debit, "Fancy", "5.png"));
         return list;
+    }
+
+    private long getRandomTimestamp(long timestamp) {
+        return timestamp + random.nextInt(NEXT_INT_RANGE);
     }
 }
