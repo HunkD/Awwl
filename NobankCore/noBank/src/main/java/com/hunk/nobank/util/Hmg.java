@@ -1,5 +1,6 @@
 package com.hunk.nobank.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -86,7 +87,13 @@ public class Hmg {
         private NetworkBridge mNetworkBridge;
 
         public ImgCache(long maxMemory) {
-            mLruCache = new LruCache<>((int) maxMemory / 4);
+            mLruCache = new LruCache<String, Bitmap>((int) maxMemory / 4) {
+                @SuppressLint("NewApi")
+                @Override
+                protected int sizeOf(String key, Bitmap value) {
+                    return value.getByteCount();
+                }
+            };
         }
 
         /**
