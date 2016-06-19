@@ -8,6 +8,7 @@ public class TransactionFields {
     private long mTimestamp;
     private TransactionCategory mCategory;
     private String mObject;
+    private String imageId;
 
     public TransactionFields() {
     }
@@ -21,12 +22,17 @@ public class TransactionFields {
     }
 
     public TransactionFields(String title, double money, TransactionType vault, long timestamp, TransactionCategory category, String object) {
-        this.mTitle = title;
-        this.mMoney = money;
-        this.mVault = vault;
-        this.mTimestamp = timestamp;
-        this.mCategory = category;
-        this.mObject = object;
+        this(title, money, vault, timestamp, category, object, null);
+    }
+
+    public TransactionFields(String mTitle, double mMoney, TransactionType mVault, long mTimestamp, TransactionCategory mCategory, String mObject, String imageId) {
+        this.mTitle = mTitle;
+        this.mMoney = mMoney;
+        this.mVault = mVault;
+        this.mTimestamp = mTimestamp;
+        this.mCategory = mCategory;
+        this.mObject = mObject;
+        this.imageId = imageId;
     }
 
     public String getTitle() {
