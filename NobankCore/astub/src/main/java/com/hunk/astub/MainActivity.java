@@ -32,6 +32,7 @@ public class MainActivity extends Activity {
         mServiceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // start/stop service in a single button
                 try {
                     if (!mMyHTTPD.isAlive()) {
                         mServiceBtn.setText(R.string.stop_service);

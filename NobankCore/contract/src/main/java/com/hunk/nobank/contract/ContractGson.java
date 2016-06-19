@@ -8,7 +8,7 @@ import com.hunk.nobank.contract.adapter.MoneyAdapter;
 import java.util.Date;
 
 /**
- *
+ * Get Gson instance
  */
 public class ContractGson {
 

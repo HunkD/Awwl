@@ -46,6 +46,9 @@ public abstract class NBAbstractTest {
         Core.clearCache();
     }
 
+    /**
+     * Seems Robolectric didn't map the implicit intent, so mock them by myself.
+     */
     private void addImplicitIntentToPM() {
         RobolectricPackageManager rpm =
                 (RobolectricPackageManager) RuntimeEnvironment.application.getPackageManager();

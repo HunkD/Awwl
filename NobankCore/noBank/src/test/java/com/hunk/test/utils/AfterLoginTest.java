@@ -10,6 +10,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
+ * Extend this class will inject session to passed login status automatically.
+ * You can test classes which need to passed login.
  * @author HunkDeng
  * @since 2016/5/23
  */

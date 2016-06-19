@@ -3,6 +3,9 @@ package com.hunk.nobank.activity.base;
 import android.support.annotation.VisibleForTesting;
 
 /**
+ * Abstract Presenter which hold common logic.
+ * Such as attach() and detach()
+ *
  * @author HunkDeng
  * @since 2016/6/8
  */

@@ -5,7 +5,10 @@ import android.view.View;
 import com.hunk.nobank.contract.TransactionFields;
 
 /**
+ * Abstract View Item for TransactionFields
+ * Each transaction item should have own logic to render the UI.
  *
+ * TODO: Convert it to a base item view.
  */
 public abstract class ViewTransactionFields implements Rendering, View.OnClickListener {
     ViewTransactionType mViewType;

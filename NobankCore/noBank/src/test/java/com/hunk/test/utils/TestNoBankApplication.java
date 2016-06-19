@@ -9,6 +9,10 @@ import org.robolectric.util.ReflectionHelpers;
 
 import java.lang.reflect.Method;
 
+/**
+ * Test Application
+ * which can add test operation before and after for each application method.
+ */
 public class TestNoBankApplication extends NoBankApplication implements TestLifecycleApplication {
 
     NetworkHandlerStub networkHandlerStub;

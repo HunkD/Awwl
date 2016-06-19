@@ -3,6 +3,7 @@ package com.hunk.nobank.activity.dashboard.transaction;
 /**
  *
  */
+@Deprecated
 public enum LoadingState {
     MORE_REFRESH,
     PULL_TO_REFRESH,
