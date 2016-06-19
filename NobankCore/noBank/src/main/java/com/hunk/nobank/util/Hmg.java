@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Base64InputStream;
+import android.util.LruCache;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -38,8 +39,7 @@ public class Hmg {
         Runtime rt = Runtime.getRuntime();
         long maxMemory = rt.maxMemory();
         Logging.d("maxMemory:" + Long.toString(maxMemory));
-        mCache = new ImgCache();
-        mCache.setMaxMemory(maxMemory);
+        mCache = new ImgCache(maxMemory);
         return instance;
     }
 
@@ -48,8 +48,8 @@ public class Hmg {
         return instance;
     }
 
-    public ImgLoadTask load(String url) {
-        ImgLoadTask task = new ImgLoadTask(url);
+    public ImgLoadTask load(String url, ImageView imageView) {
+        ImgLoadTask task = new ImgLoadTask(url, imageView);
         mCache.load(url, task);
         return task;
     }
@@ -59,21 +59,16 @@ public class Hmg {
         private final String mUrl;
         private WeakReference<ImageView> mImgViewRef;
 
-        public ImgLoadTask(String url) {
+        public ImgLoadTask(String url, ImageView on) {
             this.mUrl = url;
-        }
-
-        public void setOn(ImageView on) {
-            mImgViewRef = new WeakReference<>(on);
+            this.mImgViewRef = new WeakReference<>(on);
         }
 
         /**
          * Receive base64 string and set it on ImageView
-         * @param data
+         * @param bitmap
          */
-        public void success(String data) {
-            // decode base64 data
-            Bitmap bitmap = BitmapFactory.decodeStream(new Base64InputStream(new ByteArrayInputStream(data.getBytes()), Base64.DEFAULT));
+        public void success(Bitmap bitmap) {
             ImageView imageView = mImgViewRef.get();
             if (imageView != null) {
                 // since list view has recycler mechanism, view will reused.
@@ -84,22 +79,43 @@ public class Hmg {
                 }
             }
         }
-
-        public void fail() {
-
-        }
     }
 
     public static class ImgCache {
-
+        private LruCache<String, Bitmap> mLruCache;
         private NetworkBridge mNetworkBridge;
 
-        public void setMaxMemory(long maxMemory) {
-
+        public ImgCache(long maxMemory) {
+            mLruCache = new LruCache<>((int) maxMemory / 4);
         }
 
-        public void load(String url, ImgLoadTask task) {
-            mNetworkBridge.load(url, task);
+        /**
+         * Find image in cache first, load it from network if we can't find it.
+         * @param url
+         * @param task
+         */
+        public void load(final String url, final ImgLoadTask task) {
+            Bitmap bitmap = mLruCache.get(url);
+            if (bitmap != null) {
+                task.success(bitmap);
+            } else {
+                mNetworkBridge.load(url, new NetworkBridgeCallback() {
+                    @Override
+                    public void success(String data) {
+                        Bitmap bitmap =
+                                BitmapFactory.decodeStream(
+                                        new Base64InputStream(
+                                                new ByteArrayInputStream(
+                                                        data.getBytes()), Base64.DEFAULT));
+                        mLruCache.put(url, bitmap);
+                        task.success(bitmap);
+                    }
+
+                    @Override
+                    public void fail() {
+                    }
+                });
+            }
         }
 
         public void setNetworkBridge(NetworkBridge NetworkBridge) {
@@ -107,8 +123,19 @@ public class Hmg {
         }
     }
 
+    /**
+     * To adapt network handle, because we want to use our own network lib.
+     */
     public interface NetworkBridge {
 
-        void load(String url, ImgLoadTask task);
+        void load(String url, NetworkBridgeCallback task);
+    }
+
+    /**
+     * Network bridge call back
+     */
+    public interface NetworkBridgeCallback {
+        void success(String data);
+        void fail();
     }
 }

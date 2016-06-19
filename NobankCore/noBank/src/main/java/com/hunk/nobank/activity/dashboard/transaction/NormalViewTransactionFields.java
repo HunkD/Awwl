@@ -60,7 +60,7 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
         String imgId = getTransactionFields().getImageId();
         if (imgId != null) {
             viewHolder.mImg.setTag(imgId);
-            mHmg.load(imgId).setOn(viewHolder.mImg);
+            mHmg.load(imgId, viewHolder.mImg);
         } else {
             viewHolder.mImg.setTag(null);
         }

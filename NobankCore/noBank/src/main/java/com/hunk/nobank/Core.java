@@ -41,18 +41,18 @@ public class Core {
         // init hmg
         Hmg.getInstance().init(ctx).setNetworkBridge(new Hmg.NetworkBridge() {
             @Override
-            public void load(final String imgId, final Hmg.ImgLoadTask task) {
+            public void load(final String imgId, final Hmg.NetworkBridgeCallback callback) {
                 ImgLoadRequestPackage pack = new ImgLoadRequestPackage(imgId);
                 mNetworkHandler.fireRequest(new ManagerListener() {
                     @Override
                     public void success(String managerId, String messageId, Object data) {
                         RealResp<String> realResp = (RealResp<String>) data;
-                        task.success(realResp.Response);
+                        callback.success(realResp.Response);
                     }
 
                     @Override
                     public void failed(String managerId, String messageId, Object data) {
-                        task.fail();
+                        callback.fail();
                     }
                 }, pack, null, null);
             }
