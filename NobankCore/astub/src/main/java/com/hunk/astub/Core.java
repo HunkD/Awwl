@@ -12,7 +12,7 @@ import java.io.File;
 public class Core {
     private static final String IMG_PATH = "images";
     private static Core instance = new Core();
-    private String imgPath;
+    private String mImgFolderPath;
 
     private Core() {}
     public static synchronized Core getInstance() {
@@ -24,12 +24,12 @@ public class Core {
         // if exist this folder, we think it has been done last time.
         if (new File(targetPath).exists()) {return;}
         if (FileUtil.copyAssetFolder(context, IMG_PATH, targetPath)) {
-            imgPath = targetPath;
+            mImgFolderPath = targetPath;
         }
     }
 
     @Nullable
-    public String getImgPath() {
-        return imgPath;
+    public String getImgFolderPath() {
+        return mImgFolderPath;
     }
 }

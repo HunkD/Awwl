@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
     private static final String TAG = "ASTUB";
     private Button mServiceBtn;
     private MyHTTPD mMyHTTPD;
-    private static Core CORE= Core.getInstance();
+    private static Core mCore = Core.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        CORE.copyImgFolder(this);
+        mCore.copyImgFolder(this);
     }
 
     private void setupUI() {

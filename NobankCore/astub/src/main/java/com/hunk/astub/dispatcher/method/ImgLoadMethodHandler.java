@@ -15,7 +15,7 @@ import fi.iki.elonen.NanoHTTPD;
  */
 public class ImgLoadMethodHandler implements MethodHandler {
     private static final String PARAMETER_ID = "id";
-    private Core core = Core.getInstance();
+    private Core mCore = Core.getInstance();
     @Override
     public String handle(NanoHTTPD.IHTTPSession session) {
         String id = session.getParms().get(PARAMETER_ID);
@@ -23,10 +23,10 @@ public class ImgLoadMethodHandler implements MethodHandler {
     }
 
     private String loadImageStr(String id) {
-        String imgPath = core.getImgPath();
+        String imgPath = mCore.getImgFolderPath();
         if (imgPath != null) {
             try {
-                return FileUtil.encodeBase64File(core.getImgPath() + id);
+                return FileUtil.encodeBase64File(mCore.getImgFolderPath() + id);
             } catch (IOException e) {
                 e.printStackTrace();
             }
