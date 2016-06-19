@@ -1,50 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="5dp">
+    android:padding="5dp"
+    tools:ignore="HardcodedText,RtlHardcoded">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/transaction_item_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_hello"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:tint="@color/white"
+            android:background="@drawable/ic_circle"
+            android:padding="6dp"/>
+        <FrameLayout
+            android:id="@+id/money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+            <TextView
+                style="@style/TextMedium"
+                android:id="@+id/money_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primary"
+                android:text="600000.00RMB"/>
+
+            <TextView
+                style="@style/TextMedium"
+                android:id="@+id/money_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="900000.00RMB"/>
+        </FrameLayout>
+
+        <TextView
+            style="@style/TextMedium"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="title"
+            android:layout_toLeftOf="@id/money"
+            android:layout_toRightOf="@id/transaction_item_icon"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
     <ImageView
-        android:id="@+id/transaction_item_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_hello"
-        android:layout_marginRight="10dp"
-        android:layout_centerVertical="true"
-        android:tint="@color/white"
-        android:background="@drawable/ic_circle"
-        android:padding="6dp"/>
-    <FrameLayout
-        android:id="@+id/money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true">
-        <TextView
-            style="@style/TextMedium"
-            android:id="@+id/money_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/primary"
-            android:text="600000.00RMB"/>
-
-        <TextView
-            style="@style/TextMedium"
-            android:id="@+id/money_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="900000.00RMB"/>
-    </FrameLayout>
-
-    <TextView
-        style="@style/TextMedium"
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="title"
-        android:layout_toLeftOf="@id/money"
-        android:layout_toRightOf="@id/transaction_item_icon"
-        android:layout_centerVertical="true"/>
-</RelativeLayout>
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:contentDescription="@string/loading_message"
+        android:visibility="gone"/>
+</LinearLayout>
