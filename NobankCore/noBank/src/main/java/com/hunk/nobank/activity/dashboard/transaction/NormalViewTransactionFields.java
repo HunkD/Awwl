@@ -58,12 +58,8 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
         }
         // load img
         String imgId = getTransactionFields().getImageId();
-        if (imgId != null) {
-            viewHolder.mImg.setTag(imgId);
-            mHmg.load(imgId, viewHolder.mImg);
-        } else {
-            viewHolder.mImg.setTag(null);
-        }
+        mHmg.load(imgId, viewHolder.mImg, R.drawable.ic_launcher);
+
         return convertView;
     }
 

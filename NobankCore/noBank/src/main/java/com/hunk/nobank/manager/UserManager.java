@@ -13,8 +13,8 @@ import com.hunk.nobank.manager.dataBasic.DataManager;
 import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
-import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.model.LoginReqPackage;
+import com.hunk.nobank.util.Hmg;
 import com.hunk.nobank.util.ViewHelper;
 
 /**
@@ -153,5 +153,7 @@ public class UserManager extends DataManager {
         if (ViewHelper.isAppForeGround) {
             BaseActivity.unrollActivity(context);
         }
+        // clear img cache
+        Hmg.getInstance().clear();
     }
 }

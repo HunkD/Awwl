@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.annotation.DrawableRes;
 import android.util.Base64;
 import android.util.Base64InputStream;
 import android.util.LruCache;
@@ -12,6 +13,8 @@ import android.widget.ImageView;
 
 import java.io.ByteArrayInputStream;
 import java.lang.ref.WeakReference;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Hunk Image loader
@@ -27,6 +30,7 @@ import java.lang.ref.WeakReference;
 public class Hmg {
     private static Hmg instance;
     private ImgCache mCache;
+    private HashSet<String> mLastTimeFetchList = new HashSet<>();
 
     private Hmg() {}
     public static Hmg getInstance() {
@@ -49,10 +53,76 @@ public class Hmg {
         return instance;
     }
 
+    public void load(String url, ImageView imageView, @DrawableRes int imgDefault) {
+        if (url != null) {
+            Bitmap bitmap = mCache.get(url);
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap);
+            } else {
+                imageView.setImageResource(imgDefault);
+                imageView.setTag(url);
+            }
+        }
+    }
+
     public ImgLoadTask load(String url, ImageView imageView) {
+        if (StringUtils.isNullOrEmpty(url)) {
+            imageView.setTag(null);
+            return null;
+        }
+        imageView.setTag(url);
         ImgLoadTask task = new ImgLoadTask(url, imageView);
         mCache.load(url, task);
         return task;
+    }
+
+    /**
+     * 1. Extract urls from full url list.
+     * 2. find them in lru cache.
+     * 3. load them if there's no cache.
+     * @param mUrlList
+     * @param first
+     * @param end
+     * @param successCallBack
+     */
+    public void loadList(List<String> mUrlList, int first, int end, final SuccessCallBack successCallBack) {
+        for (int i = first; i <= end; i ++) {
+            if (i >= mUrlList.size()) {
+                return;
+            }
+            final String url = mUrlList.get(i);
+            if (url != null) {
+                Bitmap bitmap = mCache.get(url);
+                if (bitmap == null) {
+                    /**
+                     * if (bitmap != null) we can't directly call successCallBack(url, bitmap) here.
+                     * it will create bug, since it will overwrite the image we set in getView() method.
+                     */
+                    if (!mLastTimeFetchList.contains(url)) {
+                        mLastTimeFetchList.add(url);
+                        mCache.loadList(url, new SuccessCallBack() {
+                            @Override
+                            public void notify(String url, Bitmap bitmap) {
+                                successCallBack.notify(url, bitmap);
+                                mLastTimeFetchList.remove(url);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    }
+
+    public void cancelLastTimeListFetch() {
+
+    }
+
+    public void clear() {
+        mCache.mLruCache.evictAll();
+    }
+
+    public interface SuccessCallBack {
+        void notify(String url, Bitmap bitmap);
     }
 
     public static class ImgLoadTask {
@@ -127,6 +197,29 @@ public class Hmg {
 
         public void setNetworkBridge(NetworkBridge NetworkBridge) {
             this.mNetworkBridge = NetworkBridge;
+        }
+
+        public Bitmap get(String url) {
+            return mLruCache.get(url);
+        }
+
+        public void loadList(final String url, final SuccessCallBack successCallBack) {
+            mNetworkBridge.load(url, new NetworkBridgeCallback() {
+                @Override
+                public void success(String data) {
+                    Bitmap bitmap =
+                            BitmapFactory.decodeStream(
+                                    new Base64InputStream(
+                                            new ByteArrayInputStream(
+                                                    data.getBytes()), Base64.DEFAULT));
+                    mLruCache.put(url, bitmap);
+                    successCallBack.notify(url, bitmap);
+                }
+
+                @Override
+                public void fail() {
+                }
+            });
         }
     }
 
