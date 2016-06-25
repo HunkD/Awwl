@@ -3,6 +3,7 @@ package com.hunk.nobank.activity.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Abstract Activity to hold common logic for Base View. <br>
@@ -12,7 +13,7 @@ import android.support.v4.app.FragmentActivity;
  * @since 2016/6/8
  */
 public abstract class AbstractViewActivity<P extends BasePresenter>
-        extends FragmentActivity implements BaseView<P> {
+        extends AppCompatActivity implements BaseView<P> {
 
     protected P mPresenter;
 
