@@ -157,7 +157,11 @@ public class Hmg {
         private NetworkBridge mNetworkBridge;
 
         public ImgCache(long maxMemory) {
-            mLruCache = new LruCache<String, Bitmap>((int) maxMemory / 4) {
+            int cacheMemory = (int) (maxMemory / 4);
+            if (cacheMemory <= 0 && maxMemory > 0) {
+                cacheMemory = Integer.MAX_VALUE;
+            }
+            mLruCache = new LruCache<String, Bitmap>(cacheMemory) {
                 @SuppressLint("NewApi")
                 @Override
                 protected int sizeOf(String key, Bitmap value) {
