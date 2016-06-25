@@ -4,8 +4,6 @@ import android.support.annotation.VisibleForTesting;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.activity.base.AbstractPresenter;
-import com.hunk.nobank.activity.base.BaseView;
-import com.hunk.nobank.contract.AccountType;
 import com.hunk.nobank.manager.AccountDataManager;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;

@@ -10,14 +10,19 @@ import android.widget.TextView;
 import com.hunk.nobank.R;
 import com.hunk.nobank.contract.TransactionCategory;
 import com.hunk.nobank.contract.TransactionFields;
+import com.hunk.nobank.extension.network.ServerConfig;
+import com.hunk.nobank.util.Hmg;
 import com.hunk.nobank.util.ViewHelper;
 
 /**
  *
  */
 public class NormalViewTransactionFields extends ViewTransactionFields  {
+    private final Hmg mHmg;
+
     public NormalViewTransactionFields(ViewTransactionType viewType, TransactionFields transactionFields) {
         super(viewType, transactionFields);
+        mHmg = Hmg.getInstance();
     }
 
     @Override
@@ -34,7 +39,7 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
             viewHolder.mTitle = (TextView) convertView.findViewById(R.id.title);
             viewHolder.mMoney1 = (TextView) convertView.findViewById(R.id.money_1);
             viewHolder.mMoney2 = (TextView) convertView.findViewById(R.id.money_2);
-
+            viewHolder.mImg = (ImageView) convertView.findViewById(R.id.img);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
@@ -51,6 +56,10 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
             viewHolder.mMoney1.setText("+" + String.valueOf(getTransactionFields().getMoney()) + "RMB");
             viewHolder.mMoney2.setVisibility(View.GONE);
         }
+        // load img
+        String imgId = getTransactionFields().getImageId();
+        mHmg.load(imgId, viewHolder.mImg, R.drawable.ic_launcher);
+
         return convertView;
     }
 
@@ -70,5 +79,6 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
         TextView mMoney2;
         TextView mMoney1;
         TextView mType;
+        ImageView mImg;
     }
 }

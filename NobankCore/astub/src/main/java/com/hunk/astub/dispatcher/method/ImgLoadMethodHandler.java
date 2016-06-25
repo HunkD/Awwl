@@ -26,7 +26,9 @@ public class ImgLoadMethodHandler implements MethodHandler {
         String imgPath = mCore.getImgFolderPath();
         if (imgPath != null) {
             try {
-                return FileUtil.encodeBase64File(mCore.getImgFolderPath() + id);
+                RealResp<String> realResp = new RealResp<>();
+                realResp.Response = FileUtil.encodeBase64File(mCore.getImgFolderPath() + id);
+                return ContractGson.getInstance().toJson(realResp);
             } catch (IOException e) {
                 e.printStackTrace();
             }

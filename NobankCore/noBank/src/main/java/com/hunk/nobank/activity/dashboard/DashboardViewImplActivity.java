@@ -1,13 +1,16 @@
 package com.hunk.nobank.activity.dashboard;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionType;
 import com.hunk.nobank.activity.dashboard.transaction.view.MoreView;
 import com.hunk.nobank.contract.Money;
 import com.hunk.nobank.contract.TransactionFields;
+import com.hunk.nobank.util.Hmg;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +52,8 @@ public class DashboardViewImplActivity
     private TransactionListAdapter mTransactionListAdapter;
 
     private boolean mInit = true;
+    private Hmg mHmg;
+    private List<String> mUrlList;
 
     {
         setPresenter(new DashboardPresenterImpl());
@@ -77,6 +83,47 @@ public class DashboardViewImplActivity
                 viewTransactionFields.onClick(view);
             }
         });
+        mHmg = Hmg.getInstance();
+        mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int mFirst;
+            private int mEnd;
+            private boolean mFirstTimeLoad = true;
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if(scrollState==SCROLL_STATE_IDLE){
+                    mHmg.loadList(mUrlList, mFirst, mEnd, new Hmg.SuccessCallBack() {
+                        public void notify(String url, Bitmap bitmap) {
+                            ImageView imageView = (ImageView) mListView.findViewWithTag(url);
+                            if (imageView != null) {
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        }
+                    });
+                }else{
+                    mHmg.cancelLastTimeListFetch();
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                mFirst = firstVisibleItem;
+                mEnd = firstVisibleItem + visibleItemCount;
+
+                if (mFirstTimeLoad && visibleItemCount > 0) {
+                    mHmg.loadList(mUrlList, mFirst, mEnd, new Hmg.SuccessCallBack() {
+                        public void notify(String url, Bitmap bitmap) {
+                            ImageView imageView = (ImageView) mListView.findViewWithTag(url);
+                            if (imageView != null) {
+                                imageView.setImageBitmap(bitmap);
+                            }
+                        }
+                    });
+                    mFirstTimeLoad = false;
+                }
+            }
+        });
+
+
         mSwipeContainer.setColorSchemeResources(
                 android.R.color.holo_blue_bright,
                 android.R.color.holo_green_light,
@@ -127,6 +174,14 @@ public class DashboardViewImplActivity
 
     @Override
     public void showTransactionList(List<TransactionFields> mTransactionList) {
+        // for first time load
+        if (mTransactionListAdapter.getCount() == 0) {
+            mUrlList = new ArrayList<>();
+            for (TransactionFields fields : mTransactionList) {
+                mUrlList.add(fields.getImageId());
+            }
+        }
+        // reset data
         mTransactionListAdapter.clear();
         List<ViewTransactionFields> newList = addRawTransactionFields(mTransactionList);
         for (ViewTransactionFields fields : newList) {

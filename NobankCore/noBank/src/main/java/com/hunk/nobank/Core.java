@@ -2,11 +2,15 @@ package com.hunk.nobank;
 
 import android.content.Context;
 
+import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.extension.network.MyNetworkHandler;
 import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.ScreenFlowManager;
+import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.model.Cache;
+import com.hunk.nobank.model.ImgLoadRequestPackage;
+import com.hunk.nobank.util.Hmg;
 import com.hunk.nobank.util.Logging;
 import com.hunk.nobank.util.ViewHelper;
 
@@ -34,6 +38,25 @@ public class Core {
         mUserManager = new UserManager(ctx);
         // init screen flow manager
         mScreenFlowManager = new ScreenFlowManager();
+        // init hmg
+        Hmg.getInstance().init(ctx).setNetworkBridge(new Hmg.NetworkBridge() {
+            @Override
+            public void load(final String imgId, final Hmg.NetworkBridgeCallback callback) {
+                ImgLoadRequestPackage pack = new ImgLoadRequestPackage(imgId);
+                mNetworkHandler.fireRequest(new ManagerListener() {
+                    @Override
+                    public void success(String managerId, String messageId, Object data) {
+                        RealResp<String> realResp = (RealResp<String>) data;
+                        callback.success(realResp.Response);
+                    }
+
+                    @Override
+                    public void failed(String managerId, String messageId, Object data) {
+                        callback.fail();
+                    }
+                }, pack, null, null);
+            }
+        });
     }
 
     public synchronized static Core getInstance() {

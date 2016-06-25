@@ -58,4 +58,8 @@ public class TransactionFields {
     public String getObject() {
         return mObject;
     }
+
+    public String getImageId() {
+        return imageId;
+    }
 }

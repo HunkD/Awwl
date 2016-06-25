@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
@@ -37,6 +38,7 @@ public class PayView extends NormalViewTransactionFields {
             viewHolder.mTitle = (TextView) convertView.findViewById(R.id.title);
             viewHolder.mMoney1 = (TextView) convertView.findViewById(R.id.money_1);
             viewHolder.mMoney2 = (TextView) convertView.findViewById(R.id.money_2);
+            viewHolder.mImg = (ImageView) convertView.findViewById(R.id.img);
 
             convertView.setTag(viewHolder);
         } else {
@@ -67,5 +69,6 @@ public class PayView extends NormalViewTransactionFields {
         TextView mMoney2;
         TextView mMoney1;
         TextView mType;
+        ImageView mImg;
     }
 }
