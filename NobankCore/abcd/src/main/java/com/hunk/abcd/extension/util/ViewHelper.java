@@ -1,4 +1,4 @@
-package com.hunk.nobank.util;
+package com.hunk.abcd.extension.util;
 
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
@@ -8,21 +8,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Point;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.hunk.nobank.Core;
-import com.hunk.nobank.R;
-import com.hunk.nobank.activity.BaseActivity;
 
 import java.io.FileNotFoundException;
 
@@ -196,36 +189,6 @@ public class ViewHelper {
         return "";
     }
 
-    public static void updateFontsStyle(ViewGroup vg) {
-        if (vg.isInEditMode()) {
-            return;
-        }
-        for (int i = 0; i < vg.getChildCount(); i++) {
-            View v = vg.getChildAt(i);
-            if (v instanceof TextView) {
-                setFontByConfig((TextView) v);
-            } else if (v instanceof ViewGroup) {
-                updateFontsStyle((ViewGroup) v);
-            }
-        }
-    }
-
-    private static void setFontByConfig(TextView tv) {
-        TypefaceCache cache = Core.getInstance().getTypefaceCache();
-        if (tv.getTypeface() == null) { // default font won't have typeface.
-            tv.setTypeface(cache.NORMAL);
-            return;
-        }
-        int style = tv.getTypeface().getStyle();
-        if (style == Typeface.BOLD) {
-            tv.setTypeface(cache.BOLD);
-        } else if (style == Typeface.ITALIC) {
-            tv.setTypeface(cache.ITALIC);
-        } else if (style == Typeface.NORMAL) {
-            tv.setTypeface(cache.NORMAL);
-        }
-    }
-
     public static void showView(View view, boolean show) {
         if (show) {
             view.setVisibility(View.VISIBLE);
@@ -234,30 +197,8 @@ public class ViewHelper {
         }
     }
 
-    public static class TypefaceCache {
-        private static TypefaceCache instance;
-        public final Typeface NORMAL;
-        public final Typeface ITALIC;
-        public final Typeface BOLD;
-
-        private TypefaceCache(Context ctx) {
-            NORMAL = Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-Light.ttf");
-            ITALIC = Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-LightItalic.ttf");
-            BOLD = Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-Regular.ttf");
-        }
-
-        public static synchronized TypefaceCache getInstance(Context ctx) {
-            if (instance == null) {
-                instance = new TypefaceCache(ctx);
-            }
-            return instance;
-        }
-    }
-
     /**
      * Flag to record whether app is running in the foreground
-     * we will set this to true when {@link BaseActivity#onResume()},
-     * and set false when {@link BaseActivity#onPause()}
      */
     public static volatile boolean isAppForeGround = false;
 }

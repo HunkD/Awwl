@@ -7,7 +7,7 @@ import android.view.View;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.activity.login.LoginPageActivity;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 public class WelcomePageActivity

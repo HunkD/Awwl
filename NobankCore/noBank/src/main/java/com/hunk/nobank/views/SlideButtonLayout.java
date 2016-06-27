@@ -20,7 +20,7 @@ import android.widget.Scroller;
 
 import com.hunk.nobank.R;
 import com.hunk.abcd.extension.log.Logging;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 
 /**
  * This view will provide a feature that allow user to slide the slide icon (which is the last view of the viewgroup).<br>

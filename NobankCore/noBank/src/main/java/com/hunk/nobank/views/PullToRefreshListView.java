@@ -15,9 +15,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hunk.abcd.extension.font.UpdateFont;
 import com.hunk.nobank.R;
 import com.hunk.abcd.extension.log.Logging;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 
 @Deprecated
 public class PullToRefreshListView extends ListView {
@@ -53,7 +54,7 @@ public class PullToRefreshListView extends ListView {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         mHeader = (RelativeLayout) inflater.inflate(R.layout.item_transaction_header, null);
         if (!isInEditMode()) {
-            ViewHelper.updateFontsStyle(mHeader);
+            UpdateFont.updateFontsStyle(mHeader);
         }
         // hide mHeader first
         hideHeaderView();

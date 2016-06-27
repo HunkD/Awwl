@@ -6,11 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.hunk.abcd.extension.font.UpdateFont;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionFields;
 import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionType;
 import com.hunk.nobank.contract.TransactionFields;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 
 /**
  *
@@ -30,7 +31,7 @@ public class MoreView extends ViewTransactionFields {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.item_transaction_more, parent, false);
 
-            ViewHelper.updateFontsStyle((ViewGroup) convertView);
+            UpdateFont.updateFontsStyle((ViewGroup) convertView);
 
             viewHolder = new ViewHolder();
             viewHolder.mTitle = (TextView) convertView.findViewById(R.id.title);

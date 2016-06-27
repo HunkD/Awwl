@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.hunk.abcd.extension.font.UpdateFont;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.NoBankApplication;
@@ -24,7 +25,7 @@ import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.service.session.SessionTimeoutService;
 import com.hunk.nobank.util.HijackingNotification;
 import com.hunk.abcd.extension.log.Logging;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 import com.hunk.nobank.views.LoadingDialogFragment;
 import com.hunk.nobank.views.MenuProxy;
 import com.hunk.nobank.views.TitleBarPoxy;
@@ -125,7 +126,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
     private void setFontsStyle() {
         // tree walk root view, change every text component to using custom font style.
         ViewGroup vg = (ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content);
-        ViewHelper.updateFontsStyle(vg);
+        UpdateFont.updateFontsStyle(vg);
     }
 
     public void setContentView(int layoutResID, Base style) {

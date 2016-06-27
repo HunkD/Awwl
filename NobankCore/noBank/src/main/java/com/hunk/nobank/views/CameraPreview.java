@@ -11,7 +11,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.hunk.abcd.extension.log.Logging;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 
 import java.io.IOException;
 import java.util.List;

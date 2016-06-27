@@ -15,7 +15,7 @@ import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.nobank.util.Hmg;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 
 /**
  * DataManager which hold all user data and session
