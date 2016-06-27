@@ -1,11 +1,11 @@
-package com.hunk.nobank.util;
+package com.hunk.abcd.extension.log;
 
 import android.util.Log;
 
 public class Logging {
     public static String TAG = "HUNK";
 
-    private static enum Level {
+    private enum Level {
         DEBUG,
         WARNING,
         ERROR,

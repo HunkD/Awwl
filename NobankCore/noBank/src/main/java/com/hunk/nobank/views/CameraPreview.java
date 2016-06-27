@@ -10,7 +10,7 @@ import android.os.Build;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.hunk.nobank.util.Logging;
+import com.hunk.abcd.extension.log.Logging;
 import com.hunk.nobank.util.ViewHelper;
 
 import java.io.IOException;

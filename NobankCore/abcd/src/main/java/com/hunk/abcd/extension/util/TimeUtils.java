@@ -1,4 +1,4 @@
-package com.hunk.nobank.util;
+package com.hunk.abcd.extension.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

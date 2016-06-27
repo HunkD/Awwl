@@ -15,7 +15,7 @@ import com.hunk.nobank.contract.ContractGson;
 import com.hunk.nobank.contract.RealReq;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.manager.dataBasic.ManagerListener;
-import com.hunk.nobank.util.Logging;
+import com.hunk.abcd.extension.log.Logging;
 
 import java.io.UnsupportedEncodingException;
 

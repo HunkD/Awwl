@@ -1,9 +1,11 @@
-package com.hunk.nobank.util;
+package com.hunk.abcd.extension.sign;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+
+import com.hunk.abcd.extension.log.Logging;
 
 import java.io.ByteArrayInputStream;
 import java.security.MessageDigest;
@@ -30,7 +32,7 @@ public class Hunk {
      * @param context application context
      * @return A wrapper class to describe readable certification information.
      * @see #parseSignature(byte[])
-     * @see com.hunk.nobank.util.Hunk.HunkInfo
+     * @see Hunk.HunkInfo
      */
     public static HunkInfo getSingInfo(Context context) {
         if (mMockFlag) return null;
@@ -52,7 +54,7 @@ public class Hunk {
      * @throws CertificateException
      * @throws NoSuchAlgorithmException
      * @see #getSingInfo(android.content.Context)
-     * @see com.hunk.nobank.util.Hunk.HunkInfo
+     * @see Hunk.HunkInfo
      */
     public static HunkInfo parseSignature(byte[] signature) throws CertificateException, NoSuchAlgorithmException {
         // get certification

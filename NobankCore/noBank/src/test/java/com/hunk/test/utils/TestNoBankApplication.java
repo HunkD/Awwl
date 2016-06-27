@@ -2,7 +2,7 @@ package com.hunk.test.utils;
 
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NoBankApplication;
-import com.hunk.nobank.util.Hunk;
+import com.hunk.abcd.extension.sign.Hunk;
 
 import org.robolectric.TestLifecycleApplication;
 import org.robolectric.util.ReflectionHelpers;

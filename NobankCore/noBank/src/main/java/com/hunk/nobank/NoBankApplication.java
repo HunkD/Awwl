@@ -2,8 +2,8 @@ package com.hunk.nobank;
 
 import android.app.Application;
 
-import com.hunk.nobank.util.Hunk;
-import com.hunk.nobank.util.Logging;
+import com.hunk.abcd.extension.sign.Hunk;
+import com.hunk.abcd.extension.log.Logging;
 import com.hunk.nobank.util.ViewHelper;
 import com.squareup.leakcanary.LeakCanary;
 

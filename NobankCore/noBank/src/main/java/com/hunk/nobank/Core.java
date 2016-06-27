@@ -11,7 +11,7 @@ import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.model.ImgLoadRequestPackage;
 import com.hunk.nobank.util.Hmg;
-import com.hunk.nobank.util.Logging;
+import com.hunk.abcd.extension.log.Logging;
 import com.hunk.nobank.util.ViewHelper;
 
 import java.util.ArrayList;

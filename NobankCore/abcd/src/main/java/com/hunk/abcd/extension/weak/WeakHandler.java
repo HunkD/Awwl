@@ -1,4 +1,4 @@
-package com.hunk.nobank.util;
+package com.hunk.abcd.extension.weak;
 
 import android.os.Handler;
 import android.os.Message;

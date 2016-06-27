@@ -9,7 +9,7 @@ import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
-import com.hunk.nobank.util.StringUtils;
+import com.hunk.abcd.extension.util.StringUtils;
 
 /**
  * @author HunkDeng

@@ -19,7 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
 import com.hunk.nobank.R;
-import com.hunk.nobank.util.Logging;
+import com.hunk.abcd.extension.log.Logging;
 import com.hunk.nobank.util.ViewHelper;
 
 /**
