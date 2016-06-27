@@ -3,8 +3,7 @@ package com.hunk.nobank.activity.welcome;
 import android.support.annotation.VisibleForTesting;
 
 import com.hunk.nobank.Core;
-import com.hunk.nobank.activity.base.AbstractPresenter;
-import com.hunk.nobank.activity.base.BasePresenter;
+import com.hunk.abcd.activity.mvp.AbstractPresenter;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 

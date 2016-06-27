@@ -1,6 +1,6 @@
 package com.hunk.nobank.activity.root;
 
-import com.hunk.nobank.activity.base.AbstractPresenter;
+import com.hunk.abcd.activity.mvp.AbstractPresenter;
 
 /**
  * @author HunkDeng

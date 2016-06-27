@@ -1,6 +1,6 @@
 package com.hunk.test.nobank.activity.registration;
 
-import com.hunk.nobank.activity.base.BasePresenter;
+import com.hunk.abcd.activity.mvp.BasePresenter;
 import com.hunk.nobank.activity.registration.SignUpActivity;
 import com.hunk.nobank.activity.registration.SignUpView;
 import com.hunk.test.utils.NBAbstractTest;

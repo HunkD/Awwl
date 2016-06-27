@@ -6,7 +6,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.hunk.nobank.R;
-import com.hunk.nobank.activity.base.BasePresenter;
+import com.hunk.abcd.activity.mvp.BasePresenter;
 import com.hunk.nobank.activity.dashboard.DashboardViewImplActivity;
 import com.hunk.nobank.activity.dashboard.DashboardView;
 import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionFields;

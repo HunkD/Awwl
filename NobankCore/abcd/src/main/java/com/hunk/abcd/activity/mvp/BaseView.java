@@ -1,4 +1,4 @@
-package com.hunk.nobank.activity.base;
+package com.hunk.abcd.activity.mvp;
 
 /**
  * @author HunkDeng
