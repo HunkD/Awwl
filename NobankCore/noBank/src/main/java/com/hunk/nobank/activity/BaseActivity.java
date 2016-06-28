@@ -25,7 +25,6 @@ import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.service.session.SessionTimeoutService;
 import com.hunk.nobank.util.HijackingNotification;
 import com.hunk.abcd.extension.log.Logging;
-import com.hunk.abcd.extension.util.ViewHelper;
 import com.hunk.nobank.views.LoadingDialogFragment;
 import com.hunk.nobank.views.MenuProxy;
 import com.hunk.nobank.views.TitleBarPoxy;
@@ -35,6 +34,11 @@ import com.hunk.nobank.views.TitleBarPoxy;
  * such as custom title bar, left slide menu, unrollActivity
  */
 public abstract class BaseActivity<P extends BasePresenter> extends AbstractViewActivity<P> {
+
+    /**
+     * Flag to record whether app is running in the foreground
+     */
+    public static volatile boolean IS_APP_FOREGROUND = false;
 
     private static final String DIALOG_LOADING_TAG = "DIALOG_LOADING_TAG";
 
@@ -191,7 +195,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
     @Override
     protected void onResume() {
         super.onResume();
-        ViewHelper.isAppForeGround = true;
+        IS_APP_FOREGROUND = true;
         mHijackingNotification.dismiss();
 
         unrollActivityIfSessionTimeout();
@@ -200,7 +204,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
     @Override
     protected void onPause() {
         super.onPause();
-        ViewHelper.isAppForeGround = false;
+        IS_APP_FOREGROUND = false;
         mHijackingNotification.show();
     }
 

@@ -196,9 +196,4 @@ public class ViewHelper {
             view.setVisibility(View.GONE);
         }
     }
-
-    /**
-     * Flag to record whether app is running in the foreground
-     */
-    public static volatile boolean isAppForeGround = false;
 }
