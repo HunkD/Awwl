@@ -12,8 +12,15 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled project.hasProperty("proguard")
+            debuggable true
+            proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFile 'proguard-rules.pro'
+            testCoverageEnabled project.hasProperty("testCoverage")
         }
     }
 }
@@ -27,3 +34,37 @@ dependencies {
     testCompile 'org.robolectric:robolectric:3.1-rc1'
     testCompile 'org.robolectric:shadows-support-v4:3.1-rc1'
 }
+
+// jacoco code coverage --
+apply plugin: 'jacoco'
+jacoco {
+    toolVersion = "0.7.1.201405082137"
+}
+def coverageSourceDirs = [
+        '../abcd/src/main/java'
+]
+task jacocoTestReport(type:JacocoReport, dependsOn: "testDebugUnitTest") {
+    group = "Reporting"
+
+    description = "Generate Jacoco coverage reports"
+
+    classDirectories = fileTree(
+            dir: '../abcd/build/intermediates/classes/debug',
+            excludes: ['**/R.class',
+                       '**/R$*.class',
+                       '**/*$ViewInjector*.*',
+                       '**/BuildConfig.*',
+                       '**/Manifest*.*']
+    )
+
+    additionalSourceDirs = files(coverageSourceDirs)
+    sourceDirectories = files(coverageSourceDirs)
+    executionData = files('../abcd/build/jacoco/testDebugUnitTest.exec')
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+}
+// -----------------------

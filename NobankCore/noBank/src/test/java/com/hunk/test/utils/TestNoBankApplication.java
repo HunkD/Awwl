@@ -19,7 +19,6 @@ public class TestNoBankApplication extends NoBankApplication implements TestLife
 
     @Override
     public void onCreate() {
-        ReflectionHelpers.setStaticField(Hunk.class, "mMockFlag", Boolean.TRUE);
         Hunk.getSingInfo(null);
 
         super.onCreate();

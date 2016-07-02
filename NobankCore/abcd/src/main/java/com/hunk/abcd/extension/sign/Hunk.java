@@ -23,7 +23,7 @@ public class Hunk {
      *
      * @see #getSingInfo(Context)
      */
-    private static Boolean mMockFlag = Boolean.FALSE;
+    private final static Boolean mMockFlag = Boolean.TRUE;
 
     /**
      * Request system service PackageManager.GET_SIGNATURES to get signature for this application.
