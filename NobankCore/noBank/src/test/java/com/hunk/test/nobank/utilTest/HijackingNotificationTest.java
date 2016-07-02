@@ -4,7 +4,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 
 import com.hunk.nobank.BuildConfig;
-import com.hunk.nobank.util.HijackingNotification;
+import com.hunk.abcd.views.HijackingNotification;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.TestNoBankApplication;
 

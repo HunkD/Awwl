@@ -1,4 +1,4 @@
-package com.hunk.nobank.util;
+package com.hunk.abcd.views;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
-import com.hunk.nobank.R;
+import com.hunk.abcd.R;
 
 /**
  *

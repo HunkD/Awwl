@@ -23,7 +23,7 @@ import com.hunk.abcd.activity.mvp.AbstractViewActivity;
 import com.hunk.nobank.activity.root.RootActivity;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.service.session.SessionTimeoutService;
-import com.hunk.nobank.util.HijackingNotification;
+import com.hunk.abcd.views.HijackingNotification;
 import com.hunk.abcd.extension.log.Logging;
 import com.hunk.nobank.views.LoadingDialogFragment;
 import com.hunk.nobank.views.MenuProxy;
