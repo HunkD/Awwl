@@ -1,19 +1,10 @@
-package com.hunk.test.nobank.flowTest;
+package com.hunk.abcd.activity.flow;
 
 import android.app.Activity;
-import android.os.Build;
 
-import com.hunk.nobank.BuildConfig;
-import com.hunk.nobank.Core;
-import com.hunk.abcd.activity.flow.ScreenFlow;
-import com.hunk.abcd.activity.flow.ScreenFlowManager;
-import com.hunk.abcd.activity.flow.ScreenNode;
-import com.hunk.test.utils.TestNoBankApplication;
+import com.hunk.abcd.Testable;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
 import static org.junit.Assert.assertEquals;
@@ -25,24 +16,21 @@ import static org.robolectric.Shadows.shadowOf;
  * @author HunkDeng
  * @since 2016/2/7
  */
-@RunWith(RobolectricGradleTestRunner.class)
-/**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class,
-        application = TestNoBankApplication.class,
-        sdk = Build.VERSION_CODES.LOLLIPOP)
-public class ScreenFlowTest {
+public class ScreenFlowTest extends Testable {
     private static class FirstActivity extends Activity {}
     private static class SecondActivity extends Activity {}
     private static class ThirdActivity extends Activity {}
     private static class FourthActivity extends Activity {}
+
+    final ScreenFlowManager mScreenFlowManager = new ScreenFlowManager();
     /**
      * Test start screen flow
      */
     @Test
     public void start() {
         // prepare fake screen flow
-        ScreenFlow screenFlow = new ScreenFlow(Core.getInstance().getScreenFlowManager()) {
 
+        ScreenFlow screenFlow = new ScreenFlow(mScreenFlowManager) {
             @Override
             protected void configureScreenFlow(Class<? extends Activity> startedActivity) {
                 from(FirstActivity.class).when(ScreenNode.NORMAL_COMPLETE).to(SecondActivity.class);
@@ -55,7 +43,7 @@ public class ScreenFlowTest {
         ShadowActivity shadowFirstActivity = shadowOf(firstActivity);
         screenFlow.start(firstActivity);
 
-        assertTrue(Core.getInstance().getScreenFlowManager().getCurrentScreenFlow() == screenFlow);
+        assertTrue(mScreenFlowManager.getCurrentScreenFlow() == screenFlow);
         assertEquals(SecondActivity.class.getName(), shadowFirstActivity.getNextStartedActivity().getComponent().getClassName());
 
         // test next started screen from SecondActivity
@@ -70,7 +58,7 @@ public class ScreenFlowTest {
      */
     @Test
     public void startWithCondition() {
-        ScreenFlow screenFlow = new FakeScreenFlow1(Core.getInstance().getScreenFlowManager());
+        ScreenFlow screenFlow = new FakeScreenFlow1(mScreenFlowManager);
 
         // test next started screen from FirstActivity
         FirstActivity firstActivity = buildActivity(FirstActivity.class).setup().get();
@@ -78,7 +66,7 @@ public class ScreenFlowTest {
         ShadowActivity shadowFirstActivity = shadowOf(firstActivity);
         screenFlow.start(firstActivity, FakeScreenFlow1.THIRD_CONDITION);
 
-        assertTrue(Core.getInstance().getScreenFlowManager().getCurrentScreenFlow() == screenFlow);
+        assertTrue(mScreenFlowManager.getCurrentScreenFlow() == screenFlow);
         assertEquals(ThirdActivity.class.getName(), shadowFirstActivity.getNextStartedActivity().getComponent().getClassName());
     }
 
@@ -101,7 +89,7 @@ public class ScreenFlowTest {
 
     @Test
     public void nextWithCondition() {
-        ScreenFlow screenFlow = new FakeScreenFlow2(Core.getInstance().getScreenFlowManager());
+        ScreenFlow screenFlow = new FakeScreenFlow2(mScreenFlowManager);
 
         // test next started screen from FirstActivity
         FirstActivity firstActivity = buildActivity(FirstActivity.class).setup().get();
