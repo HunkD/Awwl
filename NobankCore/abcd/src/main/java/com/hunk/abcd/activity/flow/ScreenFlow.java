@@ -1,9 +1,7 @@
-package com.hunk.nobank.manager.flowBasic;
+package com.hunk.abcd.activity.flow;
 
 import android.app.Activity;
 import android.content.Intent;
-
-import com.hunk.nobank.manager.ScreenFlowManager;
 
 import java.util.HashMap;
 import java.util.Map;

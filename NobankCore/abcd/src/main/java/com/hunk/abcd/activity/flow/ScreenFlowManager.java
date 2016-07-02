@@ -1,6 +1,4 @@
-package com.hunk.nobank.manager;
-
-import com.hunk.nobank.manager.flowBasic.ScreenFlow;
+package com.hunk.abcd.activity.flow;
 
 /**
  * @author HunkDeng

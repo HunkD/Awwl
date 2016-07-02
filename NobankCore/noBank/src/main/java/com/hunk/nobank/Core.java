@@ -9,13 +9,12 @@ import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.extension.network.MyNetworkHandler;
 import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.manager.ScreenFlowManager;
+import com.hunk.abcd.activity.flow.ScreenFlowManager;
 import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.model.ImgLoadRequestPackage;
 import com.hunk.nobank.util.Hmg;
 import com.hunk.abcd.extension.log.Logging;
-import com.hunk.abcd.extension.util.ViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
