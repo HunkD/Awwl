@@ -1,33 +1,22 @@
-package com.hunk.test.nobank.utilTest;
+package com.hunk.abcd.views;
 
 import android.app.NotificationManager;
 import android.content.Context;
 
-import com.hunk.nobank.BuildConfig;
-import com.hunk.abcd.views.HijackingNotification;
-import com.hunk.test.utils.NBAbstractTest;
-import com.hunk.test.utils.TestNoBankApplication;
+import com.hunk.abcd.Testable;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowNotificationManager;
 
 import static org.robolectric.Shadows.shadowOf;
 
 /**
- *
+ * test {@link HijackingNotification}
  */
-@RunWith(RobolectricGradleTestRunner.class)
-/**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class,
-        application = TestNoBankApplication.class,
-        sdk = 21)
-public class HijackingNotificationTest extends NBAbstractTest {
+public class HijackingNotificationTest extends Testable {
     @Test
     public void testShowBackgroundRunningNotification() {
         HijackingNotification hijackingNotification = new HijackingNotification(RuntimeEnvironment.application);
