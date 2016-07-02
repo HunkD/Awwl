@@ -1,4 +1,4 @@
-package com.hunk.nobank.views;
+package com.hunk.abcd.views;
 
 import android.content.Context;
 import android.content.res.Configuration;

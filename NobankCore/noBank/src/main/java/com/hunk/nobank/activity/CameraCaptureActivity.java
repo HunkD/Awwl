@@ -23,7 +23,7 @@ import android.widget.FrameLayout;
 
 import com.hunk.nobank.R;
 import com.hunk.abcd.extension.log.Logging;
-import com.hunk.nobank.views.CameraPreview;
+import com.hunk.abcd.views.CameraPreview;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
