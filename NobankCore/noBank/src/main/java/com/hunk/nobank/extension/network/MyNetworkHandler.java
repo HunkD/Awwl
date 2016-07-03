@@ -7,7 +7,7 @@ import android.os.Message;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.model.Cacheable;
-import com.hunk.nobank.util.Logging;
+import com.hunk.abcd.extension.log.Logging;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;

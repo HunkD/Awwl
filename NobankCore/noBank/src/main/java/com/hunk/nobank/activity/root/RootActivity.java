@@ -7,7 +7,7 @@ import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.util.Logging;
+import com.hunk.abcd.extension.log.Logging;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 /**

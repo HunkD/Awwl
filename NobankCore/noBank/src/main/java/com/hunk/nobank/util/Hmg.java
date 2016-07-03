@@ -11,6 +11,9 @@ import android.util.LruCache;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.hunk.abcd.extension.log.Logging;
+import com.hunk.abcd.extension.util.StringUtils;
+
 import java.io.ByteArrayInputStream;
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
@@ -157,7 +160,11 @@ public class Hmg {
         private NetworkBridge mNetworkBridge;
 
         public ImgCache(long maxMemory) {
-            mLruCache = new LruCache<String, Bitmap>((int) maxMemory / 4) {
+            int cacheMemory = (int) (maxMemory / 4);
+            if (cacheMemory <= 0 && maxMemory > 0) {
+                cacheMemory = Integer.MAX_VALUE;
+            }
+            mLruCache = new LruCache<String, Bitmap>(cacheMemory) {
                 @SuppressLint("NewApi")
                 @Override
                 protected int sizeOf(String key, Bitmap value) {

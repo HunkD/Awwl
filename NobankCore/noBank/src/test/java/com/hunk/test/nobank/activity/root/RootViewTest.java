@@ -1,6 +1,6 @@
 package com.hunk.test.nobank.activity.root;
 
-import com.hunk.nobank.activity.base.BasePresenter;
+import com.hunk.abcd.activity.mvp.BasePresenter;
 import com.hunk.nobank.activity.root.RootActivity;
 import com.hunk.nobank.activity.root.RootView;
 import com.hunk.test.utils.NBAbstractTest;

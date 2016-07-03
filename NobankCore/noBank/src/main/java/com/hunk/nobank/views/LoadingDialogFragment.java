@@ -7,8 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hunk.abcd.extension.font.UpdateFont;
 import com.hunk.nobank.R;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 
 public class LoadingDialogFragment extends DialogFragment {
     public static LoadingDialogFragment newInstance() {
@@ -25,7 +26,7 @@ public class LoadingDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.frag_loading, container, false);
-        ViewHelper.updateFontsStyle((ViewGroup) v);
+        UpdateFont.updateFontsStyle((ViewGroup) v);
         // Make App theme style transparency in setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme).
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0));
         return v;

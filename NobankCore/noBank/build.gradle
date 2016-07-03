@@ -56,6 +56,7 @@ android {
         unitTests.all {
             // Travis CI and Robolectric will failed to get the first dependency when parallel run the test.
             // maxParallelForks 4
+            jvmArgs '-noverify'
 
             testLogging {
                 events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
@@ -99,6 +100,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.mcxiaoke.volley:library:1.0.16'
     compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    compile 'com.squareup.okhttp:okhttp:2.4.0'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:1.7.0'
@@ -108,5 +110,5 @@ dependencies {
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 
     compile project(':contract')
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile project(':abcd')
 }

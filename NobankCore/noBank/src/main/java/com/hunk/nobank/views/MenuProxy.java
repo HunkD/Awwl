@@ -13,12 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.hunk.abcd.extension.font.UpdateFont;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 import java.util.ArrayList;
@@ -109,7 +110,7 @@ public class MenuProxy {
             if (convertView == null) {
                 LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
                 convertView = inflater.inflate(R.layout.item_menu_button, parent, false);
-                ViewHelper.updateFontsStyle((ViewGroup) convertView);
+                UpdateFont.updateFontsStyle((ViewGroup) convertView);
 
                 holder = new ViewHolder();
                 holder.menuButton = (TextView) convertView.findViewById(R.id.menu_button);

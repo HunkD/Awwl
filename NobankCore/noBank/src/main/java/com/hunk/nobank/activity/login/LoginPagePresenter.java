@@ -3,13 +3,13 @@ package com.hunk.nobank.activity.login;
 import android.support.annotation.VisibleForTesting;
 
 import com.hunk.nobank.Core;
-import com.hunk.nobank.activity.base.AbstractPresenter;
+import com.hunk.abcd.activity.mvp.AbstractPresenter;
 import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
-import com.hunk.nobank.util.StringUtils;
+import com.hunk.abcd.extension.util.StringUtils;
 
 /**
  * @author HunkDeng

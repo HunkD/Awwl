@@ -1,7 +1,7 @@
 package com.hunk.nobank.activity.dashboard;
 
-import com.hunk.nobank.activity.base.BasePresenter;
-import com.hunk.nobank.activity.base.BaseView;
+import com.hunk.abcd.activity.mvp.BasePresenter;
+import com.hunk.abcd.activity.mvp.BaseView;
 import com.hunk.nobank.contract.Money;
 import com.hunk.nobank.contract.TransactionFields;
 

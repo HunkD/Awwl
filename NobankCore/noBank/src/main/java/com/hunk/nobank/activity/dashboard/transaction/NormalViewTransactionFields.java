@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hunk.abcd.extension.font.UpdateFont;
 import com.hunk.nobank.R;
 import com.hunk.nobank.contract.TransactionCategory;
 import com.hunk.nobank.contract.TransactionFields;
-import com.hunk.nobank.extension.network.ServerConfig;
 import com.hunk.nobank.util.Hmg;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 
 /**
  *
@@ -32,7 +32,7 @@ public class NormalViewTransactionFields extends ViewTransactionFields  {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.item_transaction, parent, false);
 
-            ViewHelper.updateFontsStyle((ViewGroup) convertView);
+            UpdateFont.updateFontsStyle((ViewGroup) convertView);
 
             viewHolder = new ViewHolder();
             viewHolder.mIcon = (ImageView) convertView.findViewById(R.id.transaction_item_icon);

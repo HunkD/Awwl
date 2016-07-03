@@ -1,18 +1,20 @@
 package com.hunk.nobank;
 
 import android.content.Context;
+import android.graphics.Typeface;
 
+import com.hunk.abcd.extension.font.TypefaceMap;
+import com.hunk.abcd.extension.font.UpdateFont;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.extension.network.MyNetworkHandler;
 import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.manager.ScreenFlowManager;
+import com.hunk.abcd.activity.flow.ScreenFlowManager;
 import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.model.ImgLoadRequestPackage;
 import com.hunk.nobank.util.Hmg;
-import com.hunk.nobank.util.Logging;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.log.Logging;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,19 +27,24 @@ public class Core {
     private static Core mCore;
     private NetworkHandler mNetworkHandler;
     private UserManager mUserManager;
-    private ViewHelper.TypefaceCache mTypefaceCache;
     private static List<Cache<?>> mCacheList = new ArrayList<>();
     private ScreenFlowManager mScreenFlowManager;
 
     private Core(Context ctx) {
-        // init font cache
-        mTypefaceCache = ViewHelper.TypefaceCache.getInstance(ctx);
+        // init UpdateFont
+        UpdateFont.init(
+                new TypefaceMap(
+                        Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-Light.ttf"),
+                        Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-LightItalic.ttf"),
+                        Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-Regular.ttf"),
+                        Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-Light.ttf")));
         // init network handler
         mNetworkHandler = new MyNetworkHandler(ctx);
         // init user manager
         mUserManager = new UserManager(ctx);
         // init screen flow manager
         mScreenFlowManager = new ScreenFlowManager();
+
         // init hmg
         Hmg.getInstance().init(ctx).setNetworkBridge(new Hmg.NetworkBridge() {
             @Override
@@ -72,10 +79,6 @@ public class Core {
 
     public UserManager getUserManager() {
         return mUserManager;
-    }
-
-    public ViewHelper.TypefaceCache getTypefaceCache() {
-        return mTypefaceCache;
     }
 
     public NetworkHandler getNetworkHandler() {

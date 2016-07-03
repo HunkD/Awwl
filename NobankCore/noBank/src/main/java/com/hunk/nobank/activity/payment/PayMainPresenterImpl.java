@@ -1,6 +1,6 @@
 package com.hunk.nobank.activity.payment;
 
-import com.hunk.nobank.activity.base.AbstractPresenter;
+import com.hunk.abcd.activity.mvp.AbstractPresenter;
 
 /**
  * Created by HunkDeng on 2016/6/10.

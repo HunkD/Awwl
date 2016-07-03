@@ -35,9 +35,6 @@
     <string name="last_refresh_timestamp">Last update time:</string>
     <string name="txt_available_balance">Available Balance</string>
     <string name="loading_balance">Loading Balance now</string>
-    <string name="notify_background_now_title">@string/app_name</string>
-    <string name="notify_background_now_text">Running background now!</string>
-    <string name="notify_background_now_explain">In case we\'re been hijacking, we will tell you when application is running background.</string>
     <string name="fetching">Fetching</string>
     <string name="more">More Transactions</string>
     <string name="more_fetching">Fetching more transactions...</string>

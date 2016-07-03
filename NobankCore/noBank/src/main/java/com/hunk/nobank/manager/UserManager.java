@@ -15,7 +15,6 @@ import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.nobank.util.Hmg;
-import com.hunk.nobank.util.ViewHelper;
 
 /**
  * DataManager which hold all user data and session
@@ -150,7 +149,7 @@ public class UserManager extends DataManager {
         // clean session object cache
         Core.clearCache();
         // Unroll activity if it's foreground
-        if (ViewHelper.isAppForeGround) {
+        if (BaseActivity.IS_APP_FOREGROUND) {
             BaseActivity.unrollActivity(context);
         }
         // clear img cache

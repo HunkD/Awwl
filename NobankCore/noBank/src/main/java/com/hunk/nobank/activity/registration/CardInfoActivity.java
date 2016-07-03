@@ -8,7 +8,7 @@ import android.widget.EditText;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.util.ViewHelper;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 public class CardInfoActivity

@@ -13,18 +13,18 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.hunk.abcd.extension.font.UpdateFont;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
-import com.hunk.nobank.activity.base.BasePresenter;
-import com.hunk.nobank.activity.base.AbstractViewActivity;
+import com.hunk.abcd.activity.mvp.BasePresenter;
+import com.hunk.abcd.activity.mvp.AbstractViewActivity;
 import com.hunk.nobank.activity.root.RootActivity;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.service.session.SessionTimeoutService;
-import com.hunk.nobank.util.HijackingNotification;
-import com.hunk.nobank.util.Logging;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.views.HijackingNotification;
+import com.hunk.abcd.extension.log.Logging;
 import com.hunk.nobank.views.LoadingDialogFragment;
 import com.hunk.nobank.views.MenuProxy;
 import com.hunk.nobank.views.TitleBarPoxy;
@@ -34,6 +34,11 @@ import com.hunk.nobank.views.TitleBarPoxy;
  * such as custom title bar, left slide menu, unrollActivity
  */
 public abstract class BaseActivity<P extends BasePresenter> extends AbstractViewActivity<P> {
+
+    /**
+     * Flag to record whether app is running in the foreground
+     */
+    public static volatile boolean IS_APP_FOREGROUND = false;
 
     private static final String DIALOG_LOADING_TAG = "DIALOG_LOADING_TAG";
 
@@ -125,7 +130,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
     private void setFontsStyle() {
         // tree walk root view, change every text component to using custom font style.
         ViewGroup vg = (ViewGroup) getWindow().getDecorView().findViewById(android.R.id.content);
-        ViewHelper.updateFontsStyle(vg);
+        UpdateFont.updateFontsStyle(vg);
     }
 
     public void setContentView(int layoutResID, Base style) {
@@ -190,7 +195,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
     @Override
     protected void onResume() {
         super.onResume();
-        ViewHelper.isAppForeGround = true;
+        IS_APP_FOREGROUND = true;
         mHijackingNotification.dismiss();
 
         unrollActivityIfSessionTimeout();
@@ -199,7 +204,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
     @Override
     protected void onPause() {
         super.onPause();
-        ViewHelper.isAppForeGround = false;
+        IS_APP_FOREGROUND = false;
         mHijackingNotification.show();
     }
 

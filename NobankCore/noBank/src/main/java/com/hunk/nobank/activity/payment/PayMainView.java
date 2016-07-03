@@ -1,7 +1,7 @@
 package com.hunk.nobank.activity.payment;
 
-import com.hunk.nobank.activity.base.BasePresenter;
-import com.hunk.nobank.activity.base.BaseView;
+import com.hunk.abcd.activity.mvp.BasePresenter;
+import com.hunk.abcd.activity.mvp.BaseView;
 
 /**
  * Created by HunkDeng on 2016/6/10.

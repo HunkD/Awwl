@@ -1,7 +1,7 @@
 package com.hunk.nobank.activity.registration;
 
-import com.hunk.nobank.activity.base.BasePresenter;
-import com.hunk.nobank.activity.base.BaseView;
+import com.hunk.abcd.activity.mvp.BasePresenter;
+import com.hunk.abcd.activity.mvp.BaseView;
 
 /**
  * @author HunkDeng

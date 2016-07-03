@@ -9,10 +9,8 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.hunk.nobank.Core;
-import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.util.Logging;
-import com.hunk.nobank.util.ViewHelper;
+import com.hunk.abcd.extension.log.Logging;
 
 /**
  * Session Timeout service <br>

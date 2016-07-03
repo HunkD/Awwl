@@ -1,6 +1,6 @@
 package com.hunk.test.nobank.utilTest;
 
-import com.hunk.nobank.util.TimeUtils;
+import com.hunk.abcd.extension.util.TimeUtils;
 
 import org.junit.Test;
 
