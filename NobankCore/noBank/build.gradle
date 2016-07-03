@@ -101,6 +101,8 @@ dependencies {
     compile 'com.mcxiaoke.volley:library:1.0.16'
     compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
 
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:1.7.0'
