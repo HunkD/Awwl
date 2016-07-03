@@ -19,6 +19,8 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.ReflectionHelpers;
 
+import rx.Observable;
+
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -151,8 +153,8 @@ public class LoginPagePresenterTest {
     public void testOnResumeWithRememberMe() {
         // mock
         String expectedUsername = "1222";
-        when(mMockUM.isRememberMe()).thenReturn(true);
-        when(mMockUM.getRememberMeUserName()).thenReturn(expectedUsername);
+        when(mMockUM.isRememberMe()).thenReturn(Observable.just(Boolean.TRUE));
+        when(mMockUM.getRememberMeUserName()).thenReturn(Observable.just(expectedUsername));
         // execute
         LoginPagePresenter presenter = getTestObj();
         presenter.onResume();
@@ -163,7 +165,7 @@ public class LoginPagePresenterTest {
     @Test
     public void testOnResumeWithoutRememberMe() {
         // mock
-        when(mMockUM.isRememberMe()).thenReturn(false);
+        when(mMockUM.isRememberMe()).thenReturn(Observable.just(Boolean.FALSE));
         // execute
         LoginPagePresenter presenter = getTestObj();
         presenter.onResume();

@@ -7,6 +7,9 @@ import com.hunk.abcd.activity.mvp.AbstractPresenter;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+
 /**
  * @author HunkDeng
  * @since 2016/5/21
@@ -25,10 +28,17 @@ public class WelcomePagePresenter extends AbstractPresenter<WelcomeView> {
             mCheckRememberMe = false;
 
             UserManager userManager = Core.getInstance().getUserManager();
-            if (userManager.isRememberMe()) {
-                // go to login screen
-                mView.onClickSignIn(null);
-            }
+            userManager
+                    .isRememberMe()
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action1<Boolean>() {
+                        @Override
+                        public void call(Boolean isRemembered) {
+                            if (isRemembered) {
+                                mView.onClickSignIn(null);
+                            }
+                        }
+                    });
         }
     }
 }

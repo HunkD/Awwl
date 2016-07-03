@@ -25,6 +25,8 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ReflectionHelpers;
 
+import rx.Observable;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -50,7 +52,7 @@ public class LoginPageActivityTest extends NBAbstractTest {
         mNetworkHandlerStub.clear();
 
         mMockUM = MockCore.mockUserManager();
-        when(mMockUM.isRememberMe()).thenReturn(false);
+        when(mMockUM.isRememberMe()).thenReturn(Observable.just(Boolean.FALSE));
     }
 
     @Test

@@ -11,6 +11,11 @@ import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.abcd.extension.util.StringUtils;
 
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+
 /**
  * @author HunkDeng
  * @since 2016/5/22
@@ -107,11 +112,25 @@ public class LoginPagePresenter extends AbstractPresenter<LoginView>{
     }
 
     public void onResume() {
-        if (mUserManager.isRememberMe()) {
-            mView.showRememberedUserName(mUserManager.getRememberMeUserName());
-        } else {
-            // should not reset this in onResume(), do this after restart this application.
-        }
+        mUserManager
+                .isRememberMe()
+                .flatMap(new Func1<Boolean, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Boolean isRemembered) {
+                        if (isRemembered) {
+                            return mUserManager.getRememberMeUserName();
+                        } else {
+                            return Observable.never();
+                        }
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String username) {
+                        mView.showRememberedUserName(username);
+                    }
+                });
     }
 
     /**

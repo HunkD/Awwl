@@ -16,6 +16,9 @@ import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.nobank.util.Hmg;
 
+import rx.Observable;
+import rx.Subscriber;
+
 /**
  * DataManager which hold all user data and session
  */
@@ -36,14 +39,26 @@ public class UserManager extends DataManager {
         this.mCtx = mCtx;
     }
 
-    public boolean isRememberMe() {
-        SharedPreferences pref = getSharedPreferences();
-        return pref.getBoolean(KEY_IS_REMEMBER_ME, false);
+    public Observable<Boolean> isRememberMe() {
+        final SharedPreferences pref = getSharedPreferences();
+        return Observable.create(new Observable.OnSubscribe<Boolean>() {
+            @Override
+            public void call(Subscriber<? super Boolean> subscriber) {
+                subscriber.onNext(pref.getBoolean(KEY_IS_REMEMBER_ME, false));
+                subscriber.onCompleted();
+            }
+        });
     }
 
-    public String getRememberMeUserName() {
-        SharedPreferences pref = getSharedPreferences();
-        return pref.getString(KEY_IS_REMEMBER_ME_USERNAME, null);
+    public Observable<String> getRememberMeUserName() {
+        final SharedPreferences pref = getSharedPreferences();
+        return Observable.create(new Observable.OnSubscribe<String>() {
+            @Override
+            public void call(Subscriber<? super String> subscriber) {
+                subscriber.onNext(pref.getString(KEY_IS_REMEMBER_ME_USERNAME, null));
+                subscriber.onCompleted();
+            }
+        });
     }
 
     public void setRememberMe(boolean isRememberMe, String rememberMeUserName) {
