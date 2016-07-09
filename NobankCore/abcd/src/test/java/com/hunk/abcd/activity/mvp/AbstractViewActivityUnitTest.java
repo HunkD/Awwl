@@ -38,6 +38,12 @@ public class AbstractViewActivityUnitTest extends Testable implements IFakeView<
         return mock(FakePresenter.class);
     }
 
+    @Test
+    @Override
+    public void showError(Throwable e) {
+
+    }
+
 
     private FakeView getTestObj() {
         return setupActivity(FakeView.class);

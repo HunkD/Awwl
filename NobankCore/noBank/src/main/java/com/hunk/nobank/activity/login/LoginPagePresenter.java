@@ -1,15 +1,13 @@
 package com.hunk.nobank.activity.login;
 
-import android.support.annotation.VisibleForTesting;
-
-import com.hunk.nobank.Core;
 import com.hunk.abcd.activity.mvp.AbstractPresenter;
+import com.hunk.abcd.extension.util.StringUtils;
+import com.hunk.nobank.Core;
+import com.hunk.nobank.activity.BaseViewObserver;
+import com.hunk.nobank.contract.AccountSummary;
+import com.hunk.nobank.contract.LoginResp;
 import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
-import com.hunk.nobank.model.AccountSummaryPackage;
-import com.hunk.nobank.model.LoginReqPackage;
-import com.hunk.abcd.extension.util.StringUtils;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -25,50 +23,7 @@ public class LoginPagePresenter extends AbstractPresenter<LoginView>{
 
     public LoginPagePresenter() {
         mUserManager = Core.getInstance().getUserManager();
-        mUserManager.registerViewManagerListener(mManagerListener);
     }
-
-    @VisibleForTesting
-    private ViewManagerListener mManagerListener = new ViewManagerListener(this) {
-        @Override
-        public void onSuccess(String managerId, String messageId, Object data) {
-            if (managerId.equals(UserManager.MANAGER_ID)) {
-                if (messageId.equals(UserManager.METHOD_LOGIN)) {
-                    if (mUserManager.getCurrentUserSession() != null) {
-                        if (mUserManager.getCurrentUserSession().getLoginState() == LoginStateEnum.Logined) {
-                            AccountSummaryPackage accountSummaryPackage = new AccountSummaryPackage();
-                            mUserManager.fetchAccountSummary(accountSummaryPackage, this);
-                        } else if (mUserManager.getCurrentUserSession().getLoginState() == LoginStateEnum.NeedVerifySecurityQuestion) {
-                            mView.dismissLoading();
-                            mView.showErrorMessage("verifySecurityQuestion");
-                        }
-                    } else {
-                        //  TODO: throw exception in debug mode
-                    }
-                } else if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
-                    mView.dismissLoading();
-                    mView.navigateToDashboard();
-                }
-            } else {
-
-            }
-        }
-
-        @Override
-        public void onFailed(String managerId, String messageId, Object data) {
-            if (managerId.equals(UserManager.MANAGER_ID)) {
-                if (messageId.equals(UserManager.METHOD_LOGIN)) {
-                    mView.dismissLoading();
-                    mView.showErrorMessage("failed");
-                } else if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
-                    mView.dismissLoading();
-                    mView.showErrorMessage("sorry, we can't load your balance.");
-                    // logout and clear session
-                    mUserManager.setCurrentUserSession(null);
-                }
-            }
-        }
-    };
 
     /**
      * login interface
@@ -89,9 +44,41 @@ public class LoginPagePresenter extends AbstractPresenter<LoginView>{
     }
 
     private void submit(String name, String psd, boolean rememberMe) {
-        final LoginReqPackage req = new LoginReqPackage(name, psd, rememberMe);
         mView.showLoading();
-        mUserManager.fetchLogin(req, mManagerListener);
+        mUserManager.fetchLogin(name, psd, rememberMe)
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<LoginResp, Observable<AccountSummary>>() {
+                    @Override
+                    public Observable<AccountSummary> call(LoginResp loginResp) {
+                        if (loginResp.loginState == LoginStateEnum.Logined) {
+                            return mUserManager.fetchAccountSummary();
+                        } else if (loginResp.loginState == LoginStateEnum.NeedVerifySecurityQuestion) {
+                            if (mView != null) {
+                                mView.dismissLoading();
+                                mView.navigateToSecurityQuestion();
+                            }
+                            return Observable.never();
+                        }
+                        mView.dismissLoading();
+                        throw new RuntimeException();
+                    }
+                })
+                .subscribe(new BaseViewObserver<AccountSummary>(this) {
+                    @Override
+                    public void onNext(AccountSummary accountSummary) {
+                        mView.dismissLoading();
+                        mView.navigateToDashboard();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        mView.dismissLoading();
+                        super.onError(e);
+                        // logout and clear session
+                        mUserManager.setCurrentUserSession(null);
+                    }
+                });
+
     }
 
     private boolean checkInput(String name, String psd) {
@@ -107,8 +94,6 @@ public class LoginPagePresenter extends AbstractPresenter<LoginView>{
 
     public void detach() {
         super.detach();
-        // TODO: remove this
-        mUserManager.unregisterViewManagerListener(mManagerListener);
     }
 
     public void onResume() {

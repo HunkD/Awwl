@@ -7,24 +7,21 @@ import com.hunk.nobank.Core;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.LoginResp;
-import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.dataBasic.DataManager;
-import com.hunk.nobank.manager.dataBasic.ManagerListener;
-import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
 import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.LoginReqPackage;
 import com.hunk.nobank.util.Hmg;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 
 /**
  * DataManager which hold all user data and session
  */
 public class UserManager extends DataManager {
-
-    public static final String MANAGER_ID = UserManager.class.getName();
 
     private static final String APP_SHARED_PREFERENCES_NAME = "NobankSharedPref";
 
@@ -73,56 +70,43 @@ public class UserManager extends DataManager {
         return mCtx.getSharedPreferences(APP_SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
 
-    public static final String METHOD_LOGIN = "METHOD_LOGIN";
-    public void fetchLogin(LoginReqPackage req, final ViewManagerListener listener) {
-        final String id = listener.getId();
-        Core.getInstance().getNetworkHandler()
-                .fireRequest(new ManagerListener() {
+    public Observable<LoginResp> fetchLogin(String username, String psd, boolean rememberMe) {
+        LoginReqPackage req = new LoginReqPackage(username, psd, rememberMe);
+        Observable<LoginResp> observable =
+                Core.getInstance().getNetworkHandler().fireRequest(req);
+        return observable
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<LoginResp, LoginResp>() {
                     @Override
-                    public void success(String managerId, String messageId, Object data) {
-                        RealResp<LoginResp> realResp = (RealResp<LoginResp>) data;
-                        LoginResp loginResp = realResp.Response;
-                        mCurrentUserSession = new UserSession();
-                        mCurrentUserSession.setLoginState(
-                                loginResp.loginState == null ?
-                                        LoginStateEnum.UnAuthorized : loginResp.loginState);
-                        triggerSuccess(id, managerId, messageId, data);
+                    public LoginResp call(LoginResp loginResp) {
+                        if (loginResp.loginState == null
+                                || loginResp.loginState == LoginStateEnum.UnAuthorized) {
+                            throw new RuntimeException();
+                        } else {
+                            mCurrentUserSession = new UserSession();
+                            mCurrentUserSession.setLoginState(loginResp.loginState);
+                            return loginResp;
+                        }
                     }
-
-                    @Override
-                    public void failed(String managerId, String messageId, Object data) {
-                        triggerFailed(id, managerId, messageId, data);
-                    }
-                }, req, MANAGER_ID, METHOD_LOGIN);
+                });
     }
 
-    public static final String METHOD_ACCOUNT_SUMMARY = "METHOD_ACCOUNT_SUMMARY";
-
     /**
-     * @param req
-     * @param listener
      * @return
      *  Whether application call network request
      */
-    public boolean fetchAccountSummary(
-            AccountSummaryPackage req, final ViewManagerListener listener) {
-        final String id = listener.getId();
-        return invokeNetwork(id,
-                AccountSummaryPackage.cache, req,
-                MANAGER_ID, METHOD_ACCOUNT_SUMMARY, new SuccessCallBack() {
-            @Override
-            public boolean success(String managerId, String messageId, Object data) {
-                RealResp<AccountSummary> realResp = (RealResp<AccountSummary>) data;
-                AccountSummary accountSummary = realResp.Response;
-                if (UserManager.isPostLogin(UserManager.this)) {
-                    mCurrentUserSession.generateAccountDataManager(accountSummary);
-                    mCurrentUserSession.generateTransactionDataManager(accountSummary);
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
+    public Observable<AccountSummary> fetchAccountSummary() {
+        AccountSummaryPackage req = new AccountSummaryPackage();
+        return invokeNetwork(AccountSummaryPackage.cache, req)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<AccountSummary, AccountSummary>() {
+                    @Override
+                    public AccountSummary call(AccountSummary accountSummary) {
+                        mCurrentUserSession.generateAccountDataManager(accountSummary);
+                        mCurrentUserSession.generateTransactionDataManager(accountSummary);
+                        return accountSummary;
+                    }
+                });
     }
 
     /**
@@ -159,8 +143,6 @@ public class UserManager extends DataManager {
     public void logout(Context context) {
         // reset current user session
         setCurrentUserSession(null);
-        // clean call back
-        cleanViewManagerListener();
         // clean session object cache
         Core.clearCache();
         // Unroll activity if it's foreground

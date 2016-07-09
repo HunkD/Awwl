@@ -188,8 +188,13 @@ public class DashboardViewImplActivity
             mTransactionListAdapter.add(fields);
         }
         mTransactionListAdapter.notifyDataSetChanged();
-        mSwipeContainer.setRefreshing(false);
-        mSwipeContainer.setEnabled(true);
+        mSwipeContainer.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeContainer.setRefreshing(false);
+                mSwipeContainer.setEnabled(true);
+            }
+        });
     }
 
     @Override

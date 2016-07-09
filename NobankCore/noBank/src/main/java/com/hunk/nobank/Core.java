@@ -3,21 +3,22 @@ package com.hunk.nobank;
 import android.content.Context;
 import android.graphics.Typeface;
 
+import com.hunk.abcd.activity.flow.ScreenFlowManager;
 import com.hunk.abcd.extension.font.TypefaceMap;
 import com.hunk.abcd.extension.font.UpdateFont;
-import com.hunk.nobank.contract.RealResp;
+import com.hunk.abcd.extension.log.Logging;
 import com.hunk.nobank.extension.network.MyNetworkHandler;
 import com.hunk.nobank.extension.network.NetworkHandler;
 import com.hunk.nobank.manager.UserManager;
-import com.hunk.abcd.activity.flow.ScreenFlowManager;
-import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.model.ImgLoadRequestPackage;
 import com.hunk.nobank.util.Hmg;
-import com.hunk.abcd.extension.log.Logging;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Keep reference to all managers, services and caches.
@@ -39,7 +40,7 @@ public class Core {
                         Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-Regular.ttf"),
                         Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-Light.ttf")));
         // init network handler
-        mNetworkHandler = new MyNetworkHandler(ctx);
+        mNetworkHandler = new MyNetworkHandler();
         // init user manager
         mUserManager = new UserManager(ctx);
         // init screen flow manager
@@ -50,18 +51,25 @@ public class Core {
             @Override
             public void load(final String imgId, final Hmg.NetworkBridgeCallback callback) {
                 ImgLoadRequestPackage pack = new ImgLoadRequestPackage(imgId);
-                mNetworkHandler.fireRequest(new ManagerListener() {
-                    @Override
-                    public void success(String managerId, String messageId, Object data) {
-                        RealResp<String> realResp = (RealResp<String>) data;
-                        callback.success(realResp.Response);
-                    }
+                mNetworkHandler
+                        .fireRequest(pack)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<Object>() {
+                            @Override
+                            public void onCompleted() {
 
-                    @Override
-                    public void failed(String managerId, String messageId, Object data) {
-                        callback.fail();
-                    }
-                }, pack, null, null);
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                callback.fail();
+                            }
+
+                            @Override
+                            public void onNext(Object s) {
+                                callback.success((String) s);
+                            }
+                        });
             }
         });
     }

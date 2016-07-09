@@ -10,18 +10,25 @@ import com.hunk.abcd.activity.mvp.BasePresenter;
 import com.hunk.nobank.activity.dashboard.DashboardViewImplActivity;
 import com.hunk.nobank.activity.dashboard.DashboardView;
 import com.hunk.nobank.activity.dashboard.transaction.ViewTransactionFields;
+import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.Money;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.test.utils.AfterLoginTest;
 import com.hunk.test.utils.mock.MockTransaction;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.robolectric.shadows.ShadowListView;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Mockito.when;
 import static org.robolectric.Robolectric.setupActivity;
 import static org.robolectric.Shadows.shadowOf;
 import static org.robolectric.util.ReflectionHelpers.getField;
@@ -37,6 +44,15 @@ public class DashboardViewImplActivityTest
         String listView = "mListView";
         String balanceView = "mBalance";
         String swipeContainer = "mSwipeContainer";
+    }
+
+    @Override
+    public void setup() {
+        super.setup();
+        when(getMockedUM().fetchAccountSummary())
+                .thenReturn(Observable.just(new AccountSummary()));
+        when(getMockedTM().fetchTransactions(anyBoolean()))
+                .thenReturn(Observable.<List<TransactionFields>>just(new ArrayList<TransactionFields>()));
     }
 
     @Test
@@ -114,5 +130,10 @@ public class DashboardViewImplActivityTest
     @Override
     public BasePresenter getPresenter() {
         return null;
+    }
+
+    @Override
+    public void showError(Throwable e) {
+
     }
 }

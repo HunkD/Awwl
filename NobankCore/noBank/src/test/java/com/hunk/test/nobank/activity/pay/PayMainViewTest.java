@@ -36,4 +36,19 @@ public class PayMainViewTest extends AfterLoginTest
     public PayMainPresenter getPresenter() {
         return mock(PayMainPresenter.class);
     }
+
+    /**
+     * @see #showError()
+     * @param e
+     */
+    @Deprecated
+    @Override
+    public void showError(Throwable e) {
+
+    }
+
+    @Test
+    public void showError() {
+
+    }
 }

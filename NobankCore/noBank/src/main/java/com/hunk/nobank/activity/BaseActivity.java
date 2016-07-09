@@ -243,4 +243,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
     public void showErrorMessage(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
     }
+
+    @Override
+    public void showError(Throwable e) {
+
+    }
 }

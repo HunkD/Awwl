@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 
 import com.hunk.abcd.R;
 
+import org.junit.Test;
+
 /**
  * @author HunkDeng
  * @since 2016/7/3
@@ -20,5 +22,11 @@ public class FakeView
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
+    }
+
+    @Test
+    @Override
+    public void showError(Throwable e) {
+
     }
 }

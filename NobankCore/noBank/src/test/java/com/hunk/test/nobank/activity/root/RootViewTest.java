@@ -29,4 +29,13 @@ public class RootViewTest extends NBAbstractTest implements RootView {
     public BasePresenter getPresenter() {
         return null;
     }
+    /**
+     * @param e
+     */
+    @Deprecated
+    @Override
+    public void showError(Throwable e) {
+
+    }
+
 }
