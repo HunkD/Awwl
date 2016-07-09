@@ -23,8 +23,7 @@ public class FakeView
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
     }
-
-    @Test
+    
     @Override
     public void showError(Throwable e) {
 
