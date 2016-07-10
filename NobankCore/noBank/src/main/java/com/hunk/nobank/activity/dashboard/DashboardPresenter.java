@@ -13,7 +13,5 @@ public interface DashboardPresenter<V extends BaseView> extends BasePresenter<V>
 
     void forceRefreshAction();
 
-    void firstTimeResume();
-
     void showMoreTransactionsAction();
 }

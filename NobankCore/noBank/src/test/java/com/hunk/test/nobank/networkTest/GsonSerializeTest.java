@@ -71,8 +71,6 @@ public class GsonSerializeTest {
 
     @Test
     public void testDeSerializeRealResponse() {
-        LoginReqPackage loginReqPackage = new LoginReqPackage("username", "userPassword", false);
-
         LoginResp resp = new LoginResp();
         resp.AllAccountIds = Arrays.asList("123", "456");
         resp.loginState = LoginStateEnum.NeedVerifySecurityQuestion;
@@ -80,7 +78,9 @@ public class GsonSerializeTest {
         realResp.Response = resp;
         String json = mNetworkHandlerStub.getGson().toJson(realResp);
 
-        RealResp<LoginResp> realResp1 = mNetworkHandlerStub.getRealResponse(json, loginReqPackage);
+        RealResp<LoginResp> realResp1 =
+                mNetworkHandlerStub.getRealResponse(json,
+                        new TypeToken<RealResp<LoginResp>>(){}.getType());
 
         assertNotNull(realResp1);
         assertNotNull(realResp1.Response);

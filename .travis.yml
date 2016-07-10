@@ -32,4 +32,4 @@ before_script:
   - sudo service rsync stop || true
   - sudo service x11-common stop || true
   
-script: gradle -b "NobankCore/build.gradle" clean :abcd:testDebugUnitTest :noBank:testDebugUnitTest jacocoTestReport assembleDebug -Pproguard -PtestCoverage
+script: gradle -b "NobankCore/build.gradle" clean testDebugUnitTest jacocoTestReport assembleDebug -Pproguard -PtestCoverage

@@ -88,6 +88,11 @@ public class LoginPageActivity
         return mInputLoginPsd.getText().toString();
     }
 
+    @Override
+    public void navigateToSecurityQuestion() {
+
+    }
+
     public void onClickLogin(View view) {
         mPresenter.loginAction();
     }

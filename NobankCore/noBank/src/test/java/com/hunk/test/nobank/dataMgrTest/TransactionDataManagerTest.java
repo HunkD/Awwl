@@ -6,9 +6,9 @@ import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.contract.TransactionType;
-import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.manager.TransactionDataManager;
-import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
+import com.hunk.nobank.manager.TransactionListCache;
+import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.model.TransactionReqPackage;
 import com.hunk.test.utils.NetworkHandlerStub;
 import com.hunk.test.utils.TestNoBankApplication;
@@ -23,6 +23,12 @@ import org.robolectric.annotation.Config;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import rx.functions.Action1;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricGradleTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
@@ -40,6 +46,8 @@ public class TransactionDataManagerTest {
                 (NetworkHandlerStub) Core.getInstance().getNetworkHandler();
 
         mNetworkHandlerStub.clear();
+
+        TransactionReqPackage.cache.expire();
     }
 
     @Test
@@ -53,67 +61,50 @@ public class TransactionDataManagerTest {
 
         mNetworkHandlerStub.setNextResponse(realResp);
 
-        Object key = new Object();
-        ViewManagerListener viewManagerListener = new ViewManagerListener(key) {
-            @Override
-            public void onSuccess(String managerId, String messageId, Object data) {
-                RealResp<List<TransactionFields>> realResp = (RealResp<List<TransactionFields>>) data;
-                Assert.assertEquals(1, realResp.Response.size());
-                Assert.assertEquals("XXX", realResp.Response.get(0).getTitle());
-            }
-
-            @Override
-            public void onFailed(String managerId, String messageId, Object data) {
-
-            }
-        };
-
-        transactionDataManager.registerViewManagerListener(viewManagerListener);
-        transactionDataManager.fetchTransactions(false, viewManagerListener);
-        transactionDataManager.unregisterViewManagerListener(viewManagerListener);
+        transactionDataManager
+                .fetchTransactions(false)
+                .subscribe(new Action1<List<TransactionFields>>() {
+                    @Override
+                    public void call(List<TransactionFields> transactionFieldsList) {
+                        Assert.assertEquals(1, transactionFieldsList.size());
+                        Assert.assertEquals("XXX", transactionFieldsList.get(0).getTitle());
+                    }
+                });
     }
 
     @Test
     public void testFetchTransactionWithCache() {
         TransactionDataManager transactionDataManager = new TransactionDataManager(null);
-
+        TransactionReqPackage.cache = mock(TransactionListCache.class);
         TransactionFields transactionFields = new TransactionFields("XXX", 1000, TransactionType.DEPOSIT, 1000);
-        RealResp<List<TransactionFields>> realResp = new RealResp<>();
-        realResp.Response = new ArrayList<>();
-        realResp.Response.add(transactionFields);
+        List<TransactionFields> cacheObj = new ArrayList<>();
+        cacheObj.add(transactionFields);
+        when(TransactionReqPackage.cache.get())
+                .thenReturn(cacheObj);
+        when(TransactionReqPackage.cache.shouldFetch(any(TransactionReqPackage.class)))
+                .thenReturn(false);
 
-        TransactionReqPackage.cache.setCache(realResp, null);
-        Object key = new Object();
-        ViewManagerListener viewManagerListener = new ViewManagerListener(key) {
-            @Override
-            public void onSuccess(String managerId, String messageId, Object data) {
-                RealResp<List<TransactionFields>> realResp = (RealResp<List<TransactionFields>>) data;
-                Assert.assertEquals(1, realResp.Response.size());
-                Assert.assertEquals("XXX", realResp.Response.get(0).getTitle());
-            }
+        transactionDataManager
+                .fetchTransactions(false)
+                .subscribe(new Action1<List<TransactionFields>>() {
+                    @Override
+                    public void call(List<TransactionFields> transactionFieldsList) {
+                        Assert.assertEquals(1, transactionFieldsList.size());
+                        Assert.assertEquals("XXX", transactionFieldsList.get(0).getTitle());
+                    }
+                });
 
-            @Override
-            public void onFailed(String managerId, String messageId, Object data) {
-
-            }
-        };
-
-        transactionDataManager.registerViewManagerListener(viewManagerListener);
-        transactionDataManager.fetchTransactions(false, viewManagerListener);
-        transactionDataManager.unregisterViewManagerListener(viewManagerListener);
+        TransactionReqPackage.cache = new TransactionListCache();
     }
 
     @Test
     public void testFetchMoreTransactionWithoutCache() {
         TransactionDataManager transactionDataManager = new TransactionDataManager(null);
-
         TransactionFields transactionFields = new TransactionFields("XXX", 1000, TransactionType.DEPOSIT, 1000);
-        RealResp<List<TransactionFields>> realResp = new RealResp<>();
-        realResp.Response = new ArrayList<>();
-        realResp.Response.add(transactionFields);
-
+        List<TransactionFields> cacheObj = new ArrayList<>();
+        cacheObj.add(transactionFields);
         TransactionReqPackage.cache.setCache(
-                realResp, new TransactionReqPackage(new AccountSummary(), new Date().getTime()));
+                cacheObj, new TransactionReqPackage(new AccountSummary(), new Date().getTime()));
 
         TransactionFields transactionFields2 = new TransactionFields("XXX2", 1000, TransactionType.DEPOSIT, 1000);
         RealResp<List<TransactionFields>> realResp2 = new RealResp<>();
@@ -122,24 +113,15 @@ public class TransactionDataManagerTest {
 
         mNetworkHandlerStub.setNextResponse(realResp2);
 
-        Object key = new Object();
-        ViewManagerListener viewManagerListener = new ViewManagerListener(key) {
-
-            @Override
-            public void onSuccess(String managerId, String messageId, Object data) {
-                RealResp<List<TransactionFields>> realResp = (RealResp<List<TransactionFields>>) data;
-                Assert.assertEquals(2, realResp.Response.size());
-                Assert.assertEquals("XXX", realResp.Response.get(0).getTitle());
-                Assert.assertEquals("XXX2", realResp.Response.get(1).getTitle());
-            }
-
-            @Override
-            public void onFailed(String managerId, String messageId, Object data) {
-
-            }
-        };
-        transactionDataManager.registerViewManagerListener(viewManagerListener);
-        transactionDataManager.fetchTransactions(true, viewManagerListener);
-        transactionDataManager.unregisterViewManagerListener(viewManagerListener);
+        transactionDataManager
+                .fetchTransactions(true)
+                .subscribe(new Action1<List<TransactionFields>>() {
+                    @Override
+                    public void call(List<TransactionFields> transactionFieldsList) {
+                        Assert.assertEquals(2, TransactionReqPackage.cache.get().size());
+                        Assert.assertEquals("XXX", TransactionReqPackage.cache.get().get(0).getTitle());
+                        Assert.assertEquals("XXX2", TransactionReqPackage.cache.get().get(1).getTitle());
+                    }
+                });
     }
 }

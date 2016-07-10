@@ -1,17 +1,20 @@
 package com.hunk.nobank.activity.dashboard;
 
-import android.support.annotation.VisibleForTesting;
-
-import com.hunk.nobank.Core;
 import com.hunk.abcd.activity.mvp.AbstractPresenter;
+import com.hunk.nobank.Core;
+import com.hunk.nobank.activity.BaseViewObserver;
+import com.hunk.nobank.contract.AccountSummary;
+import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.manager.AccountDataManager;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.UserSession;
 import com.hunk.nobank.manager.VaultDataManager;
-import com.hunk.nobank.manager.dataBasic.ViewManagerListener;
-import com.hunk.nobank.model.AccountSummaryPackage;
 import com.hunk.nobank.model.TransactionReqPackage;
+
+import java.util.List;
+
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * @author HunkDeng
@@ -26,76 +29,75 @@ public class DashboardPresenterImpl
     private AccountDataManager mAccountDataManager;
     private VaultDataManager mVaultDataManager;
 
-    @VisibleForTesting
-    private ViewManagerListener mViewManagerListener = new ViewManagerListener(this) {
-        @Override
-        public void onSuccess(String managerId, String messageId, Object data) {
-            if (managerId.equals(UserManager.MANAGER_ID)) {
-                if (messageId.equals(UserManager.METHOD_ACCOUNT_SUMMARY)) {
-                    if (UserManager.isPostLogin(mUserManager)) { // TODO: AOC
-                        mAccountDataManager = mUserManager.getCurrentUserSession().getAccountDataManager();
-                        mVaultDataManager = mUserManager.getCurrentUserSession().getVaultDataManager();
-
-                        mView.showBalance(mAccountDataManager.getAccountModel().Balance);
-                    } else {
-                        // TODO: throw exception in debug mode, or clean listener after session expire.
-                    }
-                }
-            } else if (managerId.equals(TransactionDataManager.MANAGER_ID)) {
-                if (messageId.equals(TransactionDataManager.METHOD_TRANSACTION)) {
-                    mView.showTransactionList(TransactionReqPackage.cache.get().Response);
-                }
-            }
-        }
-
-        @Override
-        public void onFailed(String managerId, String messageId, Object data) {
-
-        }
-    };
-
     public DashboardPresenterImpl() {
         mUserManager = Core.getInstance().getUserManager();
-        mUserManager.registerViewManagerListener(mViewManagerListener);
         UserSession currentUserSession = mUserManager.getCurrentUserSession();
         // when we recreate this application from lowMemoryKiller, it will be session timeout state
         if (currentUserSession != null) {
             mTransactionDataManager = currentUserSession.getTransactionDataManager();
-            mTransactionDataManager.registerViewManagerListener(mViewManagerListener);
         }
     }
 
     @Override
     public void detach() {
         super.detach();
-        // TODO: remove this
-        mUserManager.unregisterViewManagerListener(mViewManagerListener);
-        if (mTransactionDataManager != null) {
-            mTransactionDataManager.unregisterViewManagerListener(mViewManagerListener);
-        }
     }
 
     @Override
     public void onResume() {
-        if (mUserManager.fetchAccountSummary(new AccountSummaryPackage(), mViewManagerListener)) {
-            mView.showLoadingBalance();
-        }
+        mUserManager
+                .fetchAccountSummary()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseViewObserver<AccountSummary>(this) {
+                    @Override
+                    public void onNext(AccountSummary accountSummary) {
+                        if (UserManager.isPostLogin(mUserManager)) { // TODO: AOC
+                            mAccountDataManager = mUserManager.getCurrentUserSession().getAccountDataManager();
+                            mVaultDataManager = mUserManager.getCurrentUserSession().getVaultDataManager();
+
+                            mView.showBalance(mAccountDataManager.getAccountModel().Balance);
+                        } else {
+                            // TODO: throw exception in debug mode, or clean listener after session expire.
+                        }
+                    }
+                });
+
+        fetchTransactionList();
+
+        mView.showLoadingBalance();
     }
 
+    /**
+     * fetch transaction list from server
+     */
     @Override
     public void forceRefreshAction() {
         TransactionReqPackage.cache.expire();
-        if (mTransactionDataManager != null) {
-            mTransactionDataManager.fetchTransactions(false, mViewManagerListener);
-        }
+        fetchTransactionList();
     }
 
-    @Override
-    public void firstTimeResume() {
-        forceRefreshAction();
+    /**
+     * fetch transaction list from cache or server
+     */
+    public void fetchTransactionList() {
+        mTransactionDataManager.fetchTransactions(false)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseViewObserver<List<TransactionFields>>(this) {
+                    @Override
+                    public void onNext(List<TransactionFields> transactionFieldsList) {
+                        mView.showTransactionList(TransactionReqPackage.cache.get());
+                    }
+                });
     }
 
     public void showMoreTransactionsAction() {
-        mTransactionDataManager.fetchTransactions(true, mViewManagerListener);
+        mTransactionDataManager.fetchTransactions(true)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseViewObserver<List<TransactionFields>>(this) {
+                    @Override
+                    public void onNext(List<TransactionFields> transactionFieldsList) {
+                        mView.showTransactionList(TransactionReqPackage.cache.get());
+                    }
+                });
     }
 }

@@ -9,6 +9,7 @@ import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.extension.network.BaseReqPackage;
 import com.hunk.nobank.extension.network.ServerConfig;
+import com.hunk.nobank.manager.TransactionListCache;
 
 import java.lang.reflect.Type;
 import java.util.List;
@@ -16,8 +17,8 @@ import java.util.List;
 /**
  *
  */
-public class TransactionReqPackage extends BaseReqPackage implements Cacheable {
-    public static Cache<RealResp<List<TransactionFields>>> cache = new Cache<>();
+public class TransactionReqPackage extends BaseReqPackage implements Cacheable<List<TransactionFields>> {
+    public static TransactionListCache cache = new TransactionListCache();
 
     private final AccountSummary mAccountSummary;
     private final long mTimestamp;
@@ -51,7 +52,7 @@ public class TransactionReqPackage extends BaseReqPackage implements Cacheable {
     }
 
     @Override
-    public void setCache(RealResp realResp, BaseReqPackage req) {
+    public void setCache(List<TransactionFields> realResp, BaseReqPackage req) {
         cache.setCache(realResp, req);
     }
 }

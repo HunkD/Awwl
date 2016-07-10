@@ -7,4 +7,6 @@ package com.hunk.abcd.activity.mvp;
 public interface BaseView<P extends BasePresenter> {
     void setPresenter(P presenter);
     P getPresenter();
+
+    void showError(Throwable e);
 }

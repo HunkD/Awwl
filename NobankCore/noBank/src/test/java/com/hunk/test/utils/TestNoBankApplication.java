@@ -23,7 +23,7 @@ public class TestNoBankApplication extends NoBankApplication implements TestLife
 
         super.onCreate();
 
-        networkHandlerStub = new NetworkHandlerStub(this.getApplicationContext());
+        networkHandlerStub = new NetworkHandlerStub();
         Core.getInstance().setNetworkHandler(networkHandlerStub);
     }
 

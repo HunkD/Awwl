@@ -29,4 +29,19 @@ public class SignUpViewTest extends NBAbstractTest implements SignUpView {
     public BasePresenter getPresenter() {
         return null;
     }
+
+    /**
+     * @see #showError()
+     * @param e
+     */
+    @Deprecated
+    @Override
+    public void showError(Throwable e) {
+
+    }
+
+    @Test
+    public void showError() {
+
+    }
 }

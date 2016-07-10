@@ -1,14 +1,8 @@
 package com.hunk.nobank.extension.network;
 
-import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
-
 import com.hunk.nobank.contract.RealResp;
-import com.hunk.nobank.manager.dataBasic.ManagerListener;
 import com.hunk.nobank.model.Cacheable;
 import com.hunk.abcd.extension.log.Logging;
-import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -17,24 +11,25 @@ import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
+import rx.Observable;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
+
 /**
  * This is a workaround class to make a daley(5s) between each request
  */
 public class MyNetworkHandler extends NetworkHandler {
 
     private final OkHttpClient okHttpClient;
-    private Handler handler;
     private ServerConfig serverConfig;
 
-    public MyNetworkHandler(Context ctx) {
-        super(ctx);
-        handler = new MyHandler();
+    public MyNetworkHandler() {
         okHttpClient = new OkHttpClient();
         serverConfig = ServerConfig.getCurrentServerConfig();
     }
 
     @Override
-    public void fireRequest(final ManagerListener listener, final BaseReqPackage req, final String managerId, final String messageId) {
+    public <R> Observable<R> fireRequest(final BaseReqPackage req) {
         String url = req.getUri(serverConfig).toString();
         Request.Builder requestBuilder = new Request.Builder()
                 .url(url);
@@ -48,85 +43,41 @@ public class MyNetworkHandler extends NetworkHandler {
 
         Logging.d("fire request : " + url);
         Logging.d("fire request data : " + json);
-        Request request = requestBuilder.build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
+        final Request request = requestBuilder.build();
+        return Observable.create(new Observable.OnSubscribe<R>() {
             @Override
-            public void onFailure(Request request, IOException e) {
+            public void call(final Subscriber<? super R> subscriber) {
                 try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-                RealResp<?> data = generateVolleyErrorResp(req, e);
-                Message message = handler.obtainMessage(0,
-                        new Wrapper(listener, data, managerId, messageId));
-                handler.sendMessage(message);
-            }
+                    Response response = okHttpClient.newCall(request).execute();
 
-            @Override
-            public void onResponse(Response response) throws IOException {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e1) {
-                    e1.printStackTrace();
-                }
-                Message message = handler.obtainMessage();
-                String json = response.body().string();
-                Logging.d("network response = " + json);
-                if (response.isSuccessful()) {
-                    RealResp realResp = getRealResponse(json, req);
-                    if (isRespSuccessfully(realResp)) {
-                        message.what = 1;
-                        message.obj = new Wrapper(listener, realResp, managerId, messageId);
-                        if (req instanceof Cacheable) {
-                            ((Cacheable)req).setCache(realResp, req);
+                    // TODO: NanoHTTPD have problem on quickly sequence call, so add interval time here.
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+
+                    String json = response.body().string();
+                    Logging.d("network response = " + json);
+                    if (response.isSuccessful()) {
+                        RealResp<R> realResp = getRealResponse(json, req.getResponseType());
+                        if (isRespSuccessfully(realResp)) {
+                            if (req instanceof Cacheable) {
+                                ((Cacheable<R>)req).setCache(realResp.Response, req);
+                            }
+                            subscriber.onNext(realResp.Response);
+                        } else {
+                            subscriber.onError(new ServerError(0));
                         }
                     } else {
-                        message.what = 0;
-                        message.obj = new Wrapper(listener, realResp, managerId, messageId);
+                        subscriber.onError(new ServerError(NetworkHandler.NETWORK_ERROR));
+
                     }
-                } else {
-                    RealResp<?> data = generateVolleyErrorResp(req, new RuntimeException("response.isSuccessful()" + response.isSuccessful()));
-
-                    message.what = 0;
-                    message.obj = new Wrapper(listener, data, managerId, messageId);
+                    subscriber.onCompleted();
+                } catch (IOException e) {
+                    subscriber.onError(new ServerError(NetworkHandler.NETWORK_ERROR));
                 }
-                handler.sendMessage(message);
             }
-        });
-    }
-
-    private RealResp<?> generateVolleyErrorResp(BaseReqPackage req, Exception e) {
-        Logging.w("network error: " + e.getMessage());
-        RealResp<?> realResp = new RealResp<>();
-        realResp.Code = NetworkHandler.NETWORK_ERROR;
-        return realResp;
-    }
-
-    public static class Wrapper {
-        public final String managerId;
-        public final ManagerListener listener;
-        public final Object realResp;
-        public final String messageId;
-
-
-        public Wrapper(ManagerListener listener, RealResp realResp, String managerId, String messageId) {
-            this.listener = listener;
-            this.realResp = realResp;
-            this.managerId = managerId;
-            this.messageId = messageId;
-        }
-    }
-
-    public static class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            Wrapper wrapper = (Wrapper) msg.obj;
-            if (msg.what == 0) {
-                wrapper.listener.failed(wrapper.managerId, wrapper.messageId, wrapper.realResp);
-            } else {
-                wrapper.listener.success(wrapper.managerId, wrapper.messageId, wrapper.realResp);
-            }
-        }
+        }).subscribeOn(Schedulers.io());
     }
 }

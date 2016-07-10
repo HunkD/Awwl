@@ -51,7 +51,6 @@ public class DashboardViewImplActivity
     private ListView mListView;
     private TransactionListAdapter mTransactionListAdapter;
 
-    private boolean mInit = true;
     private Hmg mHmg;
     private List<String> mUrlList;
 
@@ -141,18 +140,13 @@ public class DashboardViewImplActivity
     protected void onResume() {
         super.onResume();
         mPresenter.onResume();
-        if (mInit) {
-            mInit = false;
-            // This is the only way to show progress animation in the beginning.
-            mSwipeContainer.post(new Runnable() {
-                @Override
-                public void run() {
-                    mSwipeContainer.setRefreshing(true);
-                }
-            });
-            //
-            mPresenter.firstTimeResume();
-        }
+        // This is the only way to show progress animation in the beginning.
+        mSwipeContainer.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeContainer.setRefreshing(true);
+            }
+        });
     }
 
     @Override
@@ -188,8 +182,13 @@ public class DashboardViewImplActivity
             mTransactionListAdapter.add(fields);
         }
         mTransactionListAdapter.notifyDataSetChanged();
-        mSwipeContainer.setRefreshing(false);
-        mSwipeContainer.setEnabled(true);
+        mSwipeContainer.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeContainer.setRefreshing(false);
+                mSwipeContainer.setEnabled(true);
+            }
+        });
     }
 
     @Override

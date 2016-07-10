@@ -18,4 +18,6 @@ public interface LoginView<P extends BasePresenter> extends BaseView<P> {
     boolean isCheckedRememberMe();
     String getUserName();
     String getPsd();
+
+    void navigateToSecurityQuestion();
 }

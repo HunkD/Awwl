@@ -16,6 +16,8 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.ReflectionHelpers;
 
+import rx.Observable;
+
 import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -40,7 +42,7 @@ public class WelcomePagePresenterTest {
     public void setup() {
         mMockView = mock(WelcomeView.class);
         mMockUDM = MockCore.mockUserManager();
-        when(mMockUDM.isRememberMe()).thenReturn(false);
+        when(mMockUDM.isRememberMe()).thenReturn(Observable.just(Boolean.FALSE));
     }
 
     /**
@@ -49,7 +51,7 @@ public class WelcomePagePresenterTest {
      */
     @Test
     public void testOnResumeFirstTimeCheckRememberMe() {
-        when(mMockUDM.isRememberMe()).thenReturn(true);
+        when(mMockUDM.isRememberMe()).thenReturn(Observable.just(Boolean.TRUE));
         WelcomePagePresenter presenter = getTestObj();
         presenter.onResume();
         verify(mMockView, times(1)).onClickSignIn(null);
@@ -68,7 +70,7 @@ public class WelcomePagePresenterTest {
      */
     @Test
     public void testOnResumeFirstTimeCheckRememberMe2() {
-        when(mMockUDM.isRememberMe()).thenReturn(false);
+        when(mMockUDM.isRememberMe()).thenReturn(Observable.just(Boolean.FALSE));
         WelcomePagePresenter presenter = getTestObj();
         presenter.onResume();
         verify(mMockView, times(0)).onClickSignIn(null);
@@ -80,7 +82,7 @@ public class WelcomePagePresenterTest {
      */
     @Test
     public void testOnResumeSecondTimeCheckRememberMe() {
-        when(mMockUDM.isRememberMe()).thenReturn(true);
+        when(mMockUDM.isRememberMe()).thenReturn(Observable.just(Boolean.TRUE));
         WelcomePagePresenter presenter = getTestObj();
         ReflectionHelpers.setField(presenter, "mCheckRememberMe", false);
         presenter.onResume();
@@ -93,7 +95,7 @@ public class WelcomePagePresenterTest {
      */
     @Test
     public void testOnResumeSecondTimeCheckRememberMe2() {
-        when(mMockUDM.isRememberMe()).thenReturn(false);
+        when(mMockUDM.isRememberMe()).thenReturn(Observable.just(Boolean.FALSE));
         WelcomePagePresenter presenter = getTestObj();
         ReflectionHelpers.setField(presenter, "mCheckRememberMe", false);
         presenter.onResume();
