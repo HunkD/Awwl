@@ -61,26 +61,33 @@ public class DashboardPresenterImpl
                         }
                     }
                 });
+
+        fetchTransactionList();
+
         mView.showLoadingBalance();
     }
 
+    /**
+     * fetch transaction list from server
+     */
     @Override
     public void forceRefreshAction() {
-        if (mTransactionDataManager != null) {
-            mTransactionDataManager.fetchTransactions(false)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new BaseViewObserver<List<TransactionFields>>(this) {
-                        @Override
-                        public void onNext(List<TransactionFields> transactionFieldsList) {
-                            mView.showTransactionList(TransactionReqPackage.cache.get());
-                        }
-                    });
-        }
+        TransactionReqPackage.cache.expire();
+        fetchTransactionList();
     }
 
-    @Override
-    public void firstTimeResume() {
-        forceRefreshAction();
+    /**
+     * fetch transaction list from cache or server
+     */
+    public void fetchTransactionList() {
+        mTransactionDataManager.fetchTransactions(false)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseViewObserver<List<TransactionFields>>(this) {
+                    @Override
+                    public void onNext(List<TransactionFields> transactionFieldsList) {
+                        mView.showTransactionList(TransactionReqPackage.cache.get());
+                    }
+                });
     }
 
     public void showMoreTransactionsAction() {

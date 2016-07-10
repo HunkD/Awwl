@@ -127,21 +127,11 @@ public class DashboardPresenterImplTest extends AfterLoginTest implements Dashbo
         presenter.forceRefreshAction();
 
         TransactionDataManager mockedTM = getMockedTM();
-        verify(TransactionReqPackage.cache, times(0)).expire();
+        verify(TransactionReqPackage.cache, times(1)).expire();
         verify(mockedTM, times(1)).fetchTransactions(eq(false));
 
         //
         TransactionReqPackage.cache = new TransactionListCache();
-    }
-
-    @Test
-    @Override
-    public void firstTimeResume() {
-        DashboardPresenter<DashboardView> presenter = getTestObj();
-        presenter.firstTimeResume();
-
-        TransactionDataManager mockedTM = getMockedTM();
-        verify(mockedTM, times(1)).fetchTransactions(eq(false));
     }
 
     @Override
