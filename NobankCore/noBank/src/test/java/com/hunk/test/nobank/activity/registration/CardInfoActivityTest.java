@@ -2,29 +2,19 @@ package com.hunk.test.nobank.activity.registration;
 
 import android.content.Intent;
 
-import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.registration.CardInfoActivity;
 import com.hunk.test.utils.NBAbstractTest;
-import com.hunk.test.utils.TestNoBankApplication;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.Shadows;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
 import static org.junit.Assert.assertTrue;
 
-@RunWith(RobolectricGradleTestRunner.class)
-/**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class,
-        application = TestNoBankApplication.class,
-        sdk = 21)
 public class CardInfoActivityTest extends NBAbstractTest {
     @Test
     public void testClickOnSignUpButton() {

@@ -8,36 +8,45 @@ jacoco {
 
 android {
     compileOptions.encoding = 'utf-8'
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
     useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId 'com.hunk.nobank'
-        minSdkVersion 15
-        targetSdkVersion 23
+        minSdkVersion 16
+        targetSdkVersion 25
 
         versionCode 1
         versionName '1.0'
+
+        jackOptions {
+            enabled true
+        }
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     buildTypes {
         release {
-            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
         debug {
-            minifyEnabled project.hasProperty("proguard")
             debuggable true
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
             proguardFile 'proguard.cfg'
             testCoverageEnabled project.hasProperty("testCoverage")
         }
+    }
+
+    // http://stackoverflow.com/questions/40137273/robolectric-test-cannot-find-font-file
+    applicationVariants.all { variant ->
+        def productFlavor = variant.productFlavors[0] != null ? "${variant.productFlavors[0].name.capitalize()}" : ""
+        def buildType = "${variant.buildType.name.capitalize()}"
+        tasks["compile${productFlavor}${buildType}UnitTestSources"].dependsOn(tasks["merge${productFlavor}${buildType}Assets"])
     }
 
     applicationVariants.all { variant ->
@@ -93,11 +102,14 @@ task jacocoTestReport(type:JacocoReport, dependsOn: "testDebugUnitTest") {
     }
 
 }
-
+ext {
+    supportLibVersion = '25.1.0'
+}
 dependencies {
-    compile 'com.android.support:support-v4:23.3.0'
+    compile "com.android.support:appcompat-v7:${supportLibVersion}"
+    compile "com.android.support:gridlayout-v7:${supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
     compile 'com.google.code.gson:gson:2.4'
-    compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.mcxiaoke.volley:library:1.0.16'
     compile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     compile 'com.squareup.okhttp:okhttp:2.4.0'
@@ -105,8 +117,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'org.assertj:assertj-core:1.7.0'
     testCompile 'org.mockito:mockito-core:1.10.19'
-    testCompile 'org.robolectric:robolectric:3.1-rc1'
-    testCompile 'org.robolectric:shadows-support-v4:3.1-rc1'
+    testCompile 'org.robolectric:robolectric:3.1.4'
+    testCompile 'org.robolectric:shadows-support-v4:3.1.4'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 
     compile project(':contract')

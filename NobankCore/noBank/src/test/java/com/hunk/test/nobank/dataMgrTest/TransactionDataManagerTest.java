@@ -1,6 +1,5 @@
 package com.hunk.test.nobank.dataMgrTest;
 
-import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.contract.AccountSummary;
 import com.hunk.nobank.contract.RealResp;
@@ -8,17 +7,13 @@ import com.hunk.nobank.contract.TransactionFields;
 import com.hunk.nobank.contract.TransactionType;
 import com.hunk.nobank.manager.TransactionDataManager;
 import com.hunk.nobank.manager.TransactionListCache;
-import com.hunk.nobank.model.Cache;
 import com.hunk.nobank.model.TransactionReqPackage;
+import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
-import com.hunk.test.utils.TestNoBankApplication;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,12 +25,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricGradleTestRunner.class)
-/**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class,
-        application = TestNoBankApplication.class,
-        sdk = 21)
-public class TransactionDataManagerTest {
+public class TransactionDataManagerTest extends NBAbstractTest{
 
     private NetworkHandlerStub mNetworkHandlerStub;
 
