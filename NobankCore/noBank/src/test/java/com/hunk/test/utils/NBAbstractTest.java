@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
+import android.content.res.AssetManager;
 import android.support.annotation.StringRes;
 
 import com.google.gson.Gson;
@@ -13,7 +14,7 @@ import com.hunk.nobank.contract.ContractGson;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 import org.robolectric.manifest.ActivityData;
@@ -21,15 +22,13 @@ import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.manifest.IntentFilterData;
 import org.robolectric.res.builder.RobolectricPackageManager;
 import org.robolectric.shadows.ShadowApplication;
-import org.robolectric.shadows.ShadowResourceManager;
-import org.robolectric.shadows.ShadowResources;
 
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.robolectric.Shadows.shadowOf;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
 @Config(constants = BuildConfig.class,
         application = TestNoBankApplication.class,
@@ -52,9 +51,6 @@ public abstract class NBAbstractTest {
     private void addImplicitIntentToPM() {
         RobolectricPackageManager rpm =
                 (RobolectricPackageManager) RuntimeEnvironment.application.getPackageManager();
-
-        rpm.addManifest(ShadowApplication.getInstance().getAppManifest(),
-                shadowOf(RuntimeEnvironment.application.getResources().getAssets()).getResourceLoader());
 
         AndroidManifest appManifest = ShadowApplication.getInstance().getAppManifest();
         for (Map.Entry<String, ActivityData> activity : appManifest.getActivityDatas().entrySet()) {

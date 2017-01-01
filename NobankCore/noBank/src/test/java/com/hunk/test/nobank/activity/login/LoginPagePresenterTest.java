@@ -16,7 +16,7 @@ import com.hunk.test.utils.mock.MockCore;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.util.ReflectionHelpers;
 
@@ -36,7 +36,7 @@ import static org.mockito.Mockito.when;
  * @author HunkDeng
  * @since 2016/5/22
  */
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 /**Only support JELLY_BEAN and above isn't good :( **/
 @Config(constants = BuildConfig.class,
         application = TestNoBankApplication.class,

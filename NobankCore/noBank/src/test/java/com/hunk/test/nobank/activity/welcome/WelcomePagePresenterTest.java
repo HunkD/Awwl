@@ -2,18 +2,14 @@ package com.hunk.test.nobank.activity.welcome;
 
 import android.support.annotation.NonNull;
 
-import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.activity.welcome.WelcomePagePresenter;
 import com.hunk.nobank.activity.welcome.WelcomeView;
 import com.hunk.nobank.manager.UserManager;
+import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.mock.MockCore;
-import com.hunk.test.utils.TestNoBankApplication;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 import org.robolectric.util.ReflectionHelpers;
 
 import rx.Observable;
@@ -28,12 +24,7 @@ import static org.mockito.Mockito.when;
  * @author HunkDeng
  * @since 2016/5/22
  */
-@RunWith(RobolectricGradleTestRunner.class)
-/**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class,
-        application = TestNoBankApplication.class,
-        sdk = 21)
-public class WelcomePagePresenterTest {
+public class WelcomePagePresenterTest extends NBAbstractTest {
 
     private WelcomeView mMockView;
     private UserManager mMockUDM;

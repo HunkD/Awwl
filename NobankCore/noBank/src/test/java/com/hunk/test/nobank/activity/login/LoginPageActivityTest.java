@@ -3,25 +3,20 @@ package com.hunk.test.nobank.activity.login;
 import android.content.Intent;
 import android.widget.TextView;
 
-import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
-import com.hunk.nobank.activity.root.RootActivity;
 import com.hunk.nobank.activity.login.LoginPageActivity;
+import com.hunk.nobank.activity.root.RootActivity;
 import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.manager.UserSession;
-import com.hunk.test.utils.mock.MockCore;
 import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
-import com.hunk.test.utils.TestNoBankApplication;
+import com.hunk.test.utils.mock.MockCore;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.util.ReflectionHelpers;
 
@@ -33,11 +28,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.robolectric.Shadows.shadowOf;
 
-@RunWith(RobolectricGradleTestRunner.class)
-/**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class,
-        application = TestNoBankApplication.class,
-        sdk = 21)
 public class LoginPageActivityTest extends NBAbstractTest {
 
     private NetworkHandlerStub mNetworkHandlerStub;

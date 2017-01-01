@@ -3,21 +3,16 @@ package com.hunk.test.nobank.activity.welcome;
 import android.content.Intent;
 import android.view.View;
 
-import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.login.LoginPageActivity;
 import com.hunk.nobank.activity.welcome.WelcomePageActivity;
 import com.hunk.test.utils.NBAbstractTest;
-import com.hunk.test.utils.TestNoBankApplication;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.Shadows;
-import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowActivity;
 
 import static org.junit.Assert.assertEquals;
@@ -26,11 +21,6 @@ import static org.junit.Assert.assertTrue;
 /**
  * Please set the working directory for this unit test configuration is 'NobankCore/nobank'
  */
-@RunWith(RobolectricGradleTestRunner.class)
-/**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class,
-        application = TestNoBankApplication.class,
-        sdk = 21)
 public class WelcomePageActivityTest extends NBAbstractTest {
 
     @Test

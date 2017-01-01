@@ -10,7 +10,6 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
-import com.hunk.nobank.BuildConfig;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.contract.ContractGson;
 import com.hunk.nobank.contract.LoginResp;
@@ -19,14 +18,11 @@ import com.hunk.nobank.contract.RealResp;
 import com.hunk.nobank.contract.adapter.DateAdapter;
 import com.hunk.nobank.contract.type.LoginStateEnum;
 import com.hunk.nobank.model.LoginReqPackage;
+import com.hunk.test.utils.NBAbstractTest;
 import com.hunk.test.utils.NetworkHandlerStub;
-import com.hunk.test.utils.TestNoBankApplication;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
-import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Type;
 import java.text.DateFormat;
@@ -40,12 +36,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-@RunWith(RobolectricGradleTestRunner.class)
-/**Only support JELLY_BEAN and above isn't good :( **/
-@Config(constants = BuildConfig.class,
-        application = TestNoBankApplication.class,
-        sdk = 21)
-public class GsonSerializeTest {
+public class GsonSerializeTest extends NBAbstractTest{
 
     private NetworkHandlerStub mNetworkHandlerStub;
 
