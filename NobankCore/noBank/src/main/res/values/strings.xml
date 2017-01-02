@@ -45,4 +45,5 @@
     <!-- Payment -->
     <string name="pay">Pay</string>
     <string name="pay_p2p_menu_item">Pay Your Friend</string>
+    <string name="welcome_text">Hi, This is a app about guildWar2.</string>
 </resources>

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.hunk.abcd.views.slides.ZoomOutPageTransformer;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.activity.login.LoginPageActivity;
@@ -48,17 +49,7 @@ public class WelcomePageActivity
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         pagerAdapter = new WelcomeFragmentPagerAdapter(imgReses, getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
-        viewPager.setPageTransformer(false, (page, position) -> {
-            if (position > 1) {
-                page.setAlpha(1);
-            } else if (position >= 0) {
-                page.setAlpha(1 - position);
-            } else if (position > -1) {
-                page.setAlpha(1 + position);
-            } else {
-                page.setAlpha(0);
-            }
-        });
+        viewPager.setPageTransformer(false, new ZoomOutPageTransformer());
 
         mPresenter.onCreate();
     }
@@ -86,7 +77,7 @@ public class WelcomePageActivity
 
     @Override
     public void showSignUp(boolean show) {
-        ViewHelper.showView(findViewById(R.id.welcome_btn_sign_up), show);
+//        ViewHelper.showView(findViewById(R.id.welcome_btn_sign_up), show);
     }
 
     public void onClickSignIn(View view) {
