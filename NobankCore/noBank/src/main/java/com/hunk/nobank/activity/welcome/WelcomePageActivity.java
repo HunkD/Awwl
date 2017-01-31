@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -13,11 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.hunk.abcd.extension.util.ViewHelper;
 import com.hunk.abcd.views.slides.ZoomOutPageTransformer;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.activity.login.LoginPageActivity;
-import com.hunk.abcd.extension.util.ViewHelper;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 public class WelcomePageActivity
@@ -34,6 +35,7 @@ public class WelcomePageActivity
 
     private ViewPager viewPager;
     private WelcomeFragmentPagerAdapter pagerAdapter;
+    private FloatingActionButton signInBtn;
 
     {
         setPresenter(new WelcomePagePresenter());
@@ -45,6 +47,8 @@ public class WelcomePageActivity
         setContentView(R.layout.activity_welcome_page);
         setBaseStyle(Base.NO_DRAW_LAYOUT);
         setBaseStyle(Base.NO_TITLE_BAR);
+
+        signInBtn = (FloatingActionButton) findViewById(R.id.welcome_btn_sign_in);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         pagerAdapter = new WelcomeFragmentPagerAdapter(imgReses, getSupportFragmentManager());
@@ -77,15 +81,17 @@ public class WelcomePageActivity
 
     @Override
     public void showSignUp(boolean show) {
-//        ViewHelper.showView(findViewById(R.id.welcome_btn_sign_up), show);
+
     }
 
     public void onClickSignIn(View view) {
         Intent gotoLogin = new Intent();
         gotoLogin.setPackage(getApplicationContext().getPackageName());
         gotoLogin.setAction(LoginPageActivity.ACTION);
-
         startActivity(gotoLogin);
+        if (ViewHelper.shouldShowActivityTransition(this)) {
+            overridePendingTransition(0, 0);
+        }
     }
 
     private static class WelcomeFragmentPagerAdapter extends FragmentPagerAdapter {

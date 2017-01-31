@@ -17,6 +17,12 @@
         <item name="android:windowBackground">@drawable/background_init</item>
     </style>
 
+    <style name="AppTheme.Base.Transparent">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="TextMicroscopic">
         <item name="android:textSize">@dimen/text_size_microscopic</item>
     </style>

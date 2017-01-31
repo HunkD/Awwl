@@ -196,4 +196,8 @@ public class ViewHelper {
             view.setVisibility(View.GONE);
         }
     }
+
+    public static boolean shouldShowActivityTransition(Context context) {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
 }
