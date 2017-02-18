@@ -50,16 +50,4 @@ public class WelcomePageActivityTest extends NBAbstractTest {
         ShadowActivity si = Shadows.shadowOf(activity);
         assertTrue(gotoRegistration.filterEquals(si.getNextStartedActivity()));
     }
-
-    @Test
-    public void testShowSignUp() {
-        WelcomePageActivity activity = Robolectric.setupActivity(WelcomePageActivity.class);
-        activity.showSignUp(true);
-        assertEquals(View.VISIBLE,
-                activity.findViewById(R.id.welcome_btn_sign_up).getVisibility());
-
-        activity.showSignUp(false);
-        assertEquals(View.GONE,
-                activity.findViewById(R.id.welcome_btn_sign_up).getVisibility());
-    }
 }

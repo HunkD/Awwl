@@ -11,20 +11,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.hunk.abcd.activity.mvp.AbstractViewActivity;
+import com.hunk.abcd.activity.mvp.BasePresenter;
 import com.hunk.abcd.extension.font.UpdateFont;
+import com.hunk.abcd.extension.log.Logging;
+import com.hunk.abcd.views.HijackingNotification;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.NoBankApplication;
 import com.hunk.nobank.R;
-import com.hunk.abcd.activity.mvp.BasePresenter;
-import com.hunk.abcd.activity.mvp.AbstractViewActivity;
 import com.hunk.nobank.activity.root.RootActivity;
 import com.hunk.nobank.manager.UserManager;
 import com.hunk.nobank.service.session.SessionTimeoutService;
-import com.hunk.abcd.views.HijackingNotification;
-import com.hunk.abcd.extension.log.Logging;
 import com.hunk.nobank.views.LoadingDialogFragment;
 import com.hunk.nobank.views.MenuProxy;
 import com.hunk.nobank.views.TitleBarPoxy;
@@ -47,6 +48,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
 
     private TitleBarPoxy mTitleBarPoxy;
     private MenuProxy mMenuProxy;
+    protected RelativeLayout baseRootContainer;
 
     private HijackingNotification mHijackingNotification;
 
@@ -73,9 +75,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
 
     private void setupUI() {
         mDrawLayout = (DrawerLayout) findViewById(R.id.base_drawer_layout);
-
         mTitleBarPoxy = new TitleBarPoxy(findViewById(R.id.activity_base_title_bar));
         mMenuProxy = new MenuProxy(findViewById(R.id.activity_base_menu), mDrawLayout);
+        baseRootContainer = (RelativeLayout) findViewById(R.id.activity_base_root_container);
     }
 
     public static void unrollActivity(Context ctx) {
