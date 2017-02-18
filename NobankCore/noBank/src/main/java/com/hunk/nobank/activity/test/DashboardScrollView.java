@@ -31,7 +31,9 @@ public class DashboardScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (dashboardTop == null || getScrollY() > dashboardTop.getMeasuredHeight() || !dashboardTop.handleMotionEvent(ev)) {
+        if (dashboardTop == null
+                || getScrollY() > 0 // if dashboardTop is not the first element in the visible view
+                || !dashboardTop.handleMotionEvent(ev)) {
             return super.onTouchEvent(ev);
         } else {
             return true;
