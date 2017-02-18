@@ -19,6 +19,7 @@ import com.hunk.abcd.views.slides.ZoomOutPageTransformer;
 import com.hunk.nobank.R;
 import com.hunk.nobank.activity.BaseActivity;
 import com.hunk.nobank.activity.login.LoginPageActivity;
+import com.hunk.nobank.activity.test.TestActivity;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
 public class WelcomePageActivity
@@ -85,13 +86,15 @@ public class WelcomePageActivity
     }
 
     public void onClickSignIn(View view) {
-        Intent gotoLogin = new Intent();
-        gotoLogin.setPackage(getApplicationContext().getPackageName());
-        gotoLogin.setAction(LoginPageActivity.ACTION);
-        startActivity(gotoLogin);
-        if (ViewHelper.shouldShowActivityTransition(this)) {
-            overridePendingTransition(0, 0);
-        }
+//        Intent gotoLogin = new Intent();
+//        gotoLogin.setPackage(getApplicationContext().getPackageName());
+//        gotoLogin.setAction(LoginPageActivity.ACTION);
+//        startActivity(gotoLogin);
+//        if (ViewHelper.shouldShowActivityTransition(this)) {
+//            overridePendingTransition(0, 0);
+//        }
+
+        startActivity(new Intent(this, TestActivity.class));
     }
 
     private static class WelcomeFragmentPagerAdapter extends FragmentPagerAdapter {
