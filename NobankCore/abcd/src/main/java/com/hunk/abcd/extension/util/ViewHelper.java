@@ -3,19 +3,24 @@ package com.hunk.abcd.extension.util;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Build;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.io.FileNotFoundException;
 
@@ -199,5 +204,33 @@ public class ViewHelper {
 
     public static boolean shouldShowActivityTransition(Context context) {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+    }
+
+    public static void setAlpha(ViewGroup viewGroup, int alpha) {
+        for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            View view = viewGroup.getChildAt(i);
+            if (view instanceof ViewGroup) {
+                setAlpha((ViewGroup) view, alpha);
+            } else {
+                if (view instanceof ImageView) {
+                    ImageView _view = ((ImageView)view);
+                    if (_view.getDrawable() != null) {
+                        _view.getDrawable().setAlpha(alpha);
+                    }
+                } else if (view instanceof TextView) {
+                    TextView _view = (TextView) view;
+                    _view.setAlpha(alpha);
+                    ColorStateList colorStateList = _view.getTextColors().withAlpha(alpha);
+                    _view.setTextColor(colorStateList);
+//                    _view.setTextColor(Color.argb(alpha, 0, 0, 0));
+                    if (_view.getBackground() != null) {
+                        _view.getBackground().setAlpha(alpha);
+                    }
+                }
+            }
+        }
+        if (viewGroup.getBackground() != null) {
+            viewGroup.getBackground().setAlpha(alpha);
+        }
     }
 }

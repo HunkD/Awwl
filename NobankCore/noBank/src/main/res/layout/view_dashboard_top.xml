@@ -2,7 +2,8 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
     <LinearLayout
         android:id="@+id/bottom_layer"
         android:layout_width="match_parent"
@@ -16,11 +17,32 @@
             android:id="@+id/banner"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:src="@android:color/black"/>
+            android:src="@android:color/holo_purple"/>
     </LinearLayout>
-    <ImageView
+    <LinearLayout
         android:id="@+id/top_layer"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:src="@android:color/holo_red_light"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/background_dark">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_medium"
+            android:textColor="@color/white"
+            android:text="@string/hello_user"
+            android:padding="5dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_small"
+            android:textColor="@color/primary_dark"
+            android:text="@string/hello_world"
+            android:padding="5dp"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/welcome_5"/>
+    </LinearLayout>
 </FrameLayout>

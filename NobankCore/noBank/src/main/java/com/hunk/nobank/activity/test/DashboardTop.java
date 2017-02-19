@@ -10,12 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.Space;
 
 import com.hunk.abcd.extension.log.Logging;
+import com.hunk.abcd.extension.util.ViewHelper;
 import com.hunk.nobank.R;
+import com.squareup.okhttp.internal.Util;
 
 /**
  * @author HunkDeng
@@ -25,7 +29,7 @@ public class DashboardTop extends CoordinatorLayout {
 
     private static final int DURATION_TIME = 800;
     private final Space space;
-    private final ImageView topLayer;
+    private final LinearLayout topLayer;
     private final View bottomLayer;
     private final View banner;
     private int originalHeight;
@@ -54,7 +58,7 @@ public class DashboardTop extends CoordinatorLayout {
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.view_dashboard_top, this);
         space = (Space) findViewById(R.id.space);
-        topLayer = (ImageView) findViewById(R.id.top_layer);
+        topLayer = (LinearLayout) findViewById(R.id.top_layer);
         bottomLayer = findViewById(R.id.bottom_layer);
         banner = findViewById(R.id.banner);
 
@@ -114,7 +118,7 @@ public class DashboardTop extends CoordinatorLayout {
         currentHeight = layoutParams.height;
         // change top layer alpha when scroll
         float alpha = (float) (currentHeight - bannerMeasuredHeight) / (float) (originalHeight - bannerMeasuredHeight) * 255;
-        topLayer.getDrawable().setAlpha((int) alpha);
+        ViewHelper.setAlpha(topLayer, (int) alpha);
         // change space height to leverage banner
         space.getLayoutParams().height = currentHeight - bannerMeasuredHeight;
         setLayoutParams(layoutParams);
@@ -179,10 +183,21 @@ public class DashboardTop extends CoordinatorLayout {
             } else if (state == State.Expanding){
                 changeHeight(dst - currentHeight);
             }
+            // refresh view
             if (currentHeight < originalHeight || currentHeight > bannerMeasuredHeight) {
                 postInvalidate();
             }
+            // reset state
+            if (currentHeight == originalHeight) {
+                state = State.Expand;
+            } else if (currentHeight == bannerMeasuredHeight) {
+                state = State.Collapse;
+            }
         }
+    }
+
+    public State getState() {
+        return state;
     }
 
     enum State {
