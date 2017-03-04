@@ -150,6 +150,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
                 findViewById(R.id.activity_base_shadow_under_title_bar).setVisibility(View.GONE);
                 mMenuProxy.prepareMenuButtons();
                 break;
+            case NO_TITLE_BAR_NO_DRAW_LAYOUT:
+                mDrawLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+                findViewById(R.id.activity_base_title_bar).setVisibility(View.GONE);
+                findViewById(R.id.activity_base_shadow_under_title_bar).setVisibility(View.GONE);
+                break;
             default:
                 // set Default Left button onclick listener
                 mTitleBarPoxy.getLeftIcon().setOnClickListener(new View.OnClickListener() {
@@ -187,7 +192,8 @@ public abstract class BaseActivity<P extends BasePresenter> extends AbstractView
     public enum Base {
         NO_DRAW_LAYOUT,
         NO_TITLE_BAR,
-        NORMAL
+        NORMAL,
+        NO_TITLE_BAR_NO_DRAW_LAYOUT
     }
 
     public TitleBarPoxy getTitleBarPoxy() {
