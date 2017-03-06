@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="green_bracelet">#5cd7c6</color>
+    <color name="green_bracelet_shadow">#505cd7c6</color>
+    <color name="green_bracelet_default">#325cd7c6</color>
+</resources>
