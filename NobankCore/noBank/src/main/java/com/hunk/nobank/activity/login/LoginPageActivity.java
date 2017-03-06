@@ -154,6 +154,8 @@ public class LoginPageActivity
             animator.start();
 
             baseRootContainer.postDelayed(this::finish, duration);
+        } else {
+            super.onBackPressed();
         }
     }
 
