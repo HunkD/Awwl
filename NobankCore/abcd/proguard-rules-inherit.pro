@@ -1,5 +1,6 @@
 -dontwarn rx.**
 -dontwarn sun.misc.**
+-dontwarn java.lang.invoke.*
 
 -keep class rx.schedulers.Schedulers {
     public static <methods>;

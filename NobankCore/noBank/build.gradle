@@ -1,9 +1,17 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'jacoco'
 apply from: '../build-common.gradle'
 
 jacoco {
     toolVersion = "0.7.1.201405082137"
+}
+
+retrolambda {
+    javaVersion JavaVersion.VERSION_1_7
+    jvmArgs '-noverify'
+    defaultMethods false
+    incremental true
 }
 
 android {
@@ -19,10 +27,6 @@ android {
 
         versionCode 1
         versionName '1.0'
-
-        jackOptions {
-            enabled true
-        }
     }
 
     compileOptions {
@@ -32,9 +36,11 @@ android {
 
     buildTypes {
         release {
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
         debug {
+            minifyEnabled project.hasProperty("proguard")
             debuggable true
             proguardFile getDefaultProguardFile('proguard-android-optimize.txt')
             proguardFile 'proguard.cfg'
@@ -59,6 +65,7 @@ android {
 
     lintOptions {
         abortOnError false
+        lintConfig new File(rootProject.projectDir, "lint.xml")
     }
 
     testOptions {
