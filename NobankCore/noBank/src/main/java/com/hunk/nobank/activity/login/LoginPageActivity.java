@@ -2,6 +2,7 @@ package com.hunk.nobank.activity.login;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -135,6 +136,7 @@ public class LoginPageActivity
         mPresenter.loginAction();
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onBackPressed() {
         if (ViewHelper.shouldShowActivityTransition(this)) {
