@@ -41,7 +41,7 @@ public class LoginPageActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login, Base.NO_DRAW_LAYOUT);
+        setContentView(R.layout.activity_login, Base.NO_TITLE_BAR_NO_DRAW_LAYOUT);
         application = (NoBankApplication) getApplication();
         setupUI();
         if (savedInstanceState == null &&
@@ -156,6 +156,8 @@ public class LoginPageActivity
             animator.start();
 
             baseRootContainer.postDelayed(this::finish, duration);
+        } else {
+            super.onBackPressed();
         }
     }
 
