@@ -3,6 +3,8 @@ package com.hunk.nobank.activity.root;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.hunk.deeplink.BindParam;
+import com.hunk.deeplink.DeepLink;
 import com.hunk.nobank.Core;
 import com.hunk.nobank.NConstants;
 import com.hunk.nobank.activity.BaseActivity;
@@ -10,12 +12,19 @@ import com.hunk.nobank.manager.UserManager;
 import com.hunk.abcd.extension.log.Logging;
 import com.hunk.whitelabel.retailer.RetailerFeatureList;
 
+import java.util.HashMap;
+
 /**
  * The Root for Activity Stack of this application
  */
 public class RootActivity
         extends BaseActivity<RootPresenter>
         implements RootView<RootPresenter> {
+
+    @BindParam("param1")
+    String param1;
+    @BindParam
+    String param2;
 
     public static final String ACTION = "action.root.open_main";
 
@@ -25,6 +34,14 @@ public class RootActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // TODO: test code block
+        Intent intent = new Intent();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("param1", "paramSS1");
+        params.put("param2", "paramSS2");
+        intent.putExtra(DeepLink.DEEP_LINK_PARAM, params);
+        intent.putExtra(DeepLink.FROM_DEEP_LINK, true);
+        DeepLink.bind(this, intent);
 
         /**
          * call the common logic in onNewIntent()

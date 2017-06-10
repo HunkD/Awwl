@@ -131,4 +131,7 @@ dependencies {
 
     compile project(':contract')
     compile project(':abcd')
+    compile project(path: ':deeplink')
+    compile project(path: ':deeplink-annotation')
+    annotationProcessor project(path: ':deeplink-compiler')
 }

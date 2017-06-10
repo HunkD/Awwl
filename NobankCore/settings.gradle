@@ -1,1 +1,1 @@
-include ':noBank', ':contract', ':astub', ':abcd'
+include ':noBank', ':contract', ':astub', ':abcd', ':deeplink', ':deeplink-annotation', ':deeplink-compiler'
